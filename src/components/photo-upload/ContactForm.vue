@@ -1,5 +1,7 @@
 /** Contact form for folks to enter personal information when submitting photos */
-<template></template>
+<template>
+  <div></div>
+</template>
 
 <script>
 import { SubmitButton } from "../shared/SubmitButton";

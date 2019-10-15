@@ -1,7 +1,6 @@
 <template>
   <l-map ref="map" :center="center" :zoom="zoom">
     <l-tile-layer :url="tileUrl"></l-tile-layer>
-    <div v-for="location in locations" v-bind:key="location.name"></div>
   </l-map>
 </template>
 
@@ -10,57 +9,33 @@ import { LMap, LTileLayer, LCircleMarker, LControl } from "vue2-leaflet";
 
 import Legend from "./Legend";
 import MarkerTooltip from "./MarkerTooltip";
-import api from "../api/locations";
-import mapping from "../mapping";
 
 export default {
-  name: "Map",
+  name: "GeoMap",
   components: {
     LMap,
     LTileLayer,
     LCircleMarker,
     LControl,
     MarkerTooltip,
-    Legend,
-    mapping
+    Legend
   },
   mounted() {
     this.$nextTick(() => {
       this.map = this.$refs.map.mapObject;
     });
   },
-  created() {
-    this.calculateRadius = mapping.calculateRadius;
-    api.getLocations(this.setLocations);
-  },
+  created() {},
   data() {
     return {
       map: {},
-      center: [42.959084, -85.687226],
+      center: [29.437236, -98.491163],
       tileUrl: "http://tile.stamen.com/toner/{z}/{x}/{y}.png",
-      zoom: 12,
-      locations: [],
-      max
+      zoom: 12
     };
   },
-  computed: {
-    totalBags: function() {
-      let self = this;
-      return self.locations.reduce((accu, val) => accu + val.garbageBags, 0);
-    },
-    max: function() {
-      let self = this;
-      return self.locations.reduce(
-        (acc, val) => (val.garbageBags > acc ? val.garbageBags : acc),
-        0
-      );
-    }
-  },
-  methods: {
-    setLocations: function(response) {
-      this.locations = response.data;
-    }
-  }
+  props: ["coordinates"],
+  computed: {}
 };
 </script>
 
