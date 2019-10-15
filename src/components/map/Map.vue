@@ -1,5 +1,5 @@
 <template>
-  <l-map ref="map" :center="center" :zoom="zoom">
+  <l-map id="map" ref="map" :center="center" :zoom="zoom">
     <l-tile-layer :url="tileUrl"></l-tile-layer>
   </l-map>
 </template>
@@ -30,7 +30,8 @@ export default {
     return {
       map: {},
       center: [29.437236, -98.491163],
-      tileUrl: "http://tile.stamen.com/toner/{z}/{x}/{y}.png",
+      tileUrl:
+        "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png",
       zoom: 12
     };
   },
@@ -40,6 +41,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+#map {
+  width: 100%;
+  height: 500px;
+}
 ul {
   list-style: none;
 }
