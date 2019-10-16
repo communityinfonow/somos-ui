@@ -1,11 +1,15 @@
+// TODO: marker image for map
 <template>
   <l-map id="map" ref="map" :center="center" :zoom="zoom">
     <l-tile-layer :url="tileUrl"></l-tile-layer>
+    <l-marker :lat-lng="[29.437236, -98.491163]">
+      <l-icon :icon-url="iconUrl"></l-icon>
+    </l-marker>
   </l-map>
 </template>
 
 <script>
-import { LMap, LTileLayer, LCircleMarker, LControl } from "vue2-leaflet";
+import { LMap, LTileLayer, LControl, LMarker, LIcon } from "vue2-leaflet";
 
 import Legend from "./Legend";
 import MarkerTooltip from "./MarkerTooltip";
@@ -15,10 +19,11 @@ export default {
   components: {
     LMap,
     LTileLayer,
-    LCircleMarker,
     LControl,
     MarkerTooltip,
-    Legend
+    Legend,
+    LMarker,
+    LIcon
   },
   mounted() {
     this.$nextTick(() => {
@@ -32,11 +37,18 @@ export default {
       center: [29.437236, -98.491163],
       tileUrl:
         "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png",
-      zoom: 12
+      zoom: 12,
+      iconUrl: "data:image/svg+xml;base64," + "../../assets/marker-15.svg"
     };
   },
   props: ["coordinates"],
-  computed: {}
+  computed: {
+    selectedLocation: function() {
+      return this.coordinates
+        ? [this.coordinates.lat, this.coordinates.lng]
+        : null;
+    }
+  }
 };
 </script>
 

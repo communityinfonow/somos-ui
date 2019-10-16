@@ -5,13 +5,14 @@
       :key="index"
       v-on:click="selectAddress(suggestion)"
     >
-      <div>{{suggestion.formatted_address}}</div>
+      <div>{{suggestion.name}}</div>
     </li>
   </ul>
 </template>
 
 <script>
 import { store } from "../../store";
+import { location, coordinates } from "../../Location";
 export default {
   name: "SearchSuggest",
   props: ["searchSuggestions"],

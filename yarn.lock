@@ -925,6 +925,11 @@
     "@types/istanbul-reports" "^1.1.1"
     "@types/yargs" "^13.0.0"
 
+"@mapbox/maki@^6.1.1":
+  version "6.1.1"
+  resolved "https://registry.yarnpkg.com/@mapbox/maki/-/maki-6.1.1.tgz#8d8a0ddc9ca489fe0595d4aa6755e19ada625174"
+  integrity sha512-Rset9wJ6AEPbZ2MWeE8mZLvJL6rthR4olU/GLvgbQ3GVyXOh1F7TU9LMSyJ2tuJp/uT4PoS9qPl72xZgYG+raA==
+
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@mrmlnc/readdir-enhanced/-/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"
@@ -3903,6 +3908,11 @@ execa@^2.0.3:
     signal-exit "^3.0.2"
     strip-final-newline "^2.0.0"
 
+exif-js@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/exif-js/-/exif-js-2.3.0.tgz#9d10819bf571f873813e7640241255ab9ce1a814"
+  integrity sha1-nRCBm/Vx+HOBPnZAJBJVq5zhqBQ=
+
 exit@^0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/exit/-/exit-0.1.2.tgz#0632638f8d877cc82107d30a0fff1a17cba1cd0c"
@@ -6214,6 +6224,11 @@ makeerror@1.0.x:
   integrity sha1-4BpckQnyr3lmDk6LlYd5AYT1qWw=
   dependencies:
     tmpl "1.0.x"
+
+maki@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/maki/-/maki-2.1.0.tgz#ef9f2b17508293102a7a8e4667d0d27cd89b55ce"
+  integrity sha1-758rF1CCkxAqeo5GZ9DSfNibVc4=
 
 mamacro@^0.0.3:
   version "0.0.3"

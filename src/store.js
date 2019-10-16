@@ -1,9 +1,15 @@
+import {
+    location,
+    coordinates
+}
+from "./Location";
+
 export const store = {
     state: {
         addressSearchString: null,
         isDoneTyping: null,
         addressSearchType: null,
-        selectedLocation: null
+        selectedLocation: new location(null, new coordinates())
     },
     clearSearchString() {
         this.state.addressSearchString = null;

@@ -21,6 +21,7 @@ import TextInput from "../TextInput";
 import AddressTypeSelector from "./AddessTypeSelector";
 
 import { store } from "../../../store";
+import { location, coordinates } from "../../../Location";
 import geocodio from "../../../api/geocodio";
 import geocodio1 from "../../../api/geocodio";
 
@@ -59,7 +60,13 @@ export default {
         this.storeState.isDoneTyping
       ) {
         this.geocodeApi.geocode(this.addressSearchString, response => {
-          this.searchSuggestions = response.data.results;
+          this.searchSuggestions = response.data.results.map(
+            result =>
+              new location(
+                result.formatted_address,
+                new coordinates(result.location.lat, result.location.lng)
+              )
+          );
         });
       }
     }
