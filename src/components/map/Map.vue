@@ -1,4 +1,5 @@
 // TODO: marker image for map
+// TODO: method for finding containing census tract when coordinates are supplied
 <template>
   <l-map id="map" ref="map" :center="center" :zoom="zoom">
     <l-tile-layer :url="tileUrl"></l-tile-layer>

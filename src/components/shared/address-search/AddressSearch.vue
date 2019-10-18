@@ -7,7 +7,7 @@
       </span>
 
       <div id="input-results">
-        <text-input></text-input>
+        <AddressInput />
         <search-suggest v-bind:searchSuggestions="searchSuggestions"></search-suggest>
       </div>
       <address-type-selector></address-type-selector>
@@ -17,7 +17,7 @@
 
 <script>
 import SearchSuggest from "../SearchSuggest";
-import TextInput from "../TextInput";
+import AddressInput from "../AddressInput";
 import AddressTypeSelector from "./AddessTypeSelector";
 
 import { store } from "../../../store";
@@ -29,7 +29,7 @@ export default {
   name: "AddressSearch",
   components: {
     SearchSuggest,
-    TextInput,
+    AddressInput,
     AddressTypeSelector
   },
 

@@ -1,4 +1,4 @@
-//TODO: handle multiple file upload for one location at a time. If multiple files have GPS data, get center of those coordinates
+//TODO: handle multiple file upload for multiple location at a time. If multiple files have GPS data, we'll need a way to confirm coordinates and census tract for each one.
 <template>
   <div>
     <input type="file" id="photo-select" v-on:change="fileSelected" />
@@ -7,17 +7,40 @@
 </template>
 
 <script>
+import { store } from "../../store";
+import PhotoData from "../../api/photo-data";
 export default {
   name: "PhotoInput",
   methods: {
     fileSelected(event) {
-      var files = event.target.files;
+      var photos = event.target.files.map(file => {
+        return { file: file, location: null };
+      });
       if (files.length) {
+        store.setPhotos(photos);
       }
     },
     clickHandler() {
       document.getElementById("photo-select").click();
-    }
+    },
+    getGPSMetadata() {
+      //TODO: append indexes to end of file names to make them unique within this context?
+      photoData.getMetadata(this.photos.map(photo => photo.file), data => {
+        photos.forEach(photo => {
+          data.forEach(response => {
+            if (response.fileName === photo.file.name) {
+              photo.location = response.location;
+            }
+          });
+        });
+      });
+    },
+    updateFiles() {}
+  },
+  data() {
+    return {
+      photos: []
+    };
   }
 };
 </script>

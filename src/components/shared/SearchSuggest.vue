@@ -1,3 +1,4 @@
+// TODO: vuetify this thing
 <template>
   <ul>
     <li
@@ -12,7 +13,6 @@
 
 <script>
 import { store } from "../../store";
-import { location, coordinates } from "../../Location";
 export default {
   name: "SearchSuggest",
   props: ["searchSuggestions"],

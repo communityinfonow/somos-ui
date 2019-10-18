@@ -1,5 +1,4 @@
 import * as axios from "axios";
-const domain = process.env.VUE_APP_DOMAIN;
 const KEY = "2811b8dddd8f474d27fdf272c52456196299a56";
 const URL = 'https://api.geocod.io/v1.3/geocode';
 

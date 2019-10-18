@@ -1,4 +1,6 @@
 /**Big ol' component encompassing all that is photo upload */
+// TODO: save file with other things but possibly generate unique file name from DB first before saving the file back into a secret assets folder on the server
+
 <template>
   <div>
     <section id="step-1">
@@ -11,6 +13,7 @@
     <section id="step-3">
       <ContactForm></ContactForm>
     </section>
+    <SubmitButton @click="submitUpload" />
   </div>
 </template>
 
@@ -20,6 +23,8 @@ import ContactForm from "./ContactForm";
 import GeoMap from "../map/Map";
 import PhotoInput from "./PhotoInput";
 import { store } from "../../store";
+import SubmitButton from "../shared/SubmitButton";
+import PhotoData from "../../api/photo-data";
 
 export default {
   name: "PhotoUpload",
@@ -27,17 +32,28 @@ export default {
     AddressSearch,
     ContactForm,
     GeoMap,
-    PhotoInput
+    PhotoInput,
+    SubmitButton
   },
   data() {
     return {
       storeState: store.state
     };
+  },
+  methods: {
+    submitUpload() {
+      photoData.savePhotos({
+        contactInfo: {
+          firstName: storeState.contactFirstName,
+          lastName: storeState.contactLastName,
+          email: storeState.contactEmail
+        },
+        photos: storeState.photos
+      });
+    }
   }
 };
 </script>
 
 <style>
 </style>
-
-// TODO: on submit: save file, form info, and containing census tract id 
