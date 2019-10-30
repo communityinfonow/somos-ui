@@ -7,6 +7,7 @@ import {
   LControl
 } from 'vue2-leaflet';
 import 'leaflet/dist/leaflet.css';
+import vuetify from './plugins/vuetify';
 
 delete Icon.Default.prototype._getIconeUrl;
 
@@ -19,5 +20,6 @@ Icon.Default.mergeOptions({
 Vue.config.productionTip = false
 
 new Vue({
-  render: h => h(App),
+  vuetify,
+  render: h => h(App)
 }).$mount('#app')

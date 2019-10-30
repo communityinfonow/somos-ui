@@ -22,8 +22,7 @@ import AddressTypeSelector from "./AddessTypeSelector";
 
 import { store } from "../../../store";
 import { location, coordinates } from "../../../Location";
-import geocodio from "../../../api/geocodio";
-import geocodio1 from "../../../api/geocodio";
+import locationSearch from "../../../api/locationSearch.js";
 
 export default {
   name: "AddressSearch",
@@ -40,16 +39,14 @@ export default {
     };
   },
   computed: {
-    geocodeApi() {
-      return this.storeState.addressSearchType === "address"
-        ? geocodio
-        : geocodio1;
-    },
     addressSearchString() {
       return this.storeState.addressSearchString;
     },
     isDoneTyping() {
       return this.storeState.isDoneTyping;
+    },
+    locationType() {
+      return this.storeState.addressSearchType;
     }
   },
   watch: {
@@ -59,15 +56,19 @@ export default {
         this.addressSearchString.length > 0 &&
         this.storeState.isDoneTyping
       ) {
-        this.geocodeApi.geocode(this.addressSearchString, response => {
-          this.searchSuggestions = response.data.results.map(
-            result =>
-              new location(
-                result.formatted_address,
-                new coordinates(result.location.lat, result.location.lng)
-              )
-          );
-        });
+        locationSearch.search(
+          this.addressSearchString,
+          this.locationType || "address",
+          response => {
+            this.searchSuggestions = response.data.results.map(
+              result =>
+                new location(
+                  result.formatted_address,
+                  new coordinates(result.location.lat, result.location.lng)
+                )
+            );
+          }
+        );
       }
     }
   }
