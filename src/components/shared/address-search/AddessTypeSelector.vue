@@ -1,17 +1,9 @@
 /** Address or Place searching */
 <template>
-  <div>
-    <input
-      type="radio"
-      name="type-selector"
-      id="address-selector"
-      value="address"
-      v-model="selected"
-    />
-    <label for="address-selector">Address</label>
-    <input type="radio" name="type-selector" id="place-selector" value="place" v-model="selected" />
-    <label for="place-selector">Place</label>
-  </div>
+  <v-radio-group v-model="selected" row dense="true" prepend-icon="mdi-map">
+    <v-radio label="Address" value="address"></v-radio>
+    <v-radio label="Place" value="place"></v-radio>
+  </v-radio-group>
 </template>
 
 <script>

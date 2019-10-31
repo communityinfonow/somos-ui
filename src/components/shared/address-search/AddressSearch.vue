@@ -1,17 +1,16 @@
 /** Searching for address on map */
 <template>
   <div>
-    <div>
-      <span>
-        <!--TODO: location icon/glyph -->
-      </span>
-
-      <div id="input-results">
-        <AddressInput />
-        <search-suggest v-bind:searchSuggestions="searchSuggestions"></search-suggest>
-      </div>
-      <address-type-selector></address-type-selector>
-    </div>
+    <v-row>
+      <v-col :lg="2" justify-self="end">
+        <address-type-selector></address-type-selector>
+      </v-col>
+      <v-col :lg="10">
+        <span id="input-results">
+          <AddressInput :loading="loading" />
+        </span>
+      </v-col>
+    </v-row>
   </div>
 </template>
 
@@ -35,7 +34,8 @@ export default {
   data() {
     return {
       storeState: store.state,
-      searchSuggestions: []
+      searchSuggestions: [],
+      loading: false
     };
   },
   computed: {
@@ -51,21 +51,26 @@ export default {
   },
   watch: {
     isDoneTyping() {
+      //  TODO: put this in its own method
       if (
         this.addressSearchString &&
         this.addressSearchString.length > 0 &&
         this.storeState.isDoneTyping
       ) {
+        this.loading = true;
         locationSearch.search(
           this.addressSearchString,
           this.locationType || "address",
           response => {
-            this.searchSuggestions = response.data.results.map(
-              result =>
-                new location(
-                  result.formatted_address,
-                  new coordinates(result.location.lat, result.location.lng)
-                )
+            this.loading = false;
+            store.setSearchResults(
+              response.data.map(
+                result =>
+                  new location(
+                    result.formattedAddress,
+                    new coordinates(result.location.lat, result.location.lng)
+                  )
+              )
             );
           }
         );

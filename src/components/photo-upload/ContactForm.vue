@@ -1,12 +1,23 @@
 /** Contact form for folks to enter personal information when submitting photos */
 <template>
   <div>
-    <label for="first-name">First Name</label>
-    <TextInput id="first-name" v-model="firstName" />
-    <label for="last-name">Last Name</label>
-    <TextInput id="last-name" v-model="lastName" />
-    <label for="email-address">Email</label>
-    <TextInput id="email-address" v-model="emailAddress" />
+    <v-form>
+      <v-container>
+        <v-row>
+          <v-col cols="12" md="4">
+            <v-text-field v-model="firstName" :rules="nameRules" :counter="15" label="First name"></v-text-field>
+          </v-col>
+
+          <v-col cols="12" md="4">
+            <v-text-field v-model="lastName" :rules="nameRules" :counter="15" label="Last name"></v-text-field>
+          </v-col>
+
+          <v-col cols="12" md="4">
+            <v-text-field v-model="emailAddress" :rules="emailRules" label="E-mail"></v-text-field>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-form>
     <!-- TODO: note about collection on data w/ link to terms of service -->
   </div>
 </template>
@@ -20,7 +31,11 @@ export default {
     return {
       firstName: "",
       lastName: "",
-      emailAddress: ""
+      emailAddress: "",
+      nameRules: [
+        v => v.length <= 15 || "Name must be less than 15 characters"
+      ],
+      emailRules: [v => /.+@.+/.test(v) || "E-mail must be valid"]
     };
   },
   components: {

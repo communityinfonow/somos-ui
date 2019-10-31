@@ -1,28 +1,25 @@
 import * as axios from "axios";
+const URL = process.env.VUE_APP_API_DOMAIN + "/photos/"; // TODO eventually accept url as a param which would come from REST api
 
+/**
+ * Generates form from selected files
+ */
 function createForm(files) {
     var formData = new FormData();
+    var reader = new FileReader();
     files.forEach((file, index) => {
-        formData.append("files[" + index + "]", file);
+        formData.append("photos", file);
     });
     return formData;
 }
 
 export default {
-    getMetadata(files, callback) {
-        axios.post(URL,
-            createForm(files), {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            }
-        ).then(response => {
-            callback(response)
+    getMetadata(url, callback) {
+        axios.get(url).then(response => {
+            callback(response.data)
         });
     },
     savePhotos(files, callback) {
-        var formData = new FormData();
-        formData.append("files", files);
         axios.post(URL,
             createForm(files), {
                 headers: {
@@ -30,7 +27,7 @@ export default {
                 }
             }
         ).then(response => {
-            callback(response);
+            callback(response.data);
         })
     }
 }

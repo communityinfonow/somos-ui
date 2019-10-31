@@ -1,8 +1,14 @@
 //TODO: handle multiple file upload for multiple location at a time. If multiple files have GPS data, we'll need a way to confirm coordinates and census tract for each one.
 <template>
   <div>
-    <input type="file" id="photo-select" v-on:change="fileSelected" />
-    <button id="photo-select-btn" @click="clickHandler">Upload Image</button>
+    <v-file-input
+      multiple
+      accept="image/*"
+      label="Upload Image(s)"
+      v-on:change="fileSelected"
+      prepend-icon="mdi-camera"
+      :loading="loading"
+    ></v-file-input>
   </div>
 </template>
 
@@ -13,25 +19,32 @@ export default {
   name: "PhotoInput",
   methods: {
     fileSelected(event) {
-      var photos = event.target.files.map(file => {
+      this.photos = event.map(file => {
         return { file: file, location: null };
       });
-      if (files.length) {
-        store.setPhotos(photos);
-      }
+      this.savePhotoInformation(this.photos.map(photo => photo.file));
+      store.setPhotos(this.photos);
     },
     clickHandler() {
       document.getElementById("photo-select").click();
     },
-    getGPSMetadata() {
+    savePhotoInformation(photos) {
+      let self = this;
+      this.loading = true;
+      PhotoData.savePhotos(photos, data => {
+        this.loading = false;
+        data.forEach(photo => {
+          this.getGPSMetadata(
+            photo.links.find(link => link.rel === "gps-coordinates").href
+          );
+        });
+      });
+    },
+    getGPSMetadata(url) {
       //TODO: append indexes to end of file names to make them unique within this context?
-      photoData.getMetadata(this.photos.map(photo => photo.file), data => {
-        photos.forEach(photo => {
-          data.forEach(response => {
-            if (response.fileName === photo.file.name) {
-              photo.location = response.location;
-            }
-          });
+      PhotoData.getMetadata(url, coordinates => {
+        this.photos.forEach(photo => {
+          photo.location = coordinates;
         });
       });
     },
@@ -39,7 +52,8 @@ export default {
   },
   data() {
     return {
-      photos: []
+      photos: [],
+      loading: false
     };
   }
 };
@@ -53,4 +67,3 @@ input {
 
 // TODO: load image into input
 // TODO: load GPS data (from server  ) from image and place in store state (for finding containing census tract)
-// TODO: load image into store state (if possible) for future handling

@@ -1,6 +1,18 @@
 /** Generic text input to be used everywhere */
 <template>
-  <TextInput v-on:keyup="keyupHandler" v-on:keydown="keydownHandler" v-model="text" />
+  <v-autocomplete
+    label="Search for location"
+    :items="storeState.searchResults"
+    v-on:keyup="keyupHandler"
+    v-on:keydown="keydownHandler"
+    :search-input.sync="text"
+    hide-no-data
+    item-text="name"
+    return-object
+    v-model="selected"
+    no-filter="true"
+    :loading="loading"
+  ></v-autocomplete>
 </template>
 
 <script>
@@ -10,8 +22,9 @@ import TextInput from "./TextInput";
 export default {
   name: "AddressInput",
   data() {
-    return { text: "" };
+    return { text: "", selected: null, storeState: store.state };
   },
+  props: ["loading"],
   components: {
     TextInput
   },
@@ -22,6 +35,9 @@ export default {
     },
     text: function(newText) {
       store.updateSearchString(newText);
+    },
+    selected: function(selectedLocation) {
+      store.setSelectedLocation(selectedLocation);
     }
   }
 };

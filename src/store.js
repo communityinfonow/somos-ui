@@ -9,7 +9,8 @@ export const store = {
         addressSearchString: null,
         isDoneTyping: null,
         addressSearchType: null,
-        selectedLocation: new location(null, new coordinates()),
+        searchResults: [],
+        selectedLocation: new location(null, new coordinates(null, null)),
         contactFirstName: null,
         contactLastName: null,
         contactEmail: null,
@@ -25,7 +26,7 @@ export const store = {
         this.state.isDoneTyping = isDone;
     },
     setAddressSearchType(type) {
-        this.state.addressSearchtType = type;
+        this.state.addressSearchType = type;
     },
     setSelectedLocation(location) {
         this.state.selectedLocation = location;
@@ -41,5 +42,8 @@ export const store = {
     },
     setPhotos(photos) {
         this.state.photos = photos;
+    },
+    setSearchResults(results) {
+        this.state.searchResults = results;
     }
 };

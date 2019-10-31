@@ -1,9 +1,9 @@
 // TODO: marker image for map
 // TODO: method for finding containing census tract when coordinates are supplied
 <template>
-  <l-map id="map" ref="map" :center="center" :zoom="zoom">
+  <l-map id="map" ref="map" :center="center" :zoom="zoom" @click="clicker">
     <l-tile-layer :url="tileUrl"></l-tile-layer>
-    <l-marker :lat-lng="[29.437236, -98.491163]">
+    <l-marker :lat-lng="selectedLocation" :visible="selectedLocation !== center">
       <l-icon :icon-url="iconUrl"></l-icon>
     </l-marker>
   </l-map>
@@ -11,6 +11,7 @@
 
 <script>
 import { LMap, LTileLayer, LControl, LMarker, LIcon } from "vue2-leaflet";
+import { store } from "../../store";
 
 import Legend from "./Legend";
 import MarkerTooltip from "./MarkerTooltip";
@@ -39,15 +40,22 @@ export default {
       tileUrl:
         "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png",
       zoom: 12,
-      iconUrl: "data:image/svg+xml;base64," + "../../assets/marker-15.svg"
+      iconUrl: "./assets/map-marker.png"
     };
   },
-  props: ["coordinates"],
+  props: ["location"],
+  methods: {
+    clicker: function(event) {
+      this.location = { coordinates: event.latlng };
+    }
+  },
   computed: {
     selectedLocation: function() {
-      return this.coordinates
-        ? [this.coordinates.lat, this.coordinates.lng]
-        : null;
+      return this.location &&
+        this.location.coordinates.lat &&
+        this.location.coordinates.lng
+        ? [this.location.coordinates.lat, this.location.coordinates.lng]
+        : this.center;
     }
   }
 };
@@ -57,6 +65,7 @@ export default {
 #map {
   width: 100%;
   height: 500px;
+  z-index: 0;
 }
 ul {
   list-style: none;
