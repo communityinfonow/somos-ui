@@ -1,8 +1,17 @@
-/** Generic text input to be used everywhere */
-<template></template>
+<template>
+  <input type="text" :value="text" @input="$emit('input', $event.target.value)" />
+</template>
 
 <script>
-export default {};
+export default {
+  name: "TextInput",
+  props: {
+    text: String
+  },
+  data() {
+    return {};
+  }
+};
 </script>
 
 <style>

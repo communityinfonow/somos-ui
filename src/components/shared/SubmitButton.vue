@@ -1,8 +1,10 @@
 /** Generic Submit button to be used everywhere */
-<template></template>
+<template>
+  <button>Submit</button>
+</template>
 
 <script>
-export default {};
+export default { name: "SubmitButton" };
 </script>
 
 <style>

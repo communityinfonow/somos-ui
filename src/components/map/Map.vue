@@ -1,70 +1,97 @@
+// TODO: method for finding containing census tract when coordinates are supplied
 <template>
-  <l-map ref="map" :center="center" :zoom="zoom">
+  <l-map id="map" ref="map" :center="center" :zoom="zoom" @click="clicker">
     <l-tile-layer :url="tileUrl"></l-tile-layer>
-    <div v-for="location in locations" v-bind:key="location.name"></div>
+    <span v-if="location.coordinates && location.coordinates.lat && location.coordinates.lng">
+      <l-marker :lat-lng="location.coordinates" :visible="location.coordinates !== center">
+        <l-icon :icon-url="iconUrl" :icon-size="iconSize" :icon-anchor="iconAnchor"></l-icon>
+      </l-marker>
+    </span>
   </l-map>
 </template>
 
 <script>
-import { LMap, LTileLayer, LCircleMarker, LControl } from "vue2-leaflet";
+import { LMap, LTileLayer, LControl, LMarker, LIcon } from "vue2-leaflet";
+import { store } from "../../store";
 
 import Legend from "./Legend";
 import MarkerTooltip from "./MarkerTooltip";
-import api from "../api/locations";
-import mapping from "../mapping";
+import { boundaries } from "./Boundaries.js";
 
 export default {
-  name: "Map",
+  name: "GeoMap",
   components: {
     LMap,
     LTileLayer,
-    LCircleMarker,
     LControl,
     MarkerTooltip,
     Legend,
-    mapping
+    LMarker,
+    LIcon
   },
   mounted() {
     this.$nextTick(() => {
       this.map = this.$refs.map.mapObject;
     });
   },
-  created() {
-    this.calculateRadius = mapping.calculateRadius;
-    api.getLocations(this.setLocations);
-  },
+  created() {},
   data() {
     return {
       map: {},
-      center: [42.959084, -85.687226],
-      tileUrl: "http://tile.stamen.com/toner/{z}/{x}/{y}.png",
+      center: [29.437236, -98.491163],
+      tileUrl:
+        "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png",
       zoom: 12,
-      locations: [],
-      max
+      iconUrl: "./assets/map-marker.png",
+      iconSize: [25, 41],
+      storeState: store.state
     };
   },
-  computed: {
-    totalBags: function() {
-      let self = this;
-      return self.locations.reduce((accu, val) => accu + val.garbageBags, 0);
+  props: ["location"],
+  methods: {
+    clicker: function(event) {
+      store.setSelectedLocation({
+        //TODO: unit test to make sure object always has same structure of {lat,lng}
+        coordinates: event.latlng
+      });
     },
-    max: function() {
-      let self = this;
-      return self.locations.reduce(
-        (acc, val) => (val.garbageBags > acc ? val.garbageBags : acc),
-        0
-      );
+    findContainingTractByBoundaries: function(latLng) {
+      this.boundaries.getLayers().forEach(layer => {
+        if (layer.getBounds().contains(latLng)) {
+          layer.setStyle({
+            fillColor: "black"
+          });
+        }
+      });
     }
   },
-  methods: {
-    setLocations: function(response) {
-      this.locations = response.data;
+  watch: {
+    location: function(theLocation) {
+      store.setSelectedLocationTract(
+        this.findContainingTractByBoundaries(theLocation.coordinates)
+      );
+    },
+    boundaries: function(newBoundaries) {
+      newBoundaries.addTo(this.map);
+    }
+  },
+  computed: {
+    iconAnchor: function() {
+      return [this.iconSize[0] / 2, this.iconSize[1]];
+    },
+    boundaries: function() {
+      return boundaries.generate(this.storeState.censusTracts);
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
+#map {
+  width: 100%;
+  height: 500px;
+  z-index: 0;
+}
 ul {
   list-style: none;
 }
