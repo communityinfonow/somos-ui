@@ -1,6 +1,7 @@
 import * as axios from "axios";
 /**
  * Generates form from selected files
+ * 
  */
 function createForm(files) {
     var formData = new FormData();
@@ -33,3 +34,4 @@ export default {
         });
     }
 }
+//  TODO: error handling

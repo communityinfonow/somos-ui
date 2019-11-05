@@ -14,6 +14,7 @@ export default {
   data() {
     return {
       storeState: store.state,
+      censusTracts: store.state.censusTracts,
       geoJsonStyle: {
         color: "black",
         fillColor: "none",
@@ -37,15 +38,25 @@ export default {
   },
   computed: {
     boundaries: function() {
-      return this.storeState.censusTracts.map(tract => {
-        var feature = L.GeoJSON.asFeature(tract.geometry);
-        feature.properties = {
-          id: tract.id,
-          tract: tract.tract,
-          links: tract.links //TODO: remove from here and use on the features with data
-        };
-        return feature;
-      });
+      return this.storeState.censusTracts.map(tract =>
+        this.convertTractToGeoJson(tract)
+      );
+    }
+  },
+  watch: {
+    boundaries: function(geojson) {
+      store.setBoundaries(geojson);
+    }
+  },
+  methods: {
+    convertTractToGeoJson: function(tract) {
+      var feature = L.GeoJSON.asFeature(tract.geometry);
+      feature.properties = {
+        id: tract.id,
+        tract: tract.tract,
+        links: tract.links //TODO: remove from here and use on the features with data
+      };
+      return feature;
     }
   }
 };

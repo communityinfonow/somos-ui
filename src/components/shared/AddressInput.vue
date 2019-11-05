@@ -10,7 +10,7 @@
     item-text="name"
     return-object
     v-model="selected"
-    no-filter="true"
+    no-filter
     :loading="loading"
   ></v-autocomplete>
 </template>

@@ -1,6 +1,6 @@
 /** Address or Place searching */
 <template>
-  <v-radio-group v-model="selected" row dense="true" prepend-icon="mdi-map">
+  <v-radio-group v-model="selected" row dense prepend-icon="mdi-map">
     <v-radio label="Address" value="address"></v-radio>
     <v-radio label="Place" value="place"></v-radio>
   </v-radio-group>

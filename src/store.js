@@ -15,7 +15,9 @@ export const store = {
         contactLastName: null,
         contactEmail: null,
         photos: [],
-        censusTracts: []
+        censusTracts: [],
+        boundaries: [],
+        dataFeatures: []
     },
     clearSearchString() {
         this.state.addressSearchString = null;
@@ -31,6 +33,9 @@ export const store = {
     },
     setSelectedLocation(location) {
         this.state.selectedLocation = location;
+    },
+    setSelectedLocationTract(tract) {
+        this.state.selectedLocation.tract = tract;
     },
     setContactFirstName(firstName) {
         this.state.contactFirstName = firstName;
@@ -49,5 +54,11 @@ export const store = {
     },
     setCensusTracts(censusTracts) {
         this.state.censusTracts = censusTracts;
+    },
+    setBoundaries(boundaries) {
+        this.state.boundaries = boundaries;
+    },
+    setDataFeatures(dataFeatures) {
+        this.state.dataFeatures = dataFeatures;
     }
 };

@@ -2,9 +2,11 @@
 <template>
   <l-map id="map" ref="map" :center="center" :zoom="zoom" @click="clicker">
     <l-tile-layer :url="tileUrl"></l-tile-layer>
-    <l-marker :lat-lng="selectedLocation" :visible="selectedLocation !== center">
-      <l-icon :icon-url="iconUrl" :icon-size="iconSize" :icon-anchor="iconAnchor"></l-icon>
-    </l-marker>
+    <span v-if="location.coordinates && location.coordinates.lat && location.coordinates.lng">
+      <l-marker :lat-lng="location.coordinates" :visible="location.coordinates !== center">
+        <l-icon :icon-url="iconUrl" :icon-size="iconSize" :icon-anchor="iconAnchor"></l-icon>
+      </l-marker>
+    </span>
     <Boundaries />
   </l-map>
 </template>
@@ -50,19 +52,31 @@ export default {
   props: ["location"],
   methods: {
     clicker: function(event) {
-      this.location = { coordinates: event.latlng };
+      store.setSelectedLocation({
+        //TODO: unit test to make sure object always has same structure of {lat,lng}
+        coordinates: event.latlng
+      });
+    },
+    findContainingTractByBoundaries: function(latLng) {
+      L.geoJSON(this.storeState.boundaries)
+        .getLayers()
+        .forEach(layer => {
+          if (layer.getBounds().contains(latLng)) {
+            console.log(layer);
+          }
+        });
+    }
+  },
+  watch: {
+    location: function(theLocation) {
+      store.setSelectedLocationTract(
+        this.findContainingTractByBoundaries(theLocation.coordinates)
+      );
     }
   },
   computed: {
     iconAnchor: function() {
       return [this.iconSize[0] / 2, this.iconSize[1]];
-    },
-    selectedLocation: function() {
-      return this.location &&
-        this.location.coordinates.lat &&
-        this.location.coordinates.lng
-        ? [this.location.coordinates.lat, this.location.coordinates.lng]
-        : this.center;
     }
   }
 };
