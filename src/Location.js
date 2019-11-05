@@ -1,6 +1,7 @@
-export const location = function (name, coordinates) {
+export const location = function (name, id, coordinates) {
     return {
         name: name,
+        id: id,
         coordinates: coordinates
     }
 };

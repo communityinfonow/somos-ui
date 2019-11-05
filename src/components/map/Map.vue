@@ -7,7 +7,6 @@
         <l-icon :icon-url="iconUrl" :icon-size="iconSize" :icon-anchor="iconAnchor"></l-icon>
       </l-marker>
     </span>
-    <Boundaries :map="map" />
   </l-map>
 </template>
 
@@ -17,7 +16,7 @@ import { store } from "../../store";
 
 import Legend from "./Legend";
 import MarkerTooltip from "./MarkerTooltip";
-import Boundaries from "./Boundaries";
+import { boundaries } from "./Boundaries.js";
 
 export default {
   name: "GeoMap",
@@ -28,8 +27,7 @@ export default {
     MarkerTooltip,
     Legend,
     LMarker,
-    LIcon,
-    Boundaries
+    LIcon
   },
   mounted() {
     this.$nextTick(() => {
@@ -46,8 +44,7 @@ export default {
       zoom: 12,
       iconUrl: "./assets/map-marker.png",
       iconSize: [25, 41],
-      storeState: store.state,
-      boundaries: store.state.boundaries
+      storeState: store.state
     };
   },
   props: ["location"],
@@ -59,9 +56,11 @@ export default {
       });
     },
     findContainingTractByBoundaries: function(latLng) {
-      this.storeState.boundaries.getLayers().forEach(layer => {
+      this.boundaries.getLayers().forEach(layer => {
         if (layer.getBounds().contains(latLng)) {
-          layer.options.style.fillColor = "black";
+          layer.setStyle({
+            fillColor: "black"
+          });
         }
       });
     }
@@ -73,12 +72,15 @@ export default {
       );
     },
     boundaries: function(newBoundaries) {
-      console.log(newBoundaries);
+      newBoundaries.addTo(this.map);
     }
   },
   computed: {
     iconAnchor: function() {
       return [this.iconSize[0] / 2, this.iconSize[1]];
+    },
+    boundaries: function() {
+      return boundaries.generate(this.storeState.censusTracts);
     }
   }
 };

@@ -10,7 +10,7 @@ export const store = {
         isDoneTyping: null,
         addressSearchType: null,
         searchResults: [],
-        selectedLocation: new location(null, new coordinates(null, null)),
+        selectedLocation: new location(null, null, new coordinates(null, null)),
         contactFirstName: null,
         contactLastName: null,
         contactEmail: null,
