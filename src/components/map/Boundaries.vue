@@ -1,6 +1,7 @@
 // TODO: will need something similar to this module for features displaying data
 <template>
-  <l-geo-json :geojson="boundaries" :optionsStyle="geoJsonStyle" :options="geoJsonOptions"></l-geo-json>
+  <span></span>
+  <!-- <l-geo-json :geojson="boundaries" :optionsStyle="geoJsonStyle" :options="geoJsonOptions"></l-geo-json> -->
 </template>
 
 <script>
@@ -15,12 +16,12 @@ export default {
     return {
       storeState: store.state,
       censusTracts: store.state.censusTracts,
-      geoJsonStyle: {
-        color: "black",
-        fillColor: "none",
-        "fill-opacity": "0"
-      },
       geoJsonOptions: {
+        style: {
+          color: "black",
+          fillColor: "none",
+          "fill-opacity": "0"
+        },
         onEachFeature: function(feature, layer) {
           layer.on("mouseover", function() {
             this.setStyle({
@@ -36,16 +37,21 @@ export default {
       }
     };
   },
+  props: ["map"],
   computed: {
     boundaries: function() {
-      return this.storeState.censusTracts.map(tract =>
-        this.convertTractToGeoJson(tract)
+      return L.geoJSON(
+        this.storeState.censusTracts.map(tract =>
+          this.convertTractToGeoJson(tract)
+        ),
+        this.geoJsonOptions
       );
     }
   },
   watch: {
     boundaries: function(geojson) {
       store.setBoundaries(geojson);
+      geojson.addTo(this.map);
     }
   },
   methods: {

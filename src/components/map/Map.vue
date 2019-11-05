@@ -7,7 +7,7 @@
         <l-icon :icon-url="iconUrl" :icon-size="iconSize" :icon-anchor="iconAnchor"></l-icon>
       </l-marker>
     </span>
-    <Boundaries />
+    <Boundaries :map="map" />
   </l-map>
 </template>
 
@@ -46,7 +46,8 @@ export default {
       zoom: 12,
       iconUrl: "./assets/map-marker.png",
       iconSize: [25, 41],
-      storeState: store.state
+      storeState: store.state,
+      boundaries: store.state.boundaries
     };
   },
   props: ["location"],
@@ -58,13 +59,11 @@ export default {
       });
     },
     findContainingTractByBoundaries: function(latLng) {
-      L.geoJSON(this.storeState.boundaries)
-        .getLayers()
-        .forEach(layer => {
-          if (layer.getBounds().contains(latLng)) {
-            console.log(layer);
-          }
-        });
+      this.storeState.boundaries.getLayers().forEach(layer => {
+        if (layer.getBounds().contains(latLng)) {
+          layer.options.style.fillColor = "black";
+        }
+      });
     }
   },
   watch: {
@@ -72,6 +71,9 @@ export default {
       store.setSelectedLocationTract(
         this.findContainingTractByBoundaries(theLocation.coordinates)
       );
+    },
+    boundaries: function(newBoundaries) {
+      console.log(newBoundaries);
     }
   },
   computed: {
