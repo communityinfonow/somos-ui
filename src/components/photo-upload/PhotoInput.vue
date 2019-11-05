@@ -23,15 +23,14 @@ export default {
         return { file: file, location: null };
       });
       this.savePhotoInformation(this.photos.map(photo => photo.file));
-      store.setPhotos(this.photos);
     },
     clickHandler() {
       document.getElementById("photo-select").click();
     },
     savePhotoInformation(photos) {
-      let self = this;
       this.loading = true;
-      PhotoData.savePhotos(photos, data => {
+      PhotoData.savePhotoInformation(photos, data => {
+        store.setPhotos(data);
         this.loading = false;
         data.forEach(photo => {
           this.getGPSMetadata(
@@ -41,10 +40,14 @@ export default {
       });
     },
     getGPSMetadata(url) {
-      //TODO: append indexes to end of file names to make them unique within this context?
       PhotoData.getMetadata(url, coordinates => {
+        store.setSelectedLocation({
+          coordinates: { lat: coordinates.lat, lng: coordinates.lng }
+        });
         this.photos.forEach(photo => {
-          photo.location = coordinates;
+          photo.location = {
+            coordinates: { lat: coordinates.lat, lng: coordinates.lng }
+          };
         });
       });
     },
@@ -64,6 +67,3 @@ input {
   display: none;
 }
 </style>
-
-// TODO: load image into input
-// TODO: load GPS data (from server  ) from image and place in store state (for finding containing census tract)

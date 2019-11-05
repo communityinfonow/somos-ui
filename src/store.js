@@ -14,7 +14,8 @@ export const store = {
         contactFirstName: null,
         contactLastName: null,
         contactEmail: null,
-        photos: []
+        photos: [],
+        censusTracts: []
     },
     clearSearchString() {
         this.state.addressSearchString = null;
@@ -45,5 +46,8 @@ export const store = {
     },
     setSearchResults(results) {
         this.state.searchResults = results;
+    },
+    setCensusTracts(censusTracts) {
+        this.state.censusTracts = censusTracts;
     }
 };

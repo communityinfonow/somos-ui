@@ -49,9 +49,22 @@ export default {
       return this.storeState.addressSearchType;
     }
   },
+  methods: {
+    searchCallback: function(response) {
+      this.loading = false;
+      store.setSearchResults(
+        response.data.map(
+          result =>
+            new location(
+              result.formattedAddress,
+              new coordinates(result.location.lat, result.location.lng)
+            )
+        )
+      );
+    }
+  },
   watch: {
     isDoneTyping() {
-      //  TODO: put this in its own method
       if (
         this.addressSearchString &&
         this.addressSearchString.length > 0 &&
@@ -61,18 +74,7 @@ export default {
         locationSearch.search(
           this.addressSearchString,
           this.locationType || "address",
-          response => {
-            this.loading = false;
-            store.setSearchResults(
-              response.data.map(
-                result =>
-                  new location(
-                    result.formattedAddress,
-                    new coordinates(result.location.lat, result.location.lng)
-                  )
-              )
-            );
-          }
+          this.searchCallback
         );
       }
     }

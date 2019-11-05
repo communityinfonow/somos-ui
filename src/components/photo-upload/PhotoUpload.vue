@@ -9,8 +9,7 @@
             <v-card class="mb-12" height="height">
               <PhotoInput />
             </v-card>
-            <v-btn color="primary" @click="nextStep(1)" block :disabled="false">Next</v-btn>
-            <!-- TODO if/then where last step is submit button -->
+            <v-btn color="primary" @click="nextStep(1)" block :disabled="photosLoaded">Next</v-btn>
           </v-stepper-content>
           <v-stepper-step
             :step="2"
@@ -20,7 +19,7 @@
           <v-stepper-content :key="`2 - content`" :step="2">
             <v-card class="mb-12" height="height">
               <AddressSearch></AddressSearch>
-              <GeoMap :location="selectedLocation" />
+              <GeoMap :location="selectedLocation" :geometries="storeState.censusTracts.map" />
             </v-card>
             <v-btn color="primary" @click="nextStep(2)" block>Next</v-btn>
           </v-stepper-content>
@@ -36,6 +35,7 @@
             <v-btn @click="submitUpload" block color="primary">Submit</v-btn>
           </v-stepper-content>
         </v-stepper>
+        <v-alert type="success" :value="showComplete">Upload successful</v-alert>
       </v-col>
     </v-row>
   </v-container>
@@ -63,7 +63,8 @@ export default {
     return {
       storeState: store.state,
       stepper: 1,
-      height: "30%"
+      height: "30%",
+      showComplete: false
     };
   },
   watch: {},
@@ -72,13 +73,19 @@ export default {
       this.stepper = n + 1;
     },
     submitUpload() {
-      PhotoData.savePhotos({
-        contactInfo: {
-          firstName: this.storeState.contactFirstName,
-          lastName: this.storeState.contactLastName,
-          email: this.storeState.contactEmail
-        },
-        photos: this.storeState.photos
+      this.storeState.photos.forEach(photo => {
+        photo.ownerEmail = this.storeState.contactEmail;
+        photo.ownerFirstName = this.storeState.contactFirstName;
+        photo.ownerLastName = this.storeState.contactLastName;
+        delete photo.links;
+        PhotoData.savePhoto(
+          this.storeState.censusTracts[0].links[0].href + "/" + photo.id,
+          photo,
+          response => {
+            this.nextStep(3);
+            this.showComplete = true;
+          }
+        );
       });
     }
   },

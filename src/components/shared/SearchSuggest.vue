@@ -1,4 +1,4 @@
-// TODO: vuetify this thing
+
 <template>
   <ul>
     <li

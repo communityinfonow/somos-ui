@@ -6,11 +6,18 @@
 
 <script>
 import PhotoUpload from "./components/photo-upload/PhotoUpload";
+import { store } from "./store";
+import CensusTracts from "./api/census-tracts";
 
 export default {
   name: "app",
   components: {
     PhotoUpload
+  },
+  created: function() {
+    CensusTracts.get(response => {
+      store.setCensusTracts(response);
+    });
   }
 };
 </script>
