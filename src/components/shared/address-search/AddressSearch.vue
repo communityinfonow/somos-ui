@@ -15,7 +15,6 @@
 </template>
 
 <script>
-import SearchSuggest from "../SearchSuggest";
 import AddressInput from "../AddressInput";
 import AddressTypeSelector from "./AddessTypeSelector";
 
@@ -26,7 +25,6 @@ import locationSearch from "../../../api/locationSearch.js";
 export default {
   name: "AddressSearch",
   components: {
-    SearchSuggest,
     AddressInput,
     AddressTypeSelector
   },

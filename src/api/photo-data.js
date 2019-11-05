@@ -4,8 +4,7 @@ import * as axios from "axios";
  */
 function createForm(files) {
     var formData = new FormData();
-    var reader = new FileReader();
-    files.forEach((file, index) => {
+    files.forEach((file) => {
         formData.append("photos", file);
     });
     return formData;

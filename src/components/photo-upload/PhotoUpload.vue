@@ -19,7 +19,7 @@
           <v-stepper-content :key="`2 - content`" :step="2">
             <v-card class="mb-12" height="height">
               <AddressSearch></AddressSearch>
-              <GeoMap :location="selectedLocation" :geometries="storeState.censusTracts.map" />
+              <GeoMap :location="selectedLocation" />
             </v-card>
             <v-btn color="primary" @click="nextStep(2)" block>Next</v-btn>
           </v-stepper-content>
@@ -47,7 +47,6 @@ import ContactForm from "./ContactForm";
 import GeoMap from "../map/Map";
 import PhotoInput from "./PhotoInput";
 import { store } from "../../store";
-import SubmitButton from "../shared/SubmitButton";
 import PhotoData from "../../api/photo-data";
 
 export default {
@@ -56,8 +55,7 @@ export default {
     AddressSearch,
     ContactForm,
     GeoMap,
-    PhotoInput,
-    SubmitButton
+    PhotoInput
   },
   data() {
     return {
@@ -81,7 +79,7 @@ export default {
         PhotoData.savePhoto(
           this.storeState.censusTracts[0].links[0].href + "/" + photo.id,
           photo,
-          response => {
+          () => {
             this.nextStep(3);
             this.showComplete = true;
           }

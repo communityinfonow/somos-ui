@@ -3,25 +3,19 @@
   <l-map id="map" ref="map" :center="center" :zoom="zoom" @click="clicker">
     <l-tile-layer :url="tileUrl"></l-tile-layer>
     <l-marker :lat-lng="selectedLocation" :visible="selectedLocation !== center">
-      <l-icon :icon-url="iconUrl"></l-icon>
+      <l-icon :icon-url="iconUrl" :icon-size="iconSize" :icon-anchor="iconAnchor"></l-icon>
     </l-marker>
-    <l-geo-json :geojson="boundaries" :optionsStyle="geoJsonStyle" :options="geoJsonOptions"></l-geo-json>
+    <Boundaries />
   </l-map>
 </template>
 
 <script>
-import {
-  LMap,
-  LTileLayer,
-  LControl,
-  LMarker,
-  LIcon,
-  LGeoJson
-} from "vue2-leaflet";
+import { LMap, LTileLayer, LControl, LMarker, LIcon } from "vue2-leaflet";
 import { store } from "../../store";
-import { GeoJson } from "leaflet";
+
 import Legend from "./Legend";
 import MarkerTooltip from "./MarkerTooltip";
+import Boundaries from "./Boundaries";
 
 export default {
   name: "GeoMap",
@@ -33,7 +27,7 @@ export default {
     Legend,
     LMarker,
     LIcon,
-    LGeoJson
+    Boundaries
   },
   mounted() {
     this.$nextTick(() => {
@@ -49,26 +43,8 @@ export default {
         "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png",
       zoom: 12,
       iconUrl: "./assets/map-marker.png",
-      storeState: store.state,
-      geoJsonStyle: {
-        color: "black",
-        fillColor: "none",
-        "fill-opacity": "0"
-      },
-      geoJsonOptions: {
-        onEachFeature: function(feature, layer) {
-          layer.on("mouseover", function() {
-            this.setStyle({
-              fillColor: "#0000ff"
-            });
-          });
-          layer.on("mouseout", function() {
-            this.setStyle({
-              fillColor: "none"
-            });
-          });
-        }
-      }
+      iconSize: [25, 41],
+      storeState: store.state
     };
   },
   props: ["location"],
@@ -78,19 +54,15 @@ export default {
     }
   },
   computed: {
+    iconAnchor: function() {
+      return [this.iconSize[0] / 2, this.iconSize[1]];
+    },
     selectedLocation: function() {
       return this.location &&
         this.location.coordinates.lat &&
         this.location.coordinates.lng
         ? [this.location.coordinates.lat, this.location.coordinates.lng]
         : this.center;
-    },
-    boundaries: function() {
-      return L.layerGroup(
-        this.storeState.censusTracts.map(tract => {
-          return L.GeoJSON.geometryToLayer(tract.geometry);
-        })
-      ).toGeoJSON();
     }
   }
 };
