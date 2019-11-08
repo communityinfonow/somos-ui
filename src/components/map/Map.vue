@@ -13,6 +13,7 @@
 <script>
 import { LMap, LTileLayer, LControl, LMarker, LIcon } from "vue2-leaflet";
 import { store } from "../../store";
+import * as leafletPip from "@mapbox/leaflet-pip";
 
 import Legend from "./Legend";
 import MarkerTooltip from "./MarkerTooltip";
@@ -44,6 +45,7 @@ export default {
       zoom: 12,
       iconUrl: "./assets/map-marker.png",
       iconSize: [25, 41],
+      geoJson: {},
       storeState: store.state
     };
   },
@@ -56,19 +58,24 @@ export default {
       });
     },
     findContainingTractByBoundaries: function(latLng) {
-      this.boundaries.getLayers().forEach(layer => {
-        if (layer.getBounds().contains(latLng)) {
-          layer.setStyle({
-            fillColor: "black"
-          });
-        }
-      });
+      var containingGeographies = leafletPip.pointInLayer(
+        latLng,
+        this.boundaries
+      );
+      if (containingGeographies.length == 1) {
+        var layer = containingGeographies[0];
+        boundaries.setSelectedStyle(layer);
+        return layer.feature.properties;
+      } else {
+        //TODO: return an error
+      }
+      return null;
     }
   },
   watch: {
     location: function(theLocation) {
       store.setSelectedLocationTract(
-        this.findContainingTractByBoundaries(theLocation.coordinates)
+        this.findContainingTractByBoundaries(theLocation.coordinates) // TODO: handle null
       );
     },
     boundaries: function(newBoundaries) {

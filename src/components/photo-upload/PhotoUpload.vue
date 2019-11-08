@@ -10,6 +10,7 @@
               <PhotoInput />
             </v-card>
             <v-btn color="primary" @click="nextStep(1)" block :disabled="photosLoaded">Next</v-btn>
+            <!-- TODO remove false -->
           </v-stepper-content>
           <v-stepper-step
             :step="2"
@@ -71,13 +72,17 @@ export default {
       this.stepper = n + 1;
     },
     submitUpload() {
+      var self = this;
+
       this.storeState.photos.forEach(photo => {
-        photo.ownerEmail = this.storeState.contactEmail;
-        photo.ownerFirstName = this.storeState.contactFirstName;
-        photo.ownerLastName = this.storeState.contactLastName;
+        photo.ownerEmail = self.storeState.contactEmail;
+        photo.ownerFirstName = self.storeState.contactFirstName;
+        photo.ownerLastName = self.storeState.contactLastName;
         delete photo.links;
         PhotoData.savePhoto(
-          this.storeState.censusTracts[0].links[0].href + "/" + photo.id,
+          self.storeState.selectedLocation.tract.links.find(
+            link => link.rel === "photos"
+          ).href,
           photo,
           () => {
             this.nextStep(3);
