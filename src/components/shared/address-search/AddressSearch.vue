@@ -55,6 +55,7 @@ export default {
           result =>
             new location(
               result.formattedAddress,
+              null,
               new coordinates(result.location.lat, result.location.lng)
             )
         )

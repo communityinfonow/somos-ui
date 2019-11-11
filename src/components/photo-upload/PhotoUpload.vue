@@ -1,4 +1,5 @@
 /**Big ol' component encompassing all that is photo upload */
+// TODO add timeout for upload process. Match that timeout on the server and delete the file if it hasn't been approved yet.
 <template>
   <v-container id="photo-upload-container">
     <v-row align-center justify-center>
@@ -10,6 +11,7 @@
               <PhotoInput />
             </v-card>
             <v-btn color="primary" @click="nextStep(1)" block :disabled="photosLoaded">Next</v-btn>
+            <!-- TODO remove false -->
           </v-stepper-content>
           <v-stepper-step
             :step="2"
@@ -71,13 +73,17 @@ export default {
       this.stepper = n + 1;
     },
     submitUpload() {
+      var self = this;
+
       this.storeState.photos.forEach(photo => {
-        photo.ownerEmail = this.storeState.contactEmail;
-        photo.ownerFirstName = this.storeState.contactFirstName;
-        photo.ownerLastName = this.storeState.contactLastName;
+        photo.ownerEmail = self.storeState.contactEmail;
+        photo.ownerFirstName = self.storeState.contactFirstName;
+        photo.ownerLastName = self.storeState.contactLastName;
         delete photo.links;
         PhotoData.savePhoto(
-          this.storeState.censusTracts[0].links[0].href + "/" + photo.id,
+          self.storeState.selectedLocation.tract.links.find(
+            link => link.rel === "photos"
+          ).href,
           photo,
           () => {
             this.nextStep(3);
@@ -101,6 +107,12 @@ export default {
 <style scoped>
 #photo-upload-container {
   height: 100vh;
+}
+
+#map {
+  width: 100%;
+  height: 500px;
+  z-index: 0;
 }
 #stepper {
   height: 100%;
