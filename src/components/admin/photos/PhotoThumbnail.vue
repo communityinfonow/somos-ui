@@ -1,4 +1,8 @@
-<template></template>
+<template>
+  <v-card>
+    <v-title>{{photoObj.fileName}}</v-title>
+  </v-card>
+</template>
 
 <script>
 export default {
@@ -6,6 +10,7 @@ export default {
   data() {
     return {};
   },
+  props: ["photoObj"],
   components: {}
 };
 </script>

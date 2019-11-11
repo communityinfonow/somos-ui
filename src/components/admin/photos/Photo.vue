@@ -1,4 +1,6 @@
-<template></template>
+<template>
+  <PhotoThumbnail :photoObj="photoObj"></PhotoThumbnail>
+</template>
 
 <script>
 import PhotoEdit from "./PhotoEdit";
@@ -8,6 +10,7 @@ export default {
   data() {
     return {};
   },
+  props: ["photoObj"],
   components: {
     PhotoEdit,
     PhotoThumbnail

@@ -1,5 +1,5 @@
 <template>
-  <l-map id="map" ref="map" :center="center" :zoom="zoom" @click="clicker">
+  <l-map id="map" ref="map" :center="center" :zoom="zoom" @click="clicker" @ready="loadListener">
     <l-tile-layer :url="tileUrl"></l-tile-layer>
     <span
       v-if="location && location.coordinates && location.coordinates.lat && location.coordinates.lng"
@@ -52,6 +52,11 @@ export default {
   },
   props: ["location"],
   methods: {
+    loadListener: function(e) {
+      if (!e.hasLayer(this.boundaries)) {
+        this.boundaries.addTo(e);
+      }
+    },
     clicker: function(event) {
       store.setSelectedLocation({
         //TODO: unit test to make sure object always has same structure of {lat,lng}
