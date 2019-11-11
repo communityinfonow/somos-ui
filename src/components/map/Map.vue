@@ -1,8 +1,9 @@
-// TODO: method for finding containing census tract when coordinates are supplied
 <template>
   <l-map id="map" ref="map" :center="center" :zoom="zoom" @click="clicker">
     <l-tile-layer :url="tileUrl"></l-tile-layer>
-    <span v-if="location.coordinates && location.coordinates.lat && location.coordinates.lng">
+    <span
+      v-if="location && location.coordinates && location.coordinates.lat && location.coordinates.lng"
+    >
       <l-marker :lat-lng="location.coordinates" :visible="location.coordinates !== center">
         <l-icon :icon-url="iconUrl" :icon-size="iconSize" :icon-anchor="iconAnchor"></l-icon>
       </l-marker>
@@ -13,6 +14,7 @@
 <script>
 import { LMap, LTileLayer, LControl, LMarker, LIcon } from "vue2-leaflet";
 import { store } from "../../store";
+import * as leafletPip from "@mapbox/leaflet-pip";
 
 import Legend from "./Legend";
 import MarkerTooltip from "./MarkerTooltip";
@@ -41,9 +43,10 @@ export default {
       center: [29.437236, -98.491163],
       tileUrl:
         "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png",
-      zoom: 12,
+      zoom: 10,
       iconUrl: "./assets/map-marker.png",
       iconSize: [25, 41],
+      geoJson: {},
       storeState: store.state
     };
   },
@@ -56,19 +59,24 @@ export default {
       });
     },
     findContainingTractByBoundaries: function(latLng) {
-      this.boundaries.getLayers().forEach(layer => {
-        if (layer.getBounds().contains(latLng)) {
-          layer.setStyle({
-            fillColor: "black"
-          });
-        }
-      });
+      var containingGeographies = leafletPip.pointInLayer(
+        latLng,
+        this.boundaries
+      );
+      if (containingGeographies.length == 1) {
+        var layer = containingGeographies[0];
+        boundaries.setSelectedStyle(layer);
+        return layer.feature.properties;
+      } else {
+        //TODO: return an error
+      }
+      return null;
     }
   },
   watch: {
     location: function(theLocation) {
       store.setSelectedLocationTract(
-        this.findContainingTractByBoundaries(theLocation.coordinates)
+        this.findContainingTractByBoundaries(theLocation.coordinates) // TODO: handle null
       );
     },
     boundaries: function(newBoundaries) {
@@ -89,7 +97,7 @@ export default {
 <style lang="scss" scoped>
 #map {
   width: 100%;
-  height: 500px;
+  flex: 1;
   z-index: 0;
 }
 ul {

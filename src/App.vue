@@ -1,6 +1,22 @@
 <template>
   <v-app id="app">
-    <PhotoUpload />
+    <v-container>
+      <v-row justify="center">
+        <v-btn-toggle multiple>
+          <v-btn>
+            <router-link to="/map">Map</router-link>
+          </v-btn>
+          <v-btn>
+            <router-link to="/photo-upload">Photo uploader</router-link>
+          </v-btn>
+        </v-btn-toggle>
+      </v-row>
+      <v-row>
+        <transition name="fade">
+          <router-view></router-view>
+        </transition>
+      </v-row>
+    </v-container>
   </v-app>
 </template>
 
@@ -22,7 +38,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -30,5 +46,18 @@ export default {
   text-align: center;
   color: #2c3e50;
   /* margin-top: 60px; */
+}
+
+.container {
+  height: 100%;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.1s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

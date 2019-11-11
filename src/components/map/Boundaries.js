@@ -5,26 +5,40 @@ import {
   store
 } from "../../store";
 
-const geoJsonOptions = {
-  style: () => {
-    return {
-      "fillColor": "none",
-      "fill-opacity": "0"
-    }
-  },
-  onEachFeature: function (feature, layer) {
-    layer.on("mouseover", function () {
-      this.setStyle({
-        fillColor: "#0000ff"
-      });
-    });
-    layer.on("mouseout", function () {
-      this.setStyle({
-        fillColor: "none"
-      });
-    });
+var geojson = {};
+
+function style(feature) {
+  return {
+    weight: 1,
+    opacity: 1,
+    color: "black",
+    fillOpacity: 0.05,
+    fillColor: "blue"
+  };
+}
+
+function highlightFeature(e) {
+  var layer = e.target;
+
+  layer.setStyle({
+    fillOpacity: 0.2
+  });
+
+  if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+    layer.bringToFront();
   }
-};
+}
+
+function resetHighlight(e) {
+  e.target.setStyle(style());
+}
+
+function onEachFeature(feature, layer) {
+  layer.on({
+    mouseover: highlightFeature,
+    mouseout: resetHighlight
+  });
+}
 
 function convertTractToGeoJson(tract) {
   var feature = L.GeoJSON.asFeature(tract.geometry);
@@ -38,12 +52,20 @@ function convertTractToGeoJson(tract) {
 
 export const boundaries = {
   generate: function (censusTracts) {
-    return L.geoJSON(
+    geojson = L.geoJSON(
       censusTracts.map(tract =>
         convertTractToGeoJson(tract)
-      ),
-      geoJsonOptions
+      ), {
+        style: style,
+        onEachFeature: onEachFeature
+      }
     );
+    return geojson;
+  },
+  setSelectedStyle: function (layer) {
+    layer.setStyle({
+      weight: 4
+    });
   }
 
 };
