@@ -1,5 +1,7 @@
 <template>
-  <Map />
+  <v-container id="map-container">
+    <Map />
+  </v-container>
 </template>
 
 <script>
@@ -21,4 +23,9 @@ export default {
 </script>
 
 <style>
+#map-container {
+  display: flex;
+  flex: 1;
+  height: 600px;
+}
 </style>

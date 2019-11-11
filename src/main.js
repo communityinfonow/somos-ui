@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
-import MapWrap from "./MapWrap.vue";
-import VueRouter from 'vue-router'
+import router from "./router";
 
 
 import {
@@ -14,6 +13,7 @@ import 'leaflet/dist/leaflet.css';
 import vuetify from './plugins/vuetify';
 
 
+
 delete Icon.Default.prototype._getIconeUrl;
 
 Icon.Default.mergeOptions({
@@ -23,22 +23,10 @@ Icon.Default.mergeOptions({
 });
 
 Vue.config.productionTip = false
-Vue.use(VueRouter);
 
-const routes = [{
-  path: "/photo-upload",
-  component: App
-}, {
-  path: "/map",
-  component: require('./MapWrap.vue').default
-}];
-
-const router = new VueRouter({
-  routes: routes
-});
 
 new Vue({
+  router,
   vuetify,
-  render: h => h(App),
-  router
+  render: h => h(App)
 }).$mount('#app')

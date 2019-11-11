@@ -1,8 +1,9 @@
-// TODO: method for finding containing census tract when coordinates are supplied
 <template>
   <l-map id="map" ref="map" :center="center" :zoom="zoom" @click="clicker">
     <l-tile-layer :url="tileUrl"></l-tile-layer>
-    <span v-if="location.coordinates && location.coordinates.lat && location.coordinates.lng">
+    <span
+      v-if="location && location.coordinates && location.coordinates.lat && location.coordinates.lng"
+    >
       <l-marker :lat-lng="location.coordinates" :visible="location.coordinates !== center">
         <l-icon :icon-url="iconUrl" :icon-size="iconSize" :icon-anchor="iconAnchor"></l-icon>
       </l-marker>
@@ -42,7 +43,7 @@ export default {
       center: [29.437236, -98.491163],
       tileUrl:
         "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png",
-      zoom: 12,
+      zoom: 10,
       iconUrl: "./assets/map-marker.png",
       iconSize: [25, 41],
       geoJson: {},
@@ -96,7 +97,7 @@ export default {
 <style lang="scss" scoped>
 #map {
   width: 100%;
-  height: 500px;
+  flex: 1;
   z-index: 0;
 }
 ul {

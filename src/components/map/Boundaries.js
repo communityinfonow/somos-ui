@@ -9,10 +9,10 @@ var geojson = {};
 
 function style(feature) {
   return {
-    weight: 2,
+    weight: 1,
     opacity: 1,
     color: "black",
-    fillOpacity: 0.2,
+    fillOpacity: 0.05,
     fillColor: "blue"
   };
 }
@@ -21,7 +21,7 @@ function highlightFeature(e) {
   var layer = e.target;
 
   layer.setStyle({
-    fillOpacity: 0.7
+    fillOpacity: 0.2
   });
 
   if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
@@ -34,10 +34,10 @@ function resetHighlight(e) {
 }
 
 function onEachFeature(feature, layer) {
-  // layer.on({
-  //   mouseover: highlightFeature,
-  //   mouseout: resetHighlight
-  // });
+  layer.on({
+    mouseover: highlightFeature,
+    mouseout: resetHighlight
+  });
 }
 
 function convertTractToGeoJson(tract) {
