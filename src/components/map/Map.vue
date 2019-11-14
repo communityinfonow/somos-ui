@@ -36,7 +36,6 @@ export default {
       this.map = this.$refs.map.mapObject;
     });
   },
-  created() {},
   data() {
     return {
       map: {},

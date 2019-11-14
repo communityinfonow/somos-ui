@@ -45,7 +45,7 @@ function convertTractToGeoJson(tract) {
   feature.properties = {
     id: tract.id,
     tract: tract.tract,
-    links: tract.links //TODO: remove from here and use on the features with data
+    _links: tract._links //TODO: remove from here and use on the features with data
   };
   return feature;
 }

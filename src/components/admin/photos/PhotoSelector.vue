@@ -2,25 +2,40 @@
   <v-row justify="start">
     <v-col cols="12">
       <v-col>
-        <div class="display-2">{{censusTract.tract}}</div>
+        <div class="display-1">{{censusTract}}</div>
       </v-col>
       <v-divider></v-divider>
-      <Photo v-for="photo in censusTract.photos" :key="photo.id" :photoObj="photo"></Photo>
+      <v-row>
+        <v-col v-for="photo in photos" :key="photo.id" lg="2" md="3" sm="6" xs="12">
+          <PhotoThumbnail :photoObj="photo" @delete="deleteHandler" @update="refreshPhoto">></PhotoThumbnail>
+        </v-col>
+      </v-row>
     </v-col>
   </v-row>
 </template>
 
 <script>
-import Photo from "./Photo";
+import PhotoThumbnail from "./PhotoThumbnail";
 export default {
   name: "PhotoSelector",
   data() {
-    return { censusTract: this.tract };
+    return { censusTract: this.tract, columns: 6 };
   },
   components: {
-    Photo
+    PhotoThumbnail
   },
-  props: ["tract"]
+  props: ["tract", "photos"],
+  methods: {
+    deleteHandler: function(object) {
+      this.photos = this.photos.filter(photo => photo !== object);
+      if (!this.photos.length) {
+        this.$emit("delete", this.censusTract);
+      }
+    },
+    refreshPhoto: function(object, event) {
+      console.log(event.target);
+    }
+  }
 };
 </script>
 

@@ -1,14 +1,13 @@
-<template>
-  <PhotoThumbnail :photoObj="photoObj"></PhotoThumbnail>
-</template>
+<template></template>
 
 <script>
 import PhotoEdit from "./PhotoEdit";
 import PhotoThumbnail from "./PhotoThumbnail";
+import PhotoData from "../../../api/photo-data";
 export default {
   name: "Photo",
   data() {
-    return {};
+    return { notAcceptedPhotos: [] };
   },
   props: ["photoObj"],
   components: {

@@ -50,6 +50,7 @@ import GeoMap from "../map/Map";
 import PhotoInput from "./PhotoInput";
 import { store } from "../../store";
 import PhotoData from "../../api/photo-data";
+import CensusTracts from "../../api/census-tracts";
 
 export default {
   name: "PhotoUpload",
@@ -79,11 +80,12 @@ export default {
         photo.ownerEmail = self.storeState.contactEmail;
         photo.ownerFirstName = self.storeState.contactFirstName;
         photo.ownerLastName = self.storeState.contactLastName;
-        delete photo.links;
+        photo.gid = self.storeState.selectedLocation.tract.id;
+        delete photo._links; // photo object shouldn't have links sent with it
         PhotoData.savePhoto(
-          self.storeState.selectedLocation.tract.links.find(
-            link => link.rel === "photos"
-          ).href,
+          self.storeState.selectedLocation.tract._links.photos.href +
+            "/" +
+            photo.id,
           photo,
           () => {
             this.nextStep(3);
@@ -100,6 +102,11 @@ export default {
     selectedLocation: function() {
       return this.storeState.selectedLocation;
     }
+  },
+  created: function() {
+    CensusTracts.get(response => {
+      store.setCensusTracts(response);
+    });
   }
 };
 </script>
