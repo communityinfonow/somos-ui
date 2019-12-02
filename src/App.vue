@@ -13,6 +13,9 @@
           <v-btn>
             <router-link to="/admin">Admin</router-link>
           </v-btn>
+          <v-btn>
+            <router-link to="/admin/users">Users</router-link>
+          </v-btn>
         </v-btn-toggle>
       </v-row>
       <v-row>

@@ -1,9 +1,9 @@
 
+// TODO: change name of component since there's not a *single* admin view
 <template>
   <v-container>
     <v-row>
       <v-col cols="3">
-        <!-- TODO component for filters -->
         <v-btn-toggle v-model="approvedFilter">
           <v-btn :value="false">Not Approved</v-btn>
           <v-btn :value="true">Approved</v-btn>
@@ -62,7 +62,11 @@ export default {
       );
       toggledPhotos.forEach(photo => {
         if (map.has(photo.censusTractId)) {
-          map.get(photo.censusTractId).push(photo);
+          if (map.get(photo.censusTractId).length > 0) {
+            map.get(photo.censusTractId).push(photo);
+          } else {
+            map.delete(photo.censusTractId);
+          }
         } else {
           map.set(photo.censusTractId, [photo]);
         }

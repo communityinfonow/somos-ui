@@ -1,11 +1,17 @@
 <template>
-  <!-- TODO: on crop, save the original version and flag cropped? or flag crop-backup? -->
   <div>
     <v-card hover>
-      <v-img :src="photoSource" @click.stop="photoEnlargeDialog = true">
+      <v-skeleton-loader class="mx-auto" height="100%" type="image" v-if="!loaded"></v-skeleton-loader>
+      <!-- TODO: lazy load images with a lesser quality version of the photo. Might be a way to do this server-side? -->
+      <v-img
+        :src="photoSource"
+        @load="imageLoaded"
+        @error="loadFailHandler"
+        @click.stop="openModal"
+      >
         <v-row justify="center" align="center" class="crop-btn">
           <v-col cols="4" transition="fade-transition">
-            <v-btn @click.stop="photoEnlargeDialog = true" color="blue" block>Crop</v-btn>
+            <v-btn @click.stop="openModal" color="blue" block>Crop</v-btn>
           </v-col>
         </v-row>
       </v-img>
@@ -24,25 +30,33 @@
           ></v-text-field>
         </v-list-item-content>
       </v-list-item>
+
       <v-list-item>
         <v-list-item-content>
           <v-textarea
-            hide-details
             outlined
             label="Description"
-            :model="photo.description"
+            v-model="photo.description"
             @blur="descriptionBlurHandler"
             auto-grow
             :rows="photoDescriptionLength"
+            id="description"
+            rules="[v => !!v || 'Description is required']"
           ></v-textarea>
         </v-list-item-content>
       </v-list-item>
-
+      <v-list-item v-if="photo.ownerFirstName || photo.ownerLastName || photo.ownerEmailAddress">
+        <v-list-item-content>
+          <v-list-tile-sub-title>Contact:</v-list-tile-sub-title>
+          {{photo.ownerFirstName}} {{photo.ownerLastName}}
+          {{photo.ownerEmailAddress}}
+        </v-list-item-content>
+      </v-list-item>
       <v-card-actions>
         <v-container>
           <v-row v-if="!photo.approved">
             <v-col cols="12" class="pt-0">
-              <v-btn color="green" block @click="acceptPhoto">Approve</v-btn>
+              <v-btn primary block :disabled="!photo.description" @click="acceptPhoto">Approve</v-btn>
             </v-col>
           </v-row>
           <v-row v-if="photo.approved">
@@ -63,7 +77,7 @@
         <v-card-title
           class="headline grey lighten-2"
           primary-title
-        >Are you sure you want to delete {{photoObj.fileName}}?</v-card-title>
+        >Are you sure you want to delete {{photo.fileName}}?</v-card-title>
         <v-divider></v-divider>
 
         <v-card-actions>
@@ -73,11 +87,11 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-dialog v-model="photoEnlargeDialog" width="50%" crop-modal>
+    <v-dialog v-model="photoEnlargeDialog" width="50%" content-class="crop-modal">
       <vue-cropper
         ref="crop"
-        :src="photoSource"
         alt="photo.description"
+        :src="photo._links['photo-file'].href"
         :aspect-ratio="16 / 9"
         :img-style="{ width: '100%', height: '100%'}"
         :zoomable="false"
@@ -102,7 +116,7 @@
 <script>
 import PhotoData from "../../../api/photo-data";
 import VueCropper from "vue-cropperjs";
-import "cropperjs/dist/cropper.css";
+
 export default {
   name: "PhotoThumbnail",
   data() {
@@ -112,18 +126,22 @@ export default {
       showPhotoDescription: false,
       photoEnlargeDialog: false,
       fileName: this.photoObj.fileName.split(".")[0],
-      fileType: this.photoObj.fileName.split(".")[1],
-      cropImg: null
+      cropImg: null,
+      loaded: false,
+      imageLoadFailed: false
     };
   },
   props: ["photoObj", "deleteHandler"],
   components: { VueCropper },
   computed: {
-    croppedFile() {
-      return;
+    fileType: function() {
+      var type = this.photoObj.fileName.split(".")[1];
+      return type === "jpeg" || type === "jpg" ? "jpeg" : "png"; //TODO need to accept all kinds of images. use MIME type
     },
     photoSource: function() {
-      return this.photo._links["photo-file"].href;
+      return this.imageLoadFailed
+        ? this.photo._links["photo-file"].href
+        : this.photo._links["cropped-photo-file"].href;
     },
     selfPath: function() {
       return this.photo._links.self.href;
@@ -132,20 +150,26 @@ export default {
       return this.photo.fileName.split(".")[1];
     },
     photoDescriptionLength: function() {
-      return this.photo.description && this.photo.description.length() ? 5 : 1;
+      return this.photo.description ? 5 : 1;
     },
     hideFilenameValidation: function() {
       return true;
     }
   },
   methods: {
+    imageLoaded() {
+      this.loaded = true;
+    },
+    openModal() {
+      this.photoEnlargeDialog = true;
+    },
     cropImage() {
       this.$refs.crop.getCroppedCanvas().toBlob(
         blob => {
           this.cropImg = URL.createObjectURL(blob);
           PhotoData.replacePhoto(
             this.selfPath,
-            new File([blob], this.photoObj.fileName, {
+            new File([blob], this.photo.fileName, {
               type: "image/" + this.fileType.toLowerCase()
             }),
             response => {
@@ -154,7 +178,7 @@ export default {
           );
         },
         "image/" + this.fileType.toLowerCase(),
-        0.95
+        1.0
       );
       this.closePhotoEnlarge();
     },
@@ -162,7 +186,7 @@ export default {
       this.closeModal();
       let self = this;
       PhotoData.delete(this.selfPath, response => {
-        self.$emit("delete", self.photoObj);
+        self.$emit("delete", self.photo);
       });
     },
     closeModal: function() {
@@ -188,6 +212,9 @@ export default {
       PhotoData.savePhoto(this.selfPath, this.photo, this.saveHandler);
     },
     saveHandler: function(response) {},
+    loadFailHandler: function() {
+      this.imageLoadFailed = true;
+    },
     descriptionBlurHandler: function() {
       this.photo._links.delete;
       PhotoData.savePhoto(this.selfPath, this.photo, this.saveHandler);
@@ -196,9 +223,14 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.crop-modal {
+<style lang="scss">
+.v-dialog.crop-modal {
   overflow-x: hidden;
+
+  img {
+    min-width: 300px;
+    min-height: 700px;
+  }
 }
 
 .crop-btn {

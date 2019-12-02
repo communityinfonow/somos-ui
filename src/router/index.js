@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import PhotoUpload from "../components/photo-upload/PhotoUpload.vue";
 import MapWrap from "../MapWrap.vue";
 import Admin from "../components/admin/Admin.vue";
+import SuperUser from "../components/admin/SuperUser.vue"
 import App from "../App.vue"
 
 Vue.use(VueRouter);
@@ -22,5 +23,9 @@ export default new VueRouter({
         path: "/map",
         name: "map",
         component: MapWrap
+    }, {
+        path: "/admin/users",
+        name: "super-user",
+        component: SuperUser
     }]
 });

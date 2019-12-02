@@ -10,6 +10,7 @@ import {
   LControl
 } from 'vue2-leaflet';
 import 'leaflet/dist/leaflet.css';
+import "cropperjs/dist/cropper.css";
 import vuetify from './plugins/vuetify';
 
 
@@ -23,7 +24,6 @@ Icon.Default.mergeOptions({
 });
 
 Vue.config.productionTip = false
-
 
 new Vue({
   router,

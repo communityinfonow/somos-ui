@@ -1,11 +1,11 @@
 import * as axios from "axios";
 
-const GET_URL = process.env.VUE_APP_API_DOMAIN + "/photos/"
+const GET_URL = process.env.VUE_APP_API_DOMAIN + "/photos"
 /**
  * Generates form from selected files
  * 
  */
-//  TODO: abstract out any of the generic get/create methods that accept url and leave only specific api calls here (such as the one needing to create form). COuld use mixins for that .
+//  TODO: wanted to take out these simples uses of axios but it might be good to keep a namespace for specific error handling.
 function createForm(files) {
     var formData = new FormData();
     files.forEach((file) => {
@@ -51,10 +51,10 @@ export default {
             callback(response.data);
         });
     },
-    // TODO: move to using generic from mixin. Keep const url here though for reference when using generic
+
     get(callback) {
         axios.get(GET_URL).then(response => {
-            callback(response.data._embedded.photoDtoes);
+            callback(response.data._embedded.photoAdminDtoes);
         });
     },
     delete(url, callback) {
