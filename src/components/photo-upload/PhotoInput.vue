@@ -33,9 +33,7 @@ export default {
         store.setPhotos(data);
         this.loading = false;
         data.forEach(photo => {
-          this.getGPSMetadata(
-            photo.links.find(link => link.rel === "gps-coordinates").href
-          );
+          this.getGPSMetadata(photo._links["gps-coordinates"].href);
         });
       });
     },
