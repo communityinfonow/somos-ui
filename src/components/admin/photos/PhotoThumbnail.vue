@@ -41,7 +41,7 @@
             auto-grow
             :rows="photoDescriptionLength"
             id="description"
-            rules="[v => !!v || 'Description is required']"
+            :rules="descriptionRule"
           ></v-textarea>
         </v-list-item-content>
       </v-list-item>
@@ -71,6 +71,9 @@
           </v-row>
         </v-container>
       </v-card-actions>
+      <v-card-text class="pt-0">
+        <v-container class="overline pt-0">last edited on {{photo.lastEdited}} by {{lastEditedBy}}</v-container>
+      </v-card-text>
     </v-card>
     <v-dialog v-model="deleteConfirmationDialog" width="400">
       <v-card>
@@ -92,18 +95,23 @@
         ref="crop"
         alt="photo.description"
         :src="photo._links['photo-file'].href"
-        :aspect-ratio="16 / 9"
         :img-style="{ width: '100%', height: '100%'}"
         :zoomable="false"
         :viewMode="2"
       ></vue-cropper>
       <v-content>
-        <v-row justify="end">
-          <v-col cols="2">
-            <v-btn primary block @click.stop="cropImage">Accept</v-btn>
+        <v-row>
+          <v-col cols="6">
+            <v-btn @click.stop="rotate" id="rotate">Rotate</v-btn>
+            <v-btn @click.stop="enableCrop">Crop</v-btn>
           </v-col>
-          <v-col cols="2">
-            <v-btn secondary block @click.stop="closePhotoEnlarge">Cancel</v-btn>
+          <v-col cols="6">
+            <v-col cols="2">
+              <v-btn primary @click.stop="cropImage">Accept</v-btn>
+            </v-col>
+            <v-col cols="2">
+              <v-btn secondary @click.stop="closePhotoEnlarge">Cancel</v-btn>
+            </v-col>
           </v-col>
         </v-row>
       </v-content>
@@ -128,12 +136,18 @@ export default {
       fileName: this.photoObj.fileName.split(".")[0],
       cropImg: null,
       loaded: false,
-      imageLoadFailed: false
+      imageLoadFailed: false,
+      descriptionRule: [v => !!v || "Description is required"],
+      cropEnabled: true,
+      rotateTracker: 0
     };
   },
   props: ["photoObj", "deleteHandler"],
   components: { VueCropper },
   computed: {
+    lastEditedBy: function() {
+      return this.photo.lastEditedBy ? this.photo.lastEditedBy : "uploader";
+    },
     fileType: function() {
       var type = this.photoObj.fileName.split(".")[1];
       return type === "jpeg" || type === "jpg" ? "jpeg" : "png"; //TODO need to accept all kinds of images. use MIME type
@@ -157,6 +171,37 @@ export default {
     }
   },
   methods: {
+    enableCrop() {
+      if (this.cropEnabled) {
+        // this.$refs.crop.disable();
+        this.$refs.crop.setCropBoxData({
+          top: 0,
+          left: 0,
+          width: this.$refs.crop.getImageData().width,
+          height: this.$refs.crop.getImageData().height
+        });
+      } else {
+        this.$refs.crop.enable();
+      }
+      this.cropEnabled = !this.cropEnabled;
+    },
+    rotate() {
+      this.$refs.crop.rotate(90);
+      this.scaleImage();
+    },
+    scaleImage() {
+      if (this.rotateTracker == 270) {
+        this.rotateTracker = 0;
+      } else {
+        this.rotateTracker += 90;
+      }
+
+      // if ([90, 270].includes(this.rotateTracker)) {
+      //   this.$refs.crop.scale(0.5, 0.5);
+      // } else {
+      //   this.$refs.crop.scale(1, 1);
+      // }
+    },
     imageLoaded() {
       this.loaded = true;
     },

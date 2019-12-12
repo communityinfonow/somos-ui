@@ -29,29 +29,37 @@ const mockData = {
             },
             'photo-file': {
                 href: "http//meFile"
+            },
+            'cropped-photo-file': {
+                href: "http//meFile"
             }
         }
     }
 }
 
-const localVue = createLocalVue()
+const localVue = createLocalVue();
+var vuetify;
+var wrapper;
+beforeAll(() => {
+    vuetify = new Vuetify();
+    wrapper = shallowMount(PhotoThumbnail, {
+        localVue,
+        vuetify,
+        methods: {
+            descriptionBlurHandler: jest.fn()
+        },
+        propsData: {
+            "photoObj": mockData.photo
+        },
+        stubs: {
+            VueCropper: true
+        }
+    });
+
+});
 
 describe("PhotoThumbnail", () => {
-    let vuetify;
-    let wrapper;
-    beforeEach(() => {
-        vuetify = new Vuetify();
-        wrapper = mount(PhotoThumbnail, {
-            localVue,
-            vuetify,
-            methods: {
-                descriptionBlurHandler: jest.fn()
-            },
-            propsData: {
-                "photoObj": mockData.photo
-            }
-        });
-    });
+
 
     test('descriptionInputExists', () => {
         expect(wrapper.contains('#description')).toBe(true);
@@ -69,5 +77,24 @@ describe("PhotoThumbnail", () => {
 
     })
 
-    it('save handler handles not found')
+    test.only('rotating photo scales image properly for display', () => {
+        var wrapper = shallowMount(PhotoThumbnail, {
+            localVue,
+            vuetify,
+            methods: {
+                descriptionBlurHandler: jest.fn()
+            },
+            propsData: {
+                "photoObj": mockData.photo
+            }
+        });
+        wrapper.vm.rotate();
+        expect(wrapper.vm.rotateTracker).toBe(90);
+        wrapper.vm.rotate();
+        expect(wrapper.vm.rotateTracker).toBe(180);
+        wrapper.vm.rotate();
+        expect(wrapper.vm.rotateTracker).toBe(270);
+        wrapper.vm.rotate();
+        expect(wrapper.vm.rotateTracker).toBe(0);
+    })
 })

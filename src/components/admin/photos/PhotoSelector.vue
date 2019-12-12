@@ -32,9 +32,7 @@ export default {
         this.$emit("delete", this.censusTract);
       }
     },
-    refreshPhoto: function(object, event) {
-      console.log(event.target);
-    }
+    refreshPhoto: function(object, event) {}
   }
 };
 </script>
