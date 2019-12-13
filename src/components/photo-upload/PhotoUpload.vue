@@ -7,23 +7,32 @@
         <v-stepper v-model="stepper" :vertical="true" id="stepper">
           <v-stepper-step :step="1" :complete="stepper > 1" :key="`1 - step`">Upload Photo</v-stepper-step>
           <v-stepper-content :key="`1 - content`" :step="1">
-            <v-card class="mb-12" height="height">
-              <PhotoInput />
+            <v-card class="mb-12" height="height" flat>
+              <v-card-text>
+                <PhotoInput :eventBus="eventBus" />
+              </v-card-text>
+              <v-card-actions>
+                <v-btn color="primary" @click="nextStep(1)" block :disabled="photoLoaded">Next</v-btn>
+              </v-card-actions>
             </v-card>
-            <v-btn color="primary" @click="nextStep(1)" block :disabled="photosLoaded">Next</v-btn>
+
             <!-- TODO remove false -->
           </v-stepper-content>
           <v-stepper-step
             :step="2"
             :complete="stepper > 2"
             :key="`2 - step`"
-          >Confirm/Enter Photo Location</v-stepper-step>
+          >{{locationTitlePrepend}} Photo Location</v-stepper-step>
           <v-stepper-content :key="`2 - content`" :step="2">
             <v-card class="mb-12" height="height">
               <AddressSearch></AddressSearch>
-              <GeoMap :location="selectedLocation" />
+              <GeoMap
+                :location="selectedLocation.coordinates"
+                :zoom="mapZoom"
+                :center="selectedLocation.coordinates"
+              />
             </v-card>
-            <v-btn color="primary" @click="nextStep(2)" block>Next</v-btn>
+            <v-btn color="primary" @click="nextStep(2)" block :disabled="!isLocationSelected">Next</v-btn>
           </v-stepper-content>
           <v-stepper-step
             :step="3"
@@ -38,6 +47,7 @@
           </v-stepper-content>
         </v-stepper>
         <v-alert type="success" :value="showComplete">Upload successful</v-alert>
+        <v-btn v-if="showComplete" color="primary" @click="resetUpload" block>Upload Another Photo</v-btn>
       </v-col>
     </v-row>
   </v-container>
@@ -51,6 +61,7 @@ import PhotoInput from "./PhotoInput";
 import { store } from "../../store";
 import PhotoData from "../../api/photo-data";
 import CensusTracts from "../../api/census-tracts";
+import Vue from "vue";
 
 export default {
   name: "PhotoUpload",
@@ -65,7 +76,8 @@ export default {
       storeState: store.state,
       stepper: 1,
       height: "30%",
-      showComplete: false
+      showComplete: false,
+      eventBus: new Vue()
     };
   },
   watch: {},
@@ -73,34 +85,53 @@ export default {
     nextStep(n) {
       this.stepper = n + 1;
     },
+    resetUpload() {
+      this.stepper = 1;
+      store.clearSelectedLocation();
+      this.storeState.photo = null;
+      this.eventBus.$emit("reset");
+      this.showComplete = false;
+    },
     submitUpload() {
       var self = this;
-
-      this.storeState.photos.forEach(photo => {
-        photo.ownerEmail = self.storeState.contactEmail;
-        photo.ownerFirstName = self.storeState.contactFirstName;
-        photo.ownerLastName = self.storeState.contactLastName;
-        photo.gid = self.storeState.selectedLocation.tract.id;
-        delete photo._links; // photo object shouldn't have links sent with it
-        PhotoData.savePhoto(
-          self.storeState.selectedLocation.tract._links.photos.href +
-            "/" +
-            photo.id,
-          photo,
-          () => {
-            this.nextStep(3);
-            this.showComplete = true;
-          }
-        );
-      });
+      var photo = this.storeState.photo;
+      photo.ownerEmail = self.storeState.contactEmail;
+      photo.ownerFirstName = self.storeState.contactFirstName;
+      photo.ownerLastName = self.storeState.contactLastName;
+      photo.gid = self.storeState.selectedLocation.tract.id;
+      photo.description = self.storeState.photoDescription;
+      delete photo._links; // TODO photo object shouldn't have links sent with it
+      PhotoData.savePhoto(
+        self.storeState.selectedLocation.tract._links.photos.href +
+          "/" +
+          photo.id,
+        photo,
+        () => {
+          this.nextStep(3);
+          this.showComplete = true;
+        }
+      );
     }
   },
   computed: {
-    photosLoaded: function() {
-      return this.storeState.photos.length === 0;
+    photoLoaded: function() {
+      return this.storeState.photo === null;
+    },
+    // Whether a location has been selected or not
+    isLocationSelected: function() {
+      return (
+        this.selectedLocation.coordinates.lat &&
+        this.selectedLocation.coordinates.lng
+      );
     },
     selectedLocation: function() {
       return this.storeState.selectedLocation;
+    },
+    locationTitlePrepend: function() {
+      return this.isLocationSelected ? "Confirm" : "Select";
+    },
+    mapZoom: function() {
+      return this.isLocationSelected ? 14 : null;
     }
   },
   created: function() {

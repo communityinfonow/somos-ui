@@ -1,14 +1,22 @@
-//TODO: handle multiple file upload for multiple location at a time. If multiple files have GPS data, we'll need a way to confirm coordinates and census tract for each one.
 <template>
   <div>
-    <v-file-input
-      multiple
-      accept="image/*"
-      label="Upload Image(s)"
-      v-on:change="fileSelected"
-      prepend-icon="mdi-camera"
-      :loading="loading"
-    ></v-file-input>
+    <v-form ref="form">
+      <v-file-input
+        accept="image/*"
+        label="Upload Image"
+        v-on:change="fileSelected"
+        prepend-icon="mdi-camera"
+        ref="fileInput"
+      ></v-file-input>
+      <v-progress-linear :active="loading" :value="progressValue"></v-progress-linear>
+      <v-textarea
+        label="Description of photo"
+        name="name"
+        placeholder="Please describe the contents of the photo"
+        textarea
+        v-model="description"
+      ></v-textarea>
+    </v-form>
   </div>
 </template>
 
@@ -17,24 +25,35 @@ import { store } from "../../store";
 import PhotoData from "../../api/photo-data";
 export default {
   name: "PhotoInput",
+  props: ["eventBus"],
+  watch: {
+    description: function(newDescription) {
+      store.setPhotoDescription(newDescription);
+    }
+  },
   methods: {
-    fileSelected(event) {
-      this.photos = event.map(file => {
-        return { file: file, location: null };
-      });
-      this.savePhotoInformation(this.photos.map(photo => photo.file));
+    reset() {
+      this.photo = null;
+      this.$refs.form.reset();
+      store.setPhotoDescription(null);
+    },
+    fileSelected(file) {
+      this.photo = { file: file, location: null };
+      this.savePhotoInformation(this.photo.file);
+    },
+    progressMethod(event) {
+      this.progressValue = Math.round((event.loaded / event.total) * 100);
+      console.log(this.$refs.fileInput);
     },
     clickHandler() {
       document.getElementById("photo-select").click();
     },
-    savePhotoInformation(photos) {
+    savePhotoInformation(photo) {
       this.loading = true;
-      PhotoData.savePhotoInformation(photos, data => {
-        store.setPhotos(data);
+      PhotoData.savePhotoInformation(photo, this.progressMethod, data => {
+        store.setPhoto(data);
         this.loading = false;
-        data.forEach(photo => {
-          this.getGPSMetadata(photo._links["gps-coordinates"].href);
-        });
+        this.getGPSMetadata(data._links["gps-coordinates"].href);
       });
     },
     getGPSMetadata(url) {
@@ -42,20 +61,23 @@ export default {
         store.setSelectedLocation({
           coordinates: { lat: coordinates.lat, lng: coordinates.lng }
         });
-        this.photos.forEach(photo => {
-          photo.location = {
-            coordinates: { lat: coordinates.lat, lng: coordinates.lng }
-          };
-        });
+
+        this.photo.location = {
+          coordinates: { lat: coordinates.lat, lng: coordinates.lng }
+        };
       });
-    },
-    updateFiles() {}
+    }
   },
   data() {
     return {
-      photos: [],
-      loading: false
+      photo: null,
+      loading: false,
+      description: null,
+      progressValue: 0
     };
+  },
+  created() {
+    this.eventBus.$on("reset", this.reset);
   }
 };
 </script>

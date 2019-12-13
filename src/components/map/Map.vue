@@ -1,10 +1,15 @@
 <template>
-  <l-map id="map" ref="map" :center="center" :zoom="zoom" @click="clicker" @ready="loadListener">
+  <l-map
+    id="map"
+    ref="map"
+    :center="mapCenter"
+    :zoom="mapZoom"
+    @click="clicker"
+    @ready="loadListener"
+  >
     <l-tile-layer :url="tileUrl"></l-tile-layer>
-    <span
-      v-if="location && location.coordinates && location.coordinates.lat && location.coordinates.lng"
-    >
-      <l-marker :lat-lng="location.coordinates" :visible="location.coordinates !== center">
+    <span v-if="location  && location.lat && location.lng">
+      <l-marker :lat-lng="location">
         <l-icon :icon-url="iconUrl" :icon-size="iconSize" :icon-anchor="iconAnchor"></l-icon>
       </l-marker>
     </span>
@@ -39,17 +44,17 @@ export default {
   data() {
     return {
       map: {},
-      center: [29.437236, -98.491163],
+      defaultCenter: [29.437236, -98.491163],
       tileUrl:
         "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png",
-      zoom: 10,
+      defaultZoom: 10,
       iconUrl: "./assets/map-marker.png",
       iconSize: [25, 41],
       geoJson: {},
       storeState: store.state
     };
   },
-  props: ["location"],
+  props: ["location", "zoom", "center"],
   methods: {
     loadListener: function(e) {
       if (!e.hasLayer(this.boundaries)) {
@@ -80,7 +85,7 @@ export default {
   watch: {
     location: function(theLocation) {
       store.setSelectedLocationTract(
-        this.findContainingTractByBoundaries(theLocation.coordinates) // TODO: handle null
+        this.findContainingTractByBoundaries(theLocation) // TODO: handle null
       );
     },
     boundaries: function(newBoundaries) {
@@ -93,6 +98,14 @@ export default {
     },
     boundaries: function() {
       return boundaries.generate(this.storeState.censusTracts);
+    },
+    mapZoom: function() {
+      return this.zoom || this.defaultZoom;
+    },
+    mapCenter: function() {
+      return this.center.lat && this.center.lng
+        ? this.center
+        : this.defaultCenter;
     }
   }
 };

@@ -6,15 +6,8 @@ const GET_URL = process.env.VUE_APP_API_DOMAIN + "/photos"
  * 
  */
 //  TODO: wanted to take out these simples uses of axios but it might be good to keep a namespace for specific error handling.
-function createForm(files) {
-    var formData = new FormData();
-    files.forEach((file) => {
-        formData.append("photos", file);
-    });
-    return formData;
-}
 
-function createFormSingle(file) {
+function createForm(file) {
     var formData = new FormData();
     formData.append("photo", file);
     return formData;
@@ -26,19 +19,22 @@ export default {
             callback(response.data)
         });
     },
-    savePhotoInformation(files, callback) {
+    savePhotoInformation(files, progressCallback, callback) {
         axios.post(process.env.VUE_APP_API_DOMAIN + "/photos/",
             createForm(files), {
                 headers: {
                     'Content-Type': 'multipart/form-data'
+                },
+                onUploadProgress: (progressEvent) => {
+                    progressCallback(progressEvent);
                 }
             }
         ).then(response => {
-            callback(response.data._embedded.photoDtoes);
+            callback(response.data);
         })
     },
     replacePhoto(url, file, callback) {
-        axios.post(url, createFormSingle(file), {
+        axios.post(url, createForm(file), {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
