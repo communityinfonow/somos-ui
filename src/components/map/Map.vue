@@ -103,7 +103,7 @@ export default {
       return this.zoom || this.defaultZoom;
     },
     mapCenter: function() {
-      return this.center.lat && this.center.lng
+      return this.center && this.center.lat && this.center.lng
         ? this.center
         : this.defaultCenter;
     }

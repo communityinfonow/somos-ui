@@ -61,6 +61,7 @@ import PhotoInput from "./PhotoInput";
 import { store } from "../../store";
 import PhotoData from "../../api/photo-data";
 import CensusTracts from "../../api/census-tracts";
+import { appLinks } from "../../mixins/app-links";
 import Vue from "vue";
 
 export default {
@@ -80,7 +81,14 @@ export default {
       eventBus: new Vue()
     };
   },
-  watch: {},
+  mixins: [appLinks],
+  watch: {
+    appLinks: function(newLinks) {
+      CensusTracts.get(newLinks.censusTracts.href, response => {
+        store.setCensusTracts(response);
+      });
+    }
+  },
   methods: {
     nextStep(n) {
       this.stepper = n + 1;
@@ -133,11 +141,6 @@ export default {
     mapZoom: function() {
       return this.isLocationSelected ? 14 : null;
     }
-  },
-  created: function() {
-    CensusTracts.get(response => {
-      store.setCensusTracts(response);
-    });
   }
 };
 </script>

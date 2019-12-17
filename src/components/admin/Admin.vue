@@ -28,6 +28,7 @@
 import PhotoSelector from "./photos/PhotoSelector";
 import { store } from "../../store";
 import PhotoData from "../../api/photo-data";
+import { appLinks } from "../../mixins/app-links";
 export default {
   name: "Admin",
   data() {
@@ -46,12 +47,16 @@ export default {
   components: {
     PhotoSelector
   },
-  created: function() {
-    PhotoData.get(response => {
-      this.photos = response;
-      //TODO: error handling
-    });
+  mixins: [appLinks],
+  watch: {
+    appLinks: function(newLinks) {
+      PhotoData.get(newLinks.photos.href, response => {
+        this.photos = response;
+        //TODO: error handling
+      });
+    }
   },
+
   computed: {
     filteredPhotos: function() {
       var map = new Map();

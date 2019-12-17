@@ -1,6 +1,5 @@
 import * as axios from "axios";
 
-const GET_URL = process.env.VUE_APP_API_DOMAIN + "/photos"
 /**
  * Generates form from selected files
  * 
@@ -19,9 +18,9 @@ export default {
             callback(response.data)
         });
     },
-    savePhotoInformation(files, progressCallback, callback) {
-        axios.post(process.env.VUE_APP_API_DOMAIN + "/photos/",
-            createForm(files), {
+    savePhotoInformation(url, file, progressCallback) {
+        return axios.post(url,
+            createForm(file), {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 },
@@ -29,9 +28,7 @@ export default {
                     progressCallback(progressEvent);
                 }
             }
-        ).then(response => {
-            callback(response.data);
-        })
+        );
     },
     replacePhoto(url, file, callback) {
         axios.post(url, createForm(file), {
@@ -48,8 +45,8 @@ export default {
         });
     },
 
-    get(callback) {
-        axios.get(GET_URL).then(response => {
+    get(url, callback) {
+        axios.get(url).then(response => {
             callback(response.data._embedded.photoAdminDtoes);
         });
     },

@@ -1,8 +1,7 @@
 import {
-    location,
-    coordinates
-}
-from "./Location";
+    coordinates,
+    location
+} from "./Location";
 
 export const store = {
     state: {
@@ -18,10 +17,14 @@ export const store = {
         censusTracts: [],
         boundaries: [],
         dataFeatures: [],
-        photoDescription: null
+        photoDescription: null,
+        appLinks: null
     },
     clearSearchString() {
         this.state.addressSearchString = null;
+    },
+    setAppLinks(appLinks) {
+        this.state.appLinks = appLinks
     },
     updateSearchString(input) {
         this.state.addressSearchString = input;

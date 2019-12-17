@@ -7,14 +7,19 @@
         v-on:change="fileSelected"
         prepend-icon="mdi-camera"
         ref="fileInput"
+        v-show="!loading"
+        :error-messages="errorMessage"
       ></v-file-input>
-      <v-progress-linear :active="loading" :value="progressValue"></v-progress-linear>
+      <v-progress-linear :active="loading" :value="progressValue" height="25" striped rounded>
+        <strong>Uploading...</strong>
+      </v-progress-linear>
       <v-textarea
-        label="Description of photo"
+        label="Photo Description"
         name="name"
         placeholder="Please describe the contents of the photo"
         textarea
         v-model="description"
+        class="mt-10"
       ></v-textarea>
     </v-form>
   </div>
@@ -49,12 +54,30 @@ export default {
       document.getElementById("photo-select").click();
     },
     savePhotoInformation(photo) {
-      this.loading = true;
-      PhotoData.savePhotoInformation(photo, this.progressMethod, data => {
-        store.setPhoto(data);
-        this.loading = false;
-        this.getGPSMetadata(data._links["gps-coordinates"].href);
-      });
+      if (!photo.type.includes("image")) {
+        this.errorMessage = "Please upload an image file type";
+      } else if (photo.size > this.supportedMaxFileSize * 1048576) {
+        // convert MB to bytes
+        this.errorMessage =
+          "Please limit image size to " + this.supportedMaxFileSize + "MB";
+      } else {
+        this.loading = true;
+        PhotoData.savePhotoInformation(
+          this.storeState.photo,
+          photo,
+          this.progressMethod
+        )
+          .then(response => {
+            store.setPhoto(response.data);
+            this.getGPSMetadata(response.data._links["gps-coordinates"].href);
+          })
+          .catch(error => {
+            this.errorMessage = error;
+          })
+          .finally(() => {
+            this.loading = false;
+          });
+      }
     },
     getGPSMetadata(url) {
       PhotoData.getMetadata(url, coordinates => {
@@ -73,7 +96,11 @@ export default {
       photo: null,
       loading: false,
       description: null,
-      progressValue: 0
+      progressValue: 0,
+      errorMessage: null,
+      supportedFileTypes: ["jpeg, jpg, png", "tif", "tiff"],
+      supportedMaxFileSize: 15,
+      storeState: store.state
     };
   },
   created() {
