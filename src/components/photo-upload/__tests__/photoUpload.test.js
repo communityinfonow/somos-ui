@@ -43,7 +43,7 @@ describe("PhotoUpload", () => {
         const wrapper = shallowMount(PhotoUpload);
         wrapper.setData(storeState);
         wrapper.vm.submitUpload();
-        const photo = storeState.storeState.photos[0];
+        const photo = storeState.storeState.photo;
         const path = "/photos/1";
         expect(photoData.savePhoto).toBeCalledWith(path, photo, expect.anything());
 

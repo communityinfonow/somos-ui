@@ -1,8 +1,7 @@
 import {
-    location,
-    coordinates
-}
-from "./Location";
+    coordinates,
+    location
+} from "./Location";
 
 export const store = {
     state: {
@@ -14,13 +13,18 @@ export const store = {
         contactFirstName: null,
         contactLastName: null,
         contactEmail: null,
-        photos: [],
+        photo: null,
         censusTracts: [],
         boundaries: [],
-        dataFeatures: []
+        dataFeatures: [],
+        photoDescription: null,
+        appLinks: null
     },
     clearSearchString() {
         this.state.addressSearchString = null;
+    },
+    setAppLinks(appLinks) {
+        this.state.appLinks = appLinks
     },
     updateSearchString(input) {
         this.state.addressSearchString = input;
@@ -34,6 +38,12 @@ export const store = {
     setSelectedLocation(location) {
         this.state.selectedLocation = location;
     },
+    setPhotoDescription(photoDescription) {
+        this.state.photoDescription = photoDescription;
+    },
+    clearSelectedLocation() {
+        this.state.selectedLocation = new location(null, null, new coordinates(null, null));
+    },
     setSelectedLocationTract(tract) {
         this.state.selectedLocation.tract = tract;
     },
@@ -46,8 +56,8 @@ export const store = {
     setContactEmail(email) {
         this.state.contactLastName = email;
     },
-    setPhotos(photos) {
-        this.state.photos = photos;
+    setPhoto(photo) {
+        this.state.photo = photo;
     },
     setSearchResults(results) {
         this.state.searchResults = results;
