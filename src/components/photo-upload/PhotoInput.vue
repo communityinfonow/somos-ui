@@ -48,7 +48,6 @@ export default {
     },
     progressMethod(event) {
       this.progressValue = Math.round((event.loaded / event.total) * 100);
-      console.log(this.$refs.fileInput);
     },
     clickHandler() {
       document.getElementById("photo-select").click();
