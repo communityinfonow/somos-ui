@@ -28,6 +28,7 @@
 <script>
 import { store } from "../../store";
 import PhotoData from "../../api/photo-data";
+import { appLinks } from "../../mixins/app-links";
 export default {
   name: "PhotoInput",
   props: ["eventBus"],
@@ -36,6 +37,7 @@ export default {
       store.setPhotoDescription(newDescription);
     }
   },
+  mixins: [appLinks],
   methods: {
     reset() {
       this.photo = null;
@@ -62,7 +64,7 @@ export default {
       } else {
         this.loading = true;
         PhotoData.savePhotoInformation(
-          this.storeState.photo,
+          this.appLinks.photos.href,
           photo,
           this.progressMethod
         )

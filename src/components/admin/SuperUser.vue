@@ -3,7 +3,7 @@
     <v-data-table :items="users" :headers="headers" item-key="id" hide-default-footer>
       <template v-slot:top>
         <v-toolbar flat>
-          <v-title>Users</v-title>
+          <v-toolbar-title>Users</v-toolbar-title>
 
           <v-spacer></v-spacer>
 
@@ -52,8 +52,8 @@
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="primary" flat @click="closeDialog">Close</v-btn>
-                <v-btn color="primary" flat @click="saveItem" :disabled="!valid">Confirm</v-btn>
+                <v-btn color="primary" text @click="closeDialog">Close</v-btn>
+                <v-btn color="primary" text @click="saveItem" :disabled="!valid">Confirm</v-btn>
               </v-card-actions>
             </v-card>
           </v-dialog>
