@@ -54,7 +54,7 @@ export const store = {
         this.state.contactLastName = lastName;
     },
     setContactEmail(email) {
-        this.state.contactLastName = email;
+        this.state.contactEmail = email;
     },
     setPhoto(photo) {
         this.state.photo = photo;
