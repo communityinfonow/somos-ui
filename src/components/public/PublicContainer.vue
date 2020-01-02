@@ -1,19 +1,18 @@
 <template>
-  <v-container>
-    <splash />
-  </v-container>
+  <div id="public-container">
+    <v-container>
+      <PhotoUpload />
+    </v-container>
+  </div>
 </template>
 
 <script>
-import Splash from "./splash/Splash";
-// import meetYourNeighbors from "./meetYourNeighbors";
-// import communityCounterpart from "./communityCounterpart";
-// import disparity from "./disparity";
-// import explore from "./explore";
+import PhotoUpload from "./shared/photo-upload/PhotoUpload";
+
 export default {
   name: "PublicContainer",
   components: {
-    Splash
+    PhotoUpload
   },
   data() {
     return {};
@@ -24,11 +23,25 @@ export default {
 
 <style lang="scss">
 @import url("https://fonts.googleapis.com/css?family=Bebas+Neue&display=swap");
-@import url("https://fonts.googleapis.com/css?family=Montserrat&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,700&display=swap");
+
+#public-container {
+  background-image: linear-gradient(
+    90deg,
+    $main-light-blue,
+    $main-light-blue 50%,
+    $main-dark-blue 50%
+  );
+  height: 100%;
+}
 
 @media (min-width: 1904px) {
   .container {
     max-width: 1185px !important;
   }
+}
+
+html {
+  overflow-y: hidden;
 }
 </style>

@@ -18,12 +18,12 @@
 
 <script>
 import { LMap, LTileLayer, LControl, LMarker, LIcon } from "vue2-leaflet";
-import { store } from "../../store";
+import { store } from "../../../../store";
 import * as leafletPip from "@mapbox/leaflet-pip";
 
 import Legend from "./Legend";
 import MarkerTooltip from "./MarkerTooltip";
-import { boundaries } from "./Boundaries.js";
+import boundaries from "./Boundaries.js";
 
 export default {
   name: "GeoMap",
@@ -54,7 +54,7 @@ export default {
       storeState: store.state
     };
   },
-  props: ["location", "zoom", "center"],
+  props: ["location", "zoom", "center", "display"],
   methods: {
     loadListener: function(e) {
       if (!e.hasLayer(this.boundaries)) {
@@ -74,7 +74,7 @@ export default {
       );
       if (containingGeographies.length == 1) {
         var layer = containingGeographies[0];
-        boundaries.setSelectedStyle(layer);
+        boundaries().setSelectedStyle(layer);
         return layer.feature.properties;
       } else {
         //TODO: return an error
@@ -97,7 +97,7 @@ export default {
       return [this.iconSize[0] / 2, this.iconSize[1]];
     },
     boundaries: function() {
-      return boundaries.generate(this.storeState.censusTracts);
+      return boundaries(false).generate(this.storeState.censusTracts);
     },
     mapZoom: function() {
       return this.zoom || this.defaultZoom;

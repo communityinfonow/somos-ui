@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Map from "./components/map/Map";
+import Map from "./components/public/shared/map/Map";
 import { store } from "./store";
 import CensusTracts from "./api/census-tracts";
 import { appLinks } from "./mixins/app-links";

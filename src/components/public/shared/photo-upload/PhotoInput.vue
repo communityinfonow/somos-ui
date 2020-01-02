@@ -5,10 +5,13 @@
         accept="image/*"
         label="Upload Image"
         v-on:change="fileSelected"
-        prepend-icon="mdi-camera"
+        prepend-inner-icon="mdi-image"
+        prepend-icon
+        dense
         ref="fileInput"
         v-show="!loading"
         :error-messages="errorMessage"
+        filled
       ></v-file-input>
       <v-progress-linear :active="loading" :value="progressValue" height="25" striped rounded>
         <strong>Uploading...</strong>
@@ -16,22 +19,22 @@
       <v-textarea
         label="Photo Description"
         name="name"
-        placeholder="Please describe the contents of the photo"
+        placeholder="Please describe the contents of the photo (not required)"
         textarea
         v-model="description"
         class="mt-10"
+        v-show="!!photo && !loading"
       ></v-textarea>
     </v-form>
   </div>
 </template>
 
 <script>
-import { store } from "../../store";
-import PhotoData from "../../api/photo-data";
-import { appLinks } from "../../mixins/app-links";
+import { store } from "../../../../store";
+import PhotoData from "../../../../api/photo-data";
+import { appLinks } from "../../../../mixins/app-links";
 export default {
   name: "PhotoInput",
-  props: ["eventBus"],
   watch: {
     description: function(newDescription) {
       store.setPhotoDescription(newDescription);
@@ -45,8 +48,10 @@ export default {
       store.setPhotoDescription(null);
     },
     fileSelected(file) {
-      this.photo = { file: file, location: null };
-      this.savePhotoInformation(this.photo.file);
+      if (file != undefined) {
+        this.photo = { file: file, location: null };
+        this.savePhotoInformation(this.photo.file);
+      }
     },
     progressMethod(event) {
       this.progressValue = Math.round((event.loaded / event.total) * 100);
@@ -103,9 +108,6 @@ export default {
       supportedMaxFileSize: 15,
       storeState: store.state
     };
-  },
-  created() {
-    this.eventBus.$on("reset", this.reset);
   }
 };
 </script>

@@ -6,16 +6,13 @@
 </template>
 
 <script>
-import PhotoUpload from "./components/photo-upload/PhotoUpload";
-import { store } from "./store";
 import publicContainer from "./components/public/PublicContainer";
-import AdminContainer from "./components/admin/AdminContainer";
+// import AdminContainer from "./components/admin/AdminContainer";
 
 export default {
   name: "app",
   components: {
-    PhotoUpload,
-    AdminContainer,
+    // AdminContainer,
     publicContainer
   }
 };

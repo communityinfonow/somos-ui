@@ -2,10 +2,10 @@
 <template>
   <div>
     <v-row>
-      <v-col :lg="2" justify-self="end">
+      <v-col lg="3" sm="5" cols="12" justify-self="end">
         <address-type-selector></address-type-selector>
       </v-col>
-      <v-col :lg="10">
+      <v-col lg="9" sm="7" cols="12">
         <span id="input-results">
           <AddressInput :loading="loading" />
         </span>

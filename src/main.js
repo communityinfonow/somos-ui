@@ -25,6 +25,8 @@ Icon.Default.mergeOptions({
 
 Vue.config.productionTip = false
 
+
+
 new Vue({
   router,
   vuetify,

@@ -1,28 +1,26 @@
 import {
   LGeoJson
 } from "vue2-leaflet";
-import {
-  store
-} from "../../store";
+
 
 var geojson = {};
 
-function style(feature) {
+var displayBoundaries = 1;
+
+function style() {
   return {
     weight: 1,
-    opacity: 1,
-    color: "black",
-    fillOpacity: 0.05,
-    fillColor: "blue"
+    opacity: displayBoundaries,
+    color: "black"
   };
 }
 
 function highlightFeature(e) {
   var layer = e.target;
 
-  layer.setStyle({
-    fillOpacity: 0.2
-  });
+  // layer.setStyle({
+  //   fillOpacity: 0.2
+  // });
 
   if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
     layer.bringToFront();
@@ -30,13 +28,17 @@ function highlightFeature(e) {
 }
 
 function resetHighlight(e) {
-  e.target.setStyle(style());
+  // e.target.setStyle(style());
 }
 
 function onEachFeature(feature, layer) {
   layer.on({
     mouseover: highlightFeature,
     mouseout: resetHighlight
+  });
+
+  layer.setStyle({
+    fillOpacity: displayBoundaries ? 0.2 : 0
   });
 }
 
@@ -50,22 +52,30 @@ function convertTractToGeoJson(tract) {
   return feature;
 }
 
-export const boundaries = {
-  generate: function (censusTracts) {
-    geojson = L.geoJSON(
-      censusTracts.map(tract =>
-        convertTractToGeoJson(tract)
-      ), {
-        style: style,
-        onEachFeature: onEachFeature
-      }
-    );
-    return geojson;
-  },
-  setSelectedStyle: function (layer) {
-    layer.setStyle({
-      weight: 4
-    });
+/**
+ * Optional display param is useful for cases where the census tracts need to be used for 
+ * location data but the boundaries aren't needed for the end user.
+ * @param display whether to display the boundaries or not. 
+ */
+export default function (display) {
+  displayBoundaries = display ? 1 : 0;
+  return {
+    generate: function (censusTracts) {
+      geojson = L.geoJSON(
+        censusTracts.map(tract =>
+          convertTractToGeoJson(tract)
+        ), {
+          style: style,
+          onEachFeature: onEachFeature
+        }
+      );
+      return geojson;
+    },
+    setSelectedStyle: function (layer) {
+      layer.setStyle({
+        weight: 4
+      });
+    }
   }
 
 };
