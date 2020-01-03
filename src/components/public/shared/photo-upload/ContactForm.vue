@@ -1,23 +1,22 @@
 /** Contact form for folks to enter personal information when submitting photos */
 <template>
   <div>
-    <v-form>
-      <v-container>
-        <v-row>
-          <v-col cols="12" md="4">
-            <v-text-field v-model="firstName" :rules="nameRules" :counter="15" label="First name"></v-text-field>
-          </v-col>
+    <v-container>
+      <v-row>
+        <v-col cols="12" md="4">
+          <v-text-field v-model="firstName" :rules="nameRules" :counter="15" label="First name"></v-text-field>
+        </v-col>
 
-          <v-col cols="12" md="4">
-            <v-text-field v-model="lastName" :rules="nameRules" :counter="15" label="Last name"></v-text-field>
-          </v-col>
+        <v-col cols="12" md="4">
+          <v-text-field v-model="lastName" :rules="nameRules" :counter="15" label="Last name"></v-text-field>
+        </v-col>
 
-          <v-col cols="12" md="4">
-            <v-text-field v-model="emailAddress" :rules="emailRules" label="E-mail"></v-text-field>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-form>
+        <v-col cols="12" md="4">
+          <v-text-field v-model="emailAddress" :rules="emailRules" label="E-mail"></v-text-field>
+        </v-col>
+      </v-row>
+    </v-container>
+
     <!-- TODO: note about collection on data w/ link to terms of service -->
   </div>
 </template>

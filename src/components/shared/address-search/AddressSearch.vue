@@ -2,7 +2,7 @@
 <template>
   <div>
     <v-row>
-      <v-col lg="3" sm="5" cols="12" justify-self="end">
+      <v-col lg="3" sm="5" cols="12" justify-self="end" id="address-type-selector">
         <address-type-selector></address-type-selector>
       </v-col>
       <v-col lg="9" sm="7" cols="12">
@@ -60,6 +60,21 @@ export default {
             )
         )
       );
+    },
+    modifyVuetifyElementsForAccesibility: function() {
+      document
+        .getElementById("input-results")
+        .querySelectorAll('[role="combobox"]')
+        .forEach(combobox => {
+          combobox.setAttribute("aria-label", "location search and results");
+        });
+      document
+        .getElementById("address-type-selector")
+        .querySelectorAll('[role="radiogroup"]')
+        .forEach(radiogroup => {
+          radiogroup.removeAttribute("aria-labelledby");
+          radiogroup.setAttribute("aria-label", "location type selector");
+        });
     }
   },
   watch: {
@@ -77,6 +92,9 @@ export default {
         );
       }
     }
+  },
+  mounted() {
+    this.modifyVuetifyElementsForAccesibility();
   }
 };
 </script>
