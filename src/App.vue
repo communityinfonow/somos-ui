@@ -1,49 +1,28 @@
 <template>
   <v-app id="app">
-    <v-container>
-      <v-row justify="center">
-        <v-btn-toggle multiple>
-          <v-btn>
-            <router-link to="/map">Map</router-link>
-          </v-btn>
-          <v-btn>
-            <router-link to="/photo-upload">Photo uploader</router-link>
-          </v-btn>
-        </v-btn-toggle>
-      </v-row>
-      <v-row>
-        <transition name="fade">
-          <router-view></router-view>
-        </transition>
-      </v-row>
-    </v-container>
+    <publicContainer />
+    <!-- <AdminContainer /> -->
   </v-app>
 </template>
 
 <script>
-import PhotoUpload from "./components/photo-upload/PhotoUpload";
-import { store } from "./store";
-import CensusTracts from "./api/census-tracts";
+import publicContainer from "./components/public/PublicContainer";
+// import AdminContainer from "./components/admin/AdminContainer";
 
 export default {
   name: "app",
   components: {
-    PhotoUpload
-  },
-  created: function() {
-    CensusTracts.get(response => {
-      store.setCensusTracts(response);
-    });
+    // AdminContainer,
+    publicContainer
   }
 };
 </script>
 
-<style scoped>
+<style lang="scss">
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
   /* margin-top: 60px; */
 }
@@ -59,5 +38,16 @@ export default {
 .fade-enter,
 .fade-leave-to {
   opacity: 0;
+}
+
+.main-text {
+  color: $main-dark-blue;
+}
+
+.main-btn {
+  background-color: $main-dark-blue;
+}
+.secondary-text {
+  color: $main-light-blue;
 }
 </style>

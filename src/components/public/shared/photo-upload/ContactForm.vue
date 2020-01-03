@@ -23,8 +23,7 @@
 </template>
 
 <script>
-import TextInput from "../shared/TextInput";
-import { store } from "../../store";
+import { store } from "../../../../store";
 export default {
   name: "ContactForm",
   data() {
@@ -38,9 +37,7 @@ export default {
       emailRules: [v => /.+@.+/.test(v) || "E-mail must be valid"]
     };
   },
-  components: {
-    TextInput
-  },
+  components: {},
   watch: {
     firstName: function(newName) {
       store.setContactFirstName(newName);

@@ -1,10 +1,15 @@
 <template>
-  <l-map id="map" ref="map" :center="center" :zoom="zoom" @click="clicker">
+  <l-map
+    id="map"
+    ref="map"
+    :center="mapCenter"
+    :zoom="mapZoom"
+    @click="clicker"
+    @ready="loadListener"
+  >
     <l-tile-layer :url="tileUrl"></l-tile-layer>
-    <span
-      v-if="location && location.coordinates && location.coordinates.lat && location.coordinates.lng"
-    >
-      <l-marker :lat-lng="location.coordinates" :visible="location.coordinates !== center">
+    <span v-if="location  && location.lat && location.lng">
+      <l-marker :lat-lng="location">
         <l-icon :icon-url="iconUrl" :icon-size="iconSize" :icon-anchor="iconAnchor"></l-icon>
       </l-marker>
     </span>
@@ -13,12 +18,12 @@
 
 <script>
 import { LMap, LTileLayer, LControl, LMarker, LIcon } from "vue2-leaflet";
-import { store } from "../../store";
+import { store } from "../../../../store";
 import * as leafletPip from "@mapbox/leaflet-pip";
 
 import Legend from "./Legend";
 import MarkerTooltip from "./MarkerTooltip";
-import { boundaries } from "./Boundaries.js";
+import boundaries from "./Boundaries.js";
 
 export default {
   name: "GeoMap",
@@ -36,22 +41,26 @@ export default {
       this.map = this.$refs.map.mapObject;
     });
   },
-  created() {},
   data() {
     return {
       map: {},
-      center: [29.437236, -98.491163],
+      defaultCenter: [29.437236, -98.491163],
       tileUrl:
         "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png",
-      zoom: 10,
+      defaultZoom: 10,
       iconUrl: "./assets/map-marker.png",
       iconSize: [25, 41],
       geoJson: {},
       storeState: store.state
     };
   },
-  props: ["location"],
+  props: ["location", "zoom", "center", "display"],
   methods: {
+    loadListener: function(e) {
+      if (!e.hasLayer(this.boundaries)) {
+        this.boundaries.addTo(e);
+      }
+    },
     clicker: function(event) {
       store.setSelectedLocation({
         //TODO: unit test to make sure object always has same structure of {lat,lng}
@@ -65,7 +74,7 @@ export default {
       );
       if (containingGeographies.length == 1) {
         var layer = containingGeographies[0];
-        boundaries.setSelectedStyle(layer);
+        boundaries().setSelectedStyle(layer);
         return layer.feature.properties;
       } else {
         //TODO: return an error
@@ -76,7 +85,7 @@ export default {
   watch: {
     location: function(theLocation) {
       store.setSelectedLocationTract(
-        this.findContainingTractByBoundaries(theLocation.coordinates) // TODO: handle null
+        this.findContainingTractByBoundaries(theLocation) // TODO: handle null
       );
     },
     boundaries: function(newBoundaries) {
@@ -88,7 +97,15 @@ export default {
       return [this.iconSize[0] / 2, this.iconSize[1]];
     },
     boundaries: function() {
-      return boundaries.generate(this.storeState.censusTracts);
+      return boundaries(false).generate(this.storeState.censusTracts);
+    },
+    mapZoom: function() {
+      return this.zoom || this.defaultZoom;
+    },
+    mapCenter: function() {
+      return this.center && this.center.lat && this.center.lng
+        ? this.center
+        : this.defaultCenter;
     }
   }
 };

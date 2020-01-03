@@ -1,7 +1,8 @@
 jest.mock("../../../api/photo-data", () => ({
     savePhoto: jest.fn()
 }));
-
+import Vue from "vue";
+import Vuetify from "vuetify";
 import {
     mount,
     shallowMount
@@ -11,37 +12,40 @@ import photoData from "../../../api/photo-data";
 import {
     store
 } from "../../../store";
-
+Vue.use(Vuetify);
 const storeState = {
     storeState: {
         selectedLocation: {
             coordinates: {},
             tract: {
-                links: [{
-                    rel: "photos",
-                    href: "/photos"
-                }]
+                _links: {
+                    "photos": {
+                        href: "/photos"
+                    }
+
+                }
             },
             name: null
         },
         photos: [{
             ownerEmail: "email",
             ownerFirstName: "first",
-            ownerLastName: "last"
+            ownerLastName: "last",
+            id: 1
         }]
 
     }
 };
 
-describe("PhotUpload", () => {
+describe("PhotoUpload", () => {
 
     test('submits proper form', () => {
         const wrapper = shallowMount(PhotoUpload);
         wrapper.setData(storeState);
         wrapper.vm.submitUpload();
-        const photo = storeState.storeState.photos[0];
-        const path = "/photos";
-        expect(photoData.savePhoto).toBeCalledWith(path, photo, () => {});
+        const photo = storeState.storeState.photo;
+        const path = "/photos/1";
+        expect(photoData.savePhoto).toBeCalledWith(path, photo, expect.anything());
 
     });
 })

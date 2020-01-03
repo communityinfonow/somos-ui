@@ -12,22 +12,22 @@
     v-model="selected"
     no-filter
     :loading="loading"
+    filled
+    dense
   ></v-autocomplete>
 </template>
 
 <script>
 import { keyTracking } from "../../mixins/key-tracking";
 import { store } from "../../store";
-import TextInput from "./TextInput";
+
 export default {
   name: "AddressInput",
   data() {
     return { text: "", selected: null, storeState: store.state };
   },
   props: ["loading"],
-  components: {
-    TextInput
-  },
+  components: {},
   mixins: [keyTracking],
   watch: {
     isDoneTyping: function(isDone) {
