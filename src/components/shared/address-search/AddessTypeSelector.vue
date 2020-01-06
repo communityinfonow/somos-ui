@@ -1,6 +1,7 @@
 /** Address or Place searching */
 <template>
   <v-radio-group v-model="selected" row dense>
+    <!-- <template v-slot:label :hidden="true">location type selector</template> -->
     <v-radio label="Address" value="address" :color="mainDarkBlue"></v-radio>
     <v-radio label="Place" value="place" :color="mainDarkBlue"></v-radio>
   </v-radio-group>

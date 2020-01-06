@@ -5,13 +5,18 @@
     <v-row align-center justify-center>
       <v-col cols="12" id="photo-upload-content" class="elevation-2">
         <v-stepper v-model="stepper" :vertical="true" id="stepper" class="elevation-0">
-          <div id="stepper-header" class="mb-4">Share Your Photos</div>
+          <div id="stepper-header" class="mb-4" role="heading" aria-level="1">Share Your Photos</div>
           <p
             id="stepper-description"
           >Share your neighborhood photos with the rest of San Antonio. Our shared story begins here.</p>
 
           <v-stepper-step :step="1" :complete="stepper > 1" :key="`1 - step`" :color="stepperColor">
-            <span class="upload-step-label" :class="determineStepperTextActive(1)">Upload Photo</span>
+            <span
+              class="upload-step-label"
+              :class="determineStepperTextActive(1)"
+              role="heading"
+              aria-level="2"
+            >Upload Photo</span>
           </v-stepper-step>
           <v-stepper-content :key="`1 - content`" :step="1">
             <v-card height="height" flat>
@@ -29,6 +34,8 @@
             <span
               class="upload-step-label"
               :class="determineStepperTextActive(2)"
+              role="heading"
+              aria-level="2"
             >{{locationTitlePrepend}} Photo Location</span>
           </v-stepper-step>
           <v-stepper-content :key="`2 - content`" :step="2">
@@ -51,6 +58,8 @@
             <span
               class="upload-step-label"
               :class="determineStepperTextActive(3)"
+              role="heading"
+              aria-level="2"
             >Enter Contact Information (not required)</span>
           </v-stepper-step>
           <v-stepper-content :key="`3 - content`" :step="3">
@@ -59,6 +68,7 @@
                 <ContactForm></ContactForm>
               </v-card-text>
               <v-card-actions>
+                <!-- TODO: message regarding privacy policy and terms of service -->
                 <SomosButton @click="submitUpload" block>Submit</SomosButton>
               </v-card-actions>
             </v-card>
@@ -217,6 +227,10 @@ export default {
   font: Bold 16px/22px Montserrat;
   letter-spacing: 0.24px;
   text-transform: uppercase;
+
+  &.disabled {
+    color: #6f6f6f !important;
+  }
 }
 
 // override vuetify styling for step label
