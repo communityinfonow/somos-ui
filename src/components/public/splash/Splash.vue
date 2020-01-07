@@ -18,8 +18,10 @@
       </v-col>
       <v-col cols="6">
         <OverlappingImages
-          :topSource=" require('./shutterstock_244190287.png')"
-          :bottomSource="require('./shutterstock_379530769.png')"
+          :topLazySource=" require('./shutterstock_244190287.png')"
+          :topSource="require('./shutterstock_244190287@2x.png')"
+          :bottomLazySource="require('./shutterstock_379530769.png')"
+          :bottomSource="require('./shutterstock_379530769@2x.png')"
         />
       </v-col>
     </v-row>

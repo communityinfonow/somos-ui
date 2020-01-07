@@ -27,10 +27,6 @@ export default {
   /* margin-top: 60px; */
 }
 
-.container {
-  height: 100%;
-}
-
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.1s;
@@ -49,5 +45,9 @@ export default {
 }
 .secondary-text {
   color: $main-light-blue;
+}
+
+.col {
+  z-index: 2;
 }
 </style>

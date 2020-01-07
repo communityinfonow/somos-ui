@@ -1,8 +1,10 @@
 <template>
   <div id="meet-your-neighbors">
-    <Angle :empty="true" :colorLeft="yellow" :colorRight="secondaryBlue"></Angle>
-    <div style="height: 100px" class="content"></div>
-    <Angle :empty="false" :colorLeft="yellow" :colorRight="secondaryBlue"></Angle>
+    <v-container class="my-0 py-0">
+      <div>
+        <div style="height: 100px"></div>
+      </div>
+    </v-container>
   </div>
 </template>
 
@@ -10,7 +12,7 @@
 import Angle from "./shared/Angle";
 import globals from "../../globals";
 export default {
-  name: "meetYourNeighbors",
+  name: "MeetYourNeighbors",
   components: {
     Angle
   },
@@ -24,7 +26,7 @@ export default {
 </script>
 
 <style lang="scss">
-#meet-your-neighbors .content {
+#meet-your-neighbors {
   background-image: linear-gradient(
     90deg,
     $main-yellow,

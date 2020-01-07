@@ -1,14 +1,14 @@
 <template>
   <div class="image-container">
-    <v-img class="splash-image bottom-image" :src="bottomSource" />
-    <v-img class="splash-image top-image" :src="topSource"></v-img>
+    <v-img class="splash-image bottom-image" :lazy-src="bottomLazySource" :src="bottomSource" />
+    <v-img class="splash-image top-image" :lazy-src="topLazySource" :src="topSource"></v-img>
   </div>
 </template>
 
 <script>
 export default {
   name: "OverlappingImages",
-  props: ["topSource", "bottomSource"]
+  props: ["topSource", "topLazySource", "bottomSource", "bottomLazySource"]
 };
 </script>
 

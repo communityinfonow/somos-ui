@@ -1,13 +1,17 @@
 <template>
   <div id="splash-title" class="mb-9">
     <span class="main-text">WE ARE&nbsp;</span>
-    <span class="secondary-text">{{currentCommunity}}</span>
+    <CyclingText class="secondary-text" id="community" :textArray="communities" />
   </div>
 </template>
 
 <script>
+import CyclingText from "../../shared/CyclingText";
 export default {
   name: "Title",
+  components: {
+    CyclingText
+  },
   data() {
     return {
       communities: [
@@ -27,27 +31,9 @@ export default {
         "LOVERS",
         "STRONG"
       ],
-      currentCommunity: null
+      currentCommunity: null,
+      show: true
     };
-  },
-  methods: {
-    communityTimer() {
-      if (this.currentCommunity == null) {
-        this.currentCommunity = this.communities[0];
-      }
-      let index = 1;
-      setInterval(() => {
-        this.currentCommunity =
-          index === this.communities.length
-            ? this.communities[(index = 0)]
-            : this.communities[index++];
-      }, 2000);
-    },
-    clickHandler() {}
-  },
-  computed: {},
-  created() {
-    this.communityTimer();
   }
 };
 </script>
@@ -55,10 +41,25 @@ export default {
 <style lang="scss" scoped>
 #splash-title {
   text-align: left;
-  font: Bold 40px/24px Bebas Neue;
+  font: Bold 40px Bebas Neue;
   letter-spacing: 8px;
   text-transform: uppercase;
   opacity: 1;
   font-family: "Bebas Neue";
+  height: 50px;
+  overflow-y: hidden;
+  position: relative;
+  span {
+    vertical-align: text-bottom;
+  }
+}
+
+#community {
+  // position: absolute;
+  left: 150px;
+
+  // top: 0;
+
+  // display: inline-block;
 }
 </style>

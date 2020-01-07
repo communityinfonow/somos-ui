@@ -1,26 +1,30 @@
 <template>
-  <div>
+  <div class="my-0 py-0 angle-container">
     <svg
+      class="topper"
       width="100%"
-      height="100%"
       viewBox="0 0 100 13.4"
-      preserveAspectRatio="none"
+      preserveAspectRatio="xMidYMin"
       v-if="!!empty"
     >
-      <polygon points="0,13.4 50,0 50,13.4" :style="{fill:colorLeft}" />
+      <polygon points="50,0 50,13.4 0,13.4" :style="{fill:colorLeft}" />
       <polygon points="50,0 50,13.4 100,13.4" :style="{fill:colorRight}" />
     </svg>
 
     <svg
+      class="footer"
       width="100%"
-      height="100%"
       viewBox="0 0 100 13.4"
       preserveAspectRatio="none"
       v-else-if="!empty"
     >
-      <polygon points="0,0 0,13.4 50,0" :style="{fill:color-left}" />
-      <polygon points="50,0 100,13.4 100,0" :style="{fill:color-right}" />
+      <polygon points="0,0 0,13.4 50,0" :style="{fill:colorLeft}" />
+      <polygon points="50,0 100,13.4 100,0" :style="{fill:colorRight}" />
     </svg>
+    <div class="filler">
+      <div class="filler-left" :style="{background:colorLeft}"></div>
+      <div class="filler-right" :style="{background:colorRight}"></div>
+    </div>
   </div>
 </template>
 
@@ -28,5 +32,30 @@
 export default { name: "Angle", props: ["empty", "colorLeft", "colorRight"] };
 </script>
 
-<style>
+<style lang="scss" scoped>
+svg {
+  display: block;
+}
+
+.angle-container {
+}
+
+.filler {
+  background: blue;
+  height: 100%;
+  position: relative;
+
+  div {
+    height: 100%;
+    width: 50%;
+  }
+}
+
+.filler-left {
+  float: left;
+}
+
+.filler-right {
+  float: right;
+}
 </style>
