@@ -1,8 +1,10 @@
 <template>
-  <div id="splash-title" class="mb-9">
+  <h1 id="splash-title">
     <span class="main-text">WE ARE&nbsp;</span>
-    <CyclingText class="secondary-text" id="community" :textArray="communities" />
-  </div>
+    <span id="community">
+      <CyclingText class="secondary-text" :textArray="communities" />
+    </span>
+  </h1>
 </template>
 
 <script>
@@ -41,25 +43,30 @@ export default {
 <style lang="scss" scoped>
 #splash-title {
   text-align: left;
-  font: Bold 40px Bebas Neue;
-  letter-spacing: 8px;
-  text-transform: uppercase;
-  opacity: 1;
-  font-family: "Bebas Neue";
   height: 50px;
-  overflow-y: hidden;
+  overflow: hidden;
   position: relative;
   span {
     vertical-align: text-bottom;
   }
+  margin-bottom: 20px;
 }
 
 #community {
-  // position: absolute;
-  left: 150px;
+  vertical-align: inherit;
+  position: relative;
+}
 
-  // top: 0;
+@media (max-width: 1264px) {
+  #splash-title {
+    font-size: 1.929rem;
+    margin-bottom: 0;
+  }
+}
 
-  // display: inline-block;
+@media (min-width: 1265px) {
+  #splash-title {
+    font-size: 2.857rem;
+  }
 }
 </style>

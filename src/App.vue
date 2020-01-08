@@ -27,6 +27,20 @@ export default {
   /* margin-top: 60px; */
 }
 
+h1 {
+  letter-spacing: 8px;
+  color: $main-dark-blue;
+  text-transform: uppercase;
+  font-family: "Bebas Neue";
+  font-weight: 700;
+  font-size: 2.857rem;
+}
+
+html {
+  font-family: "Montserrat" !important;
+  font-size: 14px !important;
+}
+
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.1s;
@@ -47,7 +61,7 @@ export default {
   color: $main-light-blue;
 }
 
-.col {
+[class^="col"] {
   z-index: 2;
 }
 </style>

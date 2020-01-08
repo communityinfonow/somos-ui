@@ -209,22 +209,22 @@ export default {
   text-align: center;
   margin-top: 30px;
   color: $main-dark-blue;
-  font: Bold 30px/24px Bebas Neue;
-  letter-spacing: 6px;
+  font: Bold 2.143rem/1.714rem Bebas Neue;
+  letter-spacing: 0.429rem;
   text-transform: uppercase;
 }
 
 #stepper-description {
   color: $main-dark-blue;
   text-align: center;
-  font: 15px/22px Montserrat;
+  font: 1.071rem/1.6rem Montserrat;
   font-weight: 500;
   letter-spacing: 0.23px;
 }
 
 .upload-step-label {
   text-align: left;
-  font: Bold 16px/22px Montserrat;
+  font: Bold 1.143rem/1.571rem Montserrat;
   letter-spacing: 0.24px;
   text-transform: uppercase;
 

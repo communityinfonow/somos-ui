@@ -1,7 +1,13 @@
 <template>
-  <v-container>
-    <v-row>
-      <v-col cols="6">
+  <v-container id="splash">
+    <v-row class="mb-5">
+      <v-col cols="12">
+        <v-img class="somos-logo" :src="require('./somos-logo.svg')"></v-img>
+        <!-- TODO component for log? -->
+      </v-col>
+    </v-row>
+    <v-row class="angle-container">
+      <v-col cols="12" sm="6">
         <Title />
         <p>
           At the heart of San Antonio’s vibrant community is a diverse
@@ -14,9 +20,9 @@
           against social inequalities such as the age disparity gap
           between communities.
         </p>
-        <SomosButton @click="clickHandler">EXPLORE COMMUNITIES</SomosButton>
+        <SomosButton @click="clickHandler" id="explore-communities">EXPLORE COMMUNITIES</SomosButton>
       </v-col>
-      <v-col cols="6">
+      <v-col cols="12" sm="6" class="hidden-xs-only">
         <OverlappingImages
           :topLazySource=" require('./shutterstock_244190287.png')"
           :topSource="require('./shutterstock_244190287@2x.png')"
@@ -24,6 +30,14 @@
           :bottomSource="require('./shutterstock_379530769@2x.png')"
         />
       </v-col>
+      <Angle
+        id="meet-your-neighbors-topper"
+        :empty="true"
+        :colorLeft="yellow"
+        :colorRight="secondaryBlue"
+        class="hidden-xs-only"
+      ></Angle>
+      <v-img class="hidden-xs-only" id="som" :src="require('../som.svg')"></v-img>
     </v-row>
   </v-container>
 </template>
@@ -32,15 +46,18 @@
 import Title from "./Title";
 import SomosButton from "../shared/SomosButton";
 import OverlappingImages from "./OverlappingImages";
+import Angle from "../shared/Angle";
+import globals from "../../../globals";
 export default {
   name: "Splash",
   components: {
     Title,
     OverlappingImages,
-    SomosButton
+    SomosButton,
+    Angle
   },
   data() {
-    return {};
+    return { yellow: globals.yellow, secondaryBlue: globals.mainLightBlue };
   },
   methods: {
     clickHandler() {}
@@ -51,9 +68,55 @@ export default {
 <style lang="scss" scoped>
 p {
   text-align: left;
-  font: 600 16px/22px Montserrat;
+  font: 700 1.143rem/1.6rem Montserrat;
   letter-spacing: 0.24px;
   color: $main-dark-blue;
-  opacity: 1;
+}
+
+.somos-logo {
+  margin: auto;
+  width: 30%;
+}
+
+#meet-your-neighbors-topper {
+  top: 280px;
+  bottom: 0;
+  position: absolute;
+  width: 100%;
+  z-index: 0;
+}
+
+#som {
+  top: 335px;
+  right: 50%;
+  width: 35%;
+  position: absolute;
+}
+
+@media (max-width: 600px) {
+  p {
+    // text-align: center;
+  }
+
+  #explore-communities {
+    margin: auto;
+    width: 100%;
+  }
+
+  .somos-logo {
+    width: 60%;
+  }
+}
+
+@media (max-width: 960px) {
+  p {
+    font-size: 1.071em;
+  }
+}
+
+@media (min-width: 961px) and (max-width: 1264px) {
+  .somos-logo {
+    width: 40%;
+  }
 }
 </style>

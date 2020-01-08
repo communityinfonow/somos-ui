@@ -49,10 +49,11 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 span {
   position: absolute;
   display: inline-block;
+  white-space: nowrap;
 }
 
 .forward-text-cycle-enter,

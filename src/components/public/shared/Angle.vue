@@ -1,5 +1,5 @@
 <template>
-  <div class="my-0 py-0 angle-container">
+  <div class="my-0 py-0">
     <svg
       class="topper"
       width="100%"
@@ -37,12 +37,8 @@ svg {
   display: block;
 }
 
-.angle-container {
-}
-
 .filler {
-  background: blue;
-  height: 100%;
+  height: 200%; //TODO see if there's another way to fill this height between the two
   position: relative;
 
   div {

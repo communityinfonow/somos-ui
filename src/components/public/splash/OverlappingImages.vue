@@ -15,19 +15,20 @@ export default {
 <style lang="scss" scoped>
 .image-container {
   height: 100%;
+  position: relative;
 }
 
 .top-image {
-  z-index: 1;
-  position: relative;
-  bottom: 30%;
-  width: 90%;
+  z-index: 2;
+  position: absolute;
+  top: 90px;
+  width: 88%;
 }
 
 .bottom-image {
   width: 70%;
-  z-index: 0;
-  position: relative;
+  z-index: 1;
+  position: absolute;
   left: 30%;
 }
 </style>
