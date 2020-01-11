@@ -32,7 +32,7 @@ export default {
   height: 14px;
   width: 14px;
   display: inline-block;
-  margin: 5px;
+  margin: 5px 5px 0px 5px;
 
   &.selected {
     background: white;

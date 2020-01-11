@@ -7,7 +7,6 @@
     <MeetYourNeighbors />
     <div class="angle-container hidden-xs-only">
       <Angle :empty="false" :colorLeft="yellow" :colorRight="secondaryBlue"></Angle>
-      <v-img id="mos" :src="require('./Mos.svg')"></v-img>
     </div>
   </v-container>
 </template>

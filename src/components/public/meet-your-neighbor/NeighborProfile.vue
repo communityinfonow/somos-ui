@@ -5,8 +5,10 @@
     </div>
     <div class="profile-info">
       <div class="profile-info-container">
-        <h2>{{name}}</h2>
-        <p>{{story}}</p>
+        <div class="info-text">
+          <h2>{{name}}</h2>
+          <p>{{story}}</p>
+        </div>
         <slot></slot>
       </div>
     </div>
@@ -25,18 +27,26 @@ export default {
   position: relative;
 }
 
+.info-text {
+  position: absolute;
+  top: 15%;
+  width: 100%;
+}
+
 .profile-info {
   width: 50%;
   position: absolute;
+  height: 100%;
 }
 .profile-image {
   width: 50%;
-  position: absolute;
+  position: relative;
 }
 
 .profile-info-container {
-  position: relative;
-  top: 61px;
+  position: absolute;
+  height: 100%;
+  width: 100%;
 }
 
 img {

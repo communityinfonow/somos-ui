@@ -15,16 +15,15 @@
       <h1>meet your neighbors</h1>
 
       <v-row class="content">
-        <v-col cols="12" sm="6" class="left">
-          <div v-on:click="cycleNeighbors1" class="profile-container">
-            <transition name="forward-cycle">
+        <v-col cols="12" sm="6" class="left mx-0 px-0">
+          <transition name="forward-cycle">
+            <div v-on:click="cycleNeighbors1" class="profile-container" :key="neighbor1Index">
               <NeighborProfile
                 right
                 :name="currentNeighbor1.name"
                 :story="currentNeighbor1.story"
                 :lazyImage="currentNeighbor1.lazyImage"
                 :image="currentNeighbor1.image"
-                :key="neighbor1Index"
               >
                 <CircleTabs
                   :index="neighbor1Index"
@@ -32,19 +31,18 @@
                   class="circle-tab-grouping"
                 />
               </NeighborProfile>
-            </transition>
-          </div>
+            </div>
+          </transition>
         </v-col>
-        <v-col cols="12" sm="6" class="right">
-          <div v-on:click="cycleNeighbors2" class="profile-container">
-            <transition name="forward-cycle">
+        <v-col cols="12" sm="6" class="right mx-0 px-0">
+          <transition name="forward-cycle">
+            <div v-on:click="cycleNeighbors2" class="profile-container" :key="neighbor2Index">
               <NeighborProfile
                 left
                 :name="currentNeighbor2.name"
                 :story="currentNeighbor2.story"
                 :lazyImage="currentNeighbor2.lazyImage"
                 :image="currentNeighbor2.image"
-                :key="neighbor2Index"
               >
                 <CircleTabs
                   :index="neighbor2Index"
@@ -52,10 +50,11 @@
                   class="circle-tab-grouping"
                 />
               </NeighborProfile>
-            </transition>
-          </div>
+            </div>
+          </transition>
         </v-col>
       </v-row>
+      <v-img id="mos" :src="require('../Mos.svg')"></v-img>
     </v-container>
   </div>
 </template>
@@ -162,10 +161,24 @@ export default {
   transition: all 50ms;
 }
 
-.profile-container {
+#meet-your-neighbors.container {
   position: relative;
-  height: 100%;
-  top: 30px;
+}
+#mos {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+}
+
+.profile-container {
+  position: absolute;
+  width: 100%;
+
+  &:hover {
+    cursor: pointer;
+    transform: translateY(-5px);
+    transition: transform 100ms ease-in-out;
+  }
 }
 p {
   letter-spacing: 0.21px;
@@ -218,6 +231,7 @@ h2 {
     text-align: right;
     margin-right: 0;
     padding-right: 0;
+    position: relative;
   }
 
   .right {
@@ -225,6 +239,7 @@ h2 {
     text-align: left;
     margin-left: 0;
     padding-left: 0;
+    position: relative;
   }
 }
 
@@ -235,25 +250,26 @@ h2 {
 
 .left {
   .profile-image {
-    right: -0.2px;
-    padding-left: 15px;
+    right: -50%;
+    padding-left: 32px;
   }
   .profile-info {
     left: 0;
+    top: 0;
   }
 
   .circle-tab-grouping {
-    top: 400px;
+    bottom: 0;
   }
 }
 
 .right {
   .profile-info {
     right: 0;
+    top: 0;
   }
   .profile-image {
-    padding-right: 15px;
-    left: -0.2px;
+    padding-right: 32px;
   }
 
   .profile-container {
@@ -261,7 +277,7 @@ h2 {
   }
 
   .circle-tab-grouping {
-    top: 400px;
+    bottom: 0;
   }
 }
 </style>
