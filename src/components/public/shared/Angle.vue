@@ -38,7 +38,7 @@ svg {
 }
 
 .filler {
-  height: 200%; //TODO see if there's another way to fill this height between the two
+  height: 300%; //TODO see if there's another way to fill this height between the two
   position: relative;
 
   div {

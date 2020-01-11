@@ -48,11 +48,11 @@ export default {
   data() {
     return {
       links: [
-        { text: "compare", link: "#compare" },
         { text: "featured stories", link: "#featured-stories" },
-        { text: "make a difference", link: "#make-a-difference" },
+        { text: "compare", link: "#compare" },
         { text: "life expectancy", link: "#life-expectancy" },
-        { text: "interactive map", link: "#interactive-map" }
+        { text: "interactive map", link: "#interactive-map" },
+        { text: "make a difference", link: "#make-a-difference" }
       ],
       blockColors: [
         globals.darkPink,

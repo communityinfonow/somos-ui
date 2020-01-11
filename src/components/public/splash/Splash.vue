@@ -20,7 +20,7 @@
           against social inequalities such as the age disparity gap
           between communities.
         </p>
-        <SomosButton @click="clickHandler" id="explore-communities">EXPLORE COMMUNITIES</SomosButton>
+        <!-- <SomosButton @click="clickHandler" id="explore-communities">EXPLORE COMMUNITIES</SomosButton> -->
       </v-col>
       <v-col cols="12" sm="6" class="hidden-xs-only">
         <OverlappingImages
@@ -80,7 +80,7 @@ p {
 
 #meet-your-neighbors-topper {
   top: 280px;
-  bottom: 0;
+  bottom: -40px;
   position: absolute;
   width: 100%;
   z-index: 0;
@@ -91,13 +91,10 @@ p {
   right: 50%;
   width: 35%;
   position: absolute;
+  z-index: 1;
 }
 
 @media (max-width: 600px) {
-  p {
-    // text-align: center;
-  }
-
   #explore-communities {
     margin: auto;
     width: 100%;

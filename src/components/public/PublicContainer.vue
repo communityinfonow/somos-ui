@@ -14,7 +14,7 @@
 
 <script>
 import Splash from "./splash/Splash";
-import MeetYourNeighbors from "./MeetYourNeighbors";
+import MeetYourNeighbors from "./meet-your-neighbor/MeetYourNeighbors";
 import Angle from "./shared/Angle";
 import globals from "../../globals";
 // import communityCounterpart from "./communityCounterpart";
@@ -38,7 +38,7 @@ export default {
 
 <style lang="scss" scoped>
 @import url("https://fonts.googleapis.com/css?family=Bebas+Neue&display=swap");
-@import url("https://fonts.googleapis.com/css?family=Montserrat&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Montserrat:500,600,700,800,900&display=swap");
 
 #splash {
   margin-bottom: 190px;
@@ -49,6 +49,7 @@ export default {
   left: 50%;
   width: 35%;
   position: absolute;
+  z-index: 1;
 }
 
 @media (min-width: 1904px) {
@@ -59,7 +60,7 @@ export default {
 
 @media (max-width: 1264px) {
   #splash {
-    margin-bottom: 41px;
+    margin-bottom: 71px;
   }
 }
 </style>

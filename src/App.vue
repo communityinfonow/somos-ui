@@ -27,6 +27,10 @@ export default {
   /* margin-top: 60px; */
 }
 
+html {
+  font-size: 14px !important;
+}
+
 h1 {
   letter-spacing: 8px;
   color: $main-dark-blue;
@@ -36,9 +40,13 @@ h1 {
   font-size: 2.857rem;
 }
 
-html {
+h2 {
+  font-size: 1.143rem;
   font-family: "Montserrat" !important;
-  font-size: 14px !important;
+  color: #162d54;
+  text-transform: uppercase;
+  font-weight: 900;
+  letter-spacing: 1.6px;
 }
 
 .fade-enter-active,
