@@ -40,6 +40,16 @@ h1 {
   font-size: 2.857rem;
 }
 
+@media (max-width: 600px) {
+  h1 {
+    font-size: 2.143rem;
+  }
+
+  h2 {
+    text-align: center;
+  }
+}
+
 h2 {
   font-size: 1.143rem;
   font-family: "Montserrat" !important;

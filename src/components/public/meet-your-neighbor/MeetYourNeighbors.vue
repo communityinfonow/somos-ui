@@ -15,43 +15,15 @@
       <h1>meet your neighbors</h1>
 
       <v-row class="content">
-        <v-col cols="12" sm="6" class="left mx-0 px-0">
-          <transition name="cycle-up">
-            <div v-on:click="cycleNeighbors1" class="profile-container" :key="neighbor1Index">
-              <NeighborProfile
-                right
-                :name="currentNeighbor1.name"
-                :story="currentNeighbor1.story"
-                :lazyImage="currentNeighbor1.lazyImage"
-                :image="currentNeighbor1.image"
-              >
-                <CircleTabs
-                  :index="neighbor1Index"
-                  :count="neighbors1.length"
-                  class="circle-tab-grouping"
-                />
-              </NeighborProfile>
-            </div>
-          </transition>
+        <v-col cols="12" sm="6" class="left mx-0 px-0" @click="cycleNeighbors">
+          <NeighborProfilesContainer
+            :neighbors="leftNeighbors"
+            :neighborsIndex="neighborsIndex"
+            up
+          />
         </v-col>
-        <v-col cols="12" sm="6" class="right mx-0 px-0">
-          <transition name="cycle-down">
-            <div v-on:click="cycleNeighbors2" class="profile-container" :key="neighbor2Index">
-              <NeighborProfile
-                left
-                :name="currentNeighbor2.name"
-                :story="currentNeighbor2.story"
-                :lazyImage="currentNeighbor2.lazyImage"
-                :image="currentNeighbor2.image"
-              >
-                <CircleTabs
-                  :index="neighbor2Index"
-                  :count="neighbors2.length"
-                  class="circle-tab-grouping"
-                />
-              </NeighborProfile>
-            </div>
-          </transition>
+        <v-col cols="12" sm="6" class="right mx-0 px-0" @click="cycleNeighbors">
+          <NeighborProfilesContainer :neighbors="rightNeighbors" :neighborsIndex="neighborsIndex" />
         </v-col>
       </v-row>
       <v-img id="mos" :src="require('../Mos.svg')"></v-img>
@@ -62,109 +34,76 @@
 <script>
 import Angle from "../shared/Angle";
 import globals from "../../../globals";
-import NeighborProfile from "./NeighborProfile";
-import CircleTabs from "../shared/CircleTabs";
+import NeighborProfilesContainer from "./NeighborProfilesContainer";
 import Vue from "vue";
 export default {
   name: "MeetYourNeighbors",
   components: {
     Angle,
-    NeighborProfile,
-    CircleTabs
+    NeighborProfilesContainer
   },
   data() {
     return {
-      neighbors1: [
+      neighbors: [
         {
-          name: "Name12",
-          story:
-            "this is my very compelling story. definitely more compelling than the other person's.",
-          lazyImage: require("./jen.png"),
-          image: require("./jen_@2x.png")
+          left: {
+            name: "Name12",
+            story:
+              "this is my very compelling story. definitely more compelling than the other person's.",
+            lazyImage: require("./jen.png"),
+            image: require("./jen_@2x.png")
+          },
+          right: {
+            name: "Name1",
+            story: "this is my very compelling story",
+            lazyImage: require("./jack.png"),
+            image: require("./jack_@2x.png")
+          }
         },
         {
-          name: "Name1",
-          story: "this is my very compelling story",
-          lazyImage: require("./jack.png"),
-          image: require("./jack_@2x.png")
+          left: {
+            name: "Name1",
+            story: "this is my very compelling story",
+            lazyImage: require("./jack.png"),
+            image: require("./jack_@2x.png")
+          },
+          right: {
+            name: "Name12",
+            story:
+              "this is my very compelling story. definitely more compelling than the other person's.",
+            lazyImage: require("./jen.png"),
+            image: require("./jen_@2x.png")
+          }
         }
       ],
-      neighbors2: [
-        {
-          name: "Name1",
-          story: "this is my very compelling story",
-          lazyImage: require("./jack.png"),
-          image: require("./jack_@2x.png")
-        },
-        {
-          name: "Name12",
-          story:
-            "this is my very compelling story. definitely more compelling than the other person's.",
-          lazyImage: require("./jen.png"),
-          image: require("./jen_@2x.png")
-        }
-      ],
-      neighbor1Index: 0,
-      neighbor2Index: 0,
       yellow: globals.yellow,
       secondaryBlue: globals.mainLightBlue,
-      eventBus: new Vue()
+      eventBus: new Vue(),
+      neighborsIndex: 0
     };
   },
   methods: {
-    cycleNeighbors(index, neighborsList) {
-      if (index < neighborsList.length) {
-        index = index + 1;
+    cycleNeighbors() {
+      if (this.neighborsIndex < this.neighbors.length - 1) {
+        this.neighborsIndex++;
       } else {
-        index = 0;
-      }
-    },
-    cycleNeighbors1() {
-      this.eventBus.$emit("click");
-      if (this.neighbor1Index < this.neighbors1.length - 1) {
-        this.neighbor1Index++;
-      } else {
-        this.neighbor1Index = 0;
-      }
-    },
-    cycleNeighbors2() {
-      this.eventBus.$emit("click");
-      if (this.neighbor2Index < this.neighbors2.length - 1) {
-        this.neighbor2Index++;
-      } else {
-        this.neighbor2Index = 0;
+        this.neighborsIndex = 0;
       }
     }
   },
+
   computed: {
-    currentNeighbor1() {
-      return this.neighbors1[this.neighbor1Index];
+    leftNeighbors() {
+      return this.neighbors.map(neighbor => neighbor.left);
     },
-    currentNeighbor2() {
-      return this.neighbors2[this.neighbor2Index];
+    rightNeighbors() {
+      return this.neighbors.map(neighbor => neighbor.right);
     }
   }
 };
 </script>
 
 <style lang="scss" >
-.cycle-up-enter,
-.cycle-down-leave-active {
-  transform: translateY(100vh);
-}
-
-.cycle-up-leave-active,
-.cycle-down-enter {
-  transform: translateY(-100vh);
-}
-
-.cycle-up-enter-active,
-.cycle-up-leave-active,
-.cycle-down-enter-active,
-.cycle-down-leave-active {
-  transition: all 0.5s;
-}
-
 #meet-your-neighbors.container {
   position: relative;
 }
@@ -175,17 +114,6 @@ export default {
   z-index: 1;
 }
 
-.profile-container {
-  position: absolute;
-  width: 100%;
-  z-index: 2;
-
-  &:hover {
-    cursor: pointer;
-    transform: translateY(-5px);
-    transition: transform 100ms ease-in-out;
-  }
-}
 p {
   letter-spacing: 0.21px;
   font-family: "Montserrat";
@@ -248,11 +176,6 @@ h2 {
   }
 }
 
-.circle-tab-grouping {
-  position: absolute;
-  width: 100%;
-}
-
 .left {
   .profile-image {
     right: -50%;
@@ -283,6 +206,33 @@ h2 {
 
   .circle-tab-grouping {
     bottom: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .left,
+  .right {
+    .profile-image {
+      top: 0;
+      right: 0;
+      padding-left: 64px;
+      padding-right: 64px;
+    }
+    .profile-info {
+      top: unset;
+      padding-left: 64px;
+      padding-right: 64px;
+      text-align: left;
+    }
+
+    .profile-container {
+      top: 0;
+    }
+
+    .profile-grouping {
+      padding-bottom: 54px;
+      padding-top: 55px;
+    }
   }
 }
 </style>

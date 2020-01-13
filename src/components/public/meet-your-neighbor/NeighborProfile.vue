@@ -18,7 +18,7 @@
 <script>
 export default {
   name: "NeighborProfile",
-  props: ["name", "story", "image", "lazyImage", "left", "right"]
+  props: ["name", "story", "image", "lazyImage"]
 };
 </script>
 
@@ -38,6 +38,7 @@ export default {
   position: absolute;
   height: 100%;
 }
+
 .profile-image {
   width: 50%;
   position: relative;
@@ -47,6 +48,27 @@ export default {
   position: absolute;
   height: 100%;
   width: 100%;
+}
+
+@media (max-width: 600px) {
+  .profile-image {
+    width: 100%;
+  }
+
+  .profile-info {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+
+  .info-text {
+    position: relative;
+  }
+
+  .profile-info-container {
+    position: relative;
+    height: auto;
+  }
 }
 
 img {

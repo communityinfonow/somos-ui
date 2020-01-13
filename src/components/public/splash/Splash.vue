@@ -103,11 +103,14 @@ p {
   .somos-logo {
     width: 60%;
   }
+  p {
+    font-size: 1rem;
+  }
 }
 
 @media (max-width: 960px) {
   p {
-    font-size: 1.071em;
+    font-size: 1.071rem;
   }
 }
 
