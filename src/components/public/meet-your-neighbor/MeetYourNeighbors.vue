@@ -16,7 +16,7 @@
 
       <v-row class="content">
         <v-col cols="12" sm="6" class="left mx-0 px-0">
-          <transition name="forward-cycle">
+          <transition name="cycle-up">
             <div v-on:click="cycleNeighbors1" class="profile-container" :key="neighbor1Index">
               <NeighborProfile
                 right
@@ -35,7 +35,7 @@
           </transition>
         </v-col>
         <v-col cols="12" sm="6" class="right mx-0 px-0">
-          <transition name="forward-cycle">
+          <transition name="cycle-down">
             <div v-on:click="cycleNeighbors2" class="profile-container" :key="neighbor2Index">
               <NeighborProfile
                 left
@@ -95,6 +95,13 @@ export default {
           story: "this is my very compelling story",
           lazyImage: require("./jack.png"),
           image: require("./jack_@2x.png")
+        },
+        {
+          name: "Name12",
+          story:
+            "this is my very compelling story. definitely more compelling than the other person's.",
+          lazyImage: require("./jen.png"),
+          image: require("./jen_@2x.png")
         }
       ],
       neighbor1Index: 0,
@@ -141,24 +148,21 @@ export default {
 </script>
 
 <style lang="scss" >
-.forward-cycle-enter,
-.backward-cycle-leave-active {
+.cycle-up-enter,
+.cycle-down-leave-active {
   transform: translateY(100vh);
 }
 
-.forward-cycle-leave-active,
-.backward-cycle-enter-active {
+.cycle-up-leave-active,
+.cycle-down-enter {
   transform: translateY(-100vh);
 }
 
-.forward-cycle-enter-active,
-.forward-cycle-leave-active {
+.cycle-up-enter-active,
+.cycle-up-leave-active,
+.cycle-down-enter-active,
+.cycle-down-leave-active {
   transition: all 0.5s;
-}
-
-.backward-cycle-enter-active,
-.backward-cycle-leave-active {
-  transition: all 50ms;
 }
 
 #meet-your-neighbors.container {
@@ -166,13 +170,15 @@ export default {
 }
 #mos {
   position: absolute;
-  bottom: 0;
+  bottom: 102px;
   left: 50%;
+  z-index: 1;
 }
 
 .profile-container {
   position: absolute;
   width: 100%;
+  z-index: 2;
 
   &:hover {
     cursor: pointer;
@@ -207,7 +213,6 @@ h2 {
 }
 
 #meet-your-neighbors-topper {
-  // top: 280px;
   bottom: 0;
   position: absolute;
   width: 100%;
