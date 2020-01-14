@@ -38,6 +38,7 @@ h1 {
   font-family: "Bebas Neue";
   font-weight: 700;
   font-size: 2.857rem;
+  text-align: center;
 }
 
 @media (max-width: 600px) {

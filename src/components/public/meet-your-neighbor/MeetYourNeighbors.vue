@@ -104,12 +104,12 @@ export default {
 </script>
 
 <style lang="scss" >
-#meet-your-neighbors.container {
+#meet-your-neighbors .container {
   position: relative;
 }
 #mos {
   position: absolute;
-  bottom: 102px;
+  bottom: -20px;
   left: 50%;
   z-index: 1;
 }

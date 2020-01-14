@@ -136,16 +136,15 @@ export default {
       this.showComplete = false;
     },
     submitUpload() {
-      var self = this;
       var photo = this.storeState.photo;
-      photo.ownerEmail = self.storeState.contactEmail;
-      photo.ownerFirstName = self.storeState.contactFirstName;
-      photo.ownerLastName = self.storeState.contactLastName;
-      photo.gid = self.storeState.selectedLocation.tract.id;
-      photo.description = self.storeState.photoDescription;
+      photo.ownerEmail = this.storeState.contactEmail;
+      photo.ownerFirstName = this.storeState.contactFirstName;
+      photo.ownerLastName = this.storeState.contactLastName;
+      photo.gid = this.storeState.selectedLocation.tract.id;
+      photo.description = this.storeState.photoDescription;
       delete photo._links; // TODO photo object shouldn't have links sent with it
       PhotoData.savePhoto(
-        self.storeState.selectedLocation.tract._links.photos.href +
+        this.storeState.selectedLocation.tract._links.photos.href +
           "/" +
           photo.id,
         photo,

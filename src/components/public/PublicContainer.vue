@@ -8,6 +8,7 @@
     <div class="angle-container hidden-xs-only">
       <Angle :empty="false" :colorLeft="yellow" :colorRight="secondaryBlue"></Angle>
     </div>
+    <UserData />
   </v-container>
 </template>
 
@@ -16,7 +17,7 @@ import Splash from "./splash/Splash";
 import MeetYourNeighbors from "./meet-your-neighbor/MeetYourNeighbors";
 import Angle from "./shared/Angle";
 import globals from "../../globals";
-// import communityCounterpart from "./communityCounterpart";
+import UserData from "./user-data/UserData";
 // import disparity from "./disparity";
 // import explore from "./explore";
 import Header from "./Header";
@@ -26,7 +27,8 @@ export default {
     Splash,
     MeetYourNeighbors,
     Angle,
-    Header
+    Header,
+    UserData
   },
   data() {
     return { yellow: globals.yellow, secondaryBlue: globals.mainLightBlue };
