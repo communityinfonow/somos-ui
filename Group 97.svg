@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="87.92" height="87.92" viewBox="0 0 87.92 87.92">
+  <g id="Group_97" data-name="Group 97" transform="translate(-87.633 -178.996)">
+    <circle id="Ellipse_31" data-name="Ellipse 31" cx="42.46" cy="42.46" r="42.46" transform="translate(89.133 180.496)" stroke-width="3" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" fill="none"/>
+    <g id="Group_87" data-name="Group 87" transform="translate(110.379 196.937)">
+      <path id="Path_929" data-name="Path 929" d="M201.539,405.448A4.788,4.788,0,0,1,197,400.909V390.7a5.5,5.5,0,0,1,5.675-5.675h24.967s-1.209,5.675-5.675,5.675h-9.078v30.642" transform="translate(-197 -366.864)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="3"/>
+      <path id="Path_930" data-name="Path 930" d="M211.729,369.88a4.351,4.351,0,0,0,4.539-4.539v-2.272a4.539,4.539,0,1,0-9.078,0v2.272A4.348,4.348,0,0,0,211.729,369.88Z" transform="translate(-201.515 -355.127)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="3"/>
+      <line id="Line_41" data-name="Line 41" y2="28.37" transform="translate(4.539 26.103)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="3"/>
+      <line id="Line_42" data-name="Line 42" y2="17.02" transform="translate(10.214 37.453)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="3"/>
+      <path id="Path_931" data-name="Path 931" d="M266.28,363.959v9.078c4.539-1.727,9.39-.835,13.65,2.272l-3.5-5.675,3.52-3.4C275.692,363.123,270.819,362.232,266.28,363.959Z" transform="translate(-227.696 -357.147)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="3"/>
+      <path id="Path_932" data-name="Path 932" d="M243.87,357.629v9.089a17.615,17.615,0,0,1,12.481,0v-9.089A17.585,17.585,0,0,0,243.87,357.629Z" transform="translate(-217.767 -354.221)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="3"/>
+      <line id="Line_43" data-name="Line 43" y2="18.161" transform="translate(26.103 0)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="3"/>
+      <line id="Line_44" data-name="Line 44" y2="30.642" transform="translate(26.103 23.831)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="3"/>
+    </g>
+  </g>
+</svg>

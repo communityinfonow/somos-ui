@@ -12,6 +12,20 @@ Vue.use(VueRouter);
 
 export default new VueRouter({
     routes: [{
+        path: "/photo-upload",
+        component: PhotoUpload
+    }, {
+        path: "/admin",
+        component: Admin
+    }, {
+        path: "/map",
+        name: "map",
+        component: MapWrap
+    }, {
+        path: "/admin/users",
+        name: "super-user",
+        component: SuperUser
+    }, {
         path: "/",
         name: "root",
         component: PublicContainer

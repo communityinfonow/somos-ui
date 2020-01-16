@@ -5,13 +5,18 @@
     <v-row align-center justify-center>
       <v-col cols="12" id="photo-upload-content" class="elevation-2">
         <v-stepper v-model="stepper" :vertical="true" id="stepper" class="elevation-0">
-          <div id="stepper-header" class="mb-4">Share Your Photos</div>
+          <div id="stepper-header" class="mb-4" role="heading" aria-level="1">Share Your Photos</div>
           <p
             id="stepper-description"
           >Share your neighborhood photos with the rest of San Antonio. Our shared story begins here.</p>
 
           <v-stepper-step :step="1" :complete="stepper > 1" :key="`1 - step`" :color="stepperColor">
-            <span class="upload-step-label" :class="determineStepperTextActive(1)">Upload Photo</span>
+            <span
+              class="upload-step-label"
+              :class="determineStepperTextActive(1)"
+              role="heading"
+              aria-level="2"
+            >Upload Photo</span>
           </v-stepper-step>
           <v-stepper-content :key="`1 - content`" :step="1">
             <v-card height="height" flat>
@@ -29,6 +34,8 @@
             <span
               class="upload-step-label"
               :class="determineStepperTextActive(2)"
+              role="heading"
+              aria-level="2"
             >{{locationTitlePrepend}} Photo Location</span>
           </v-stepper-step>
           <v-stepper-content :key="`2 - content`" :step="2">
@@ -51,6 +58,8 @@
             <span
               class="upload-step-label"
               :class="determineStepperTextActive(3)"
+              role="heading"
+              aria-level="2"
             >Enter Contact Information (not required)</span>
           </v-stepper-step>
           <v-stepper-content :key="`3 - content`" :step="3">
@@ -59,6 +68,7 @@
                 <ContactForm></ContactForm>
               </v-card-text>
               <v-card-actions>
+                <!-- TODO: message regarding privacy policy and terms of service -->
                 <SomosButton @click="submitUpload" block>Submit</SomosButton>
               </v-card-actions>
             </v-card>
@@ -126,16 +136,15 @@ export default {
       this.showComplete = false;
     },
     submitUpload() {
-      var self = this;
       var photo = this.storeState.photo;
-      photo.ownerEmail = self.storeState.contactEmail;
-      photo.ownerFirstName = self.storeState.contactFirstName;
-      photo.ownerLastName = self.storeState.contactLastName;
-      photo.gid = self.storeState.selectedLocation.tract.id;
-      photo.description = self.storeState.photoDescription;
+      photo.ownerEmail = this.storeState.contactEmail;
+      photo.ownerFirstName = this.storeState.contactFirstName;
+      photo.ownerLastName = this.storeState.contactLastName;
+      photo.gid = this.storeState.selectedLocation.tract.id;
+      photo.description = this.storeState.photoDescription;
       delete photo._links; // TODO photo object shouldn't have links sent with it
       PhotoData.savePhoto(
-        self.storeState.selectedLocation.tract._links.photos.href +
+        this.storeState.selectedLocation.tract._links.photos.href +
           "/" +
           photo.id,
         photo,
@@ -199,24 +208,28 @@ export default {
   text-align: center;
   margin-top: 30px;
   color: $main-dark-blue;
-  font: Bold 30px/24px Bebas Neue;
-  letter-spacing: 6px;
+  font: Bold 2.143rem/1.714rem Bebas Neue;
+  letter-spacing: 0.429rem;
   text-transform: uppercase;
 }
 
 #stepper-description {
   color: $main-dark-blue;
   text-align: center;
-  font: 15px/22px Montserrat;
+  font: 1.071rem/1.6rem Montserrat;
   font-weight: 500;
   letter-spacing: 0.23px;
 }
 
 .upload-step-label {
   text-align: left;
-  font: Bold 16px/22px Montserrat;
+  font: Bold 1.143rem/1.571rem Montserrat;
   letter-spacing: 0.24px;
   text-transform: uppercase;
+
+  &.disabled {
+    color: #6f6f6f !important;
+  }
 }
 
 // override vuetify styling for step label

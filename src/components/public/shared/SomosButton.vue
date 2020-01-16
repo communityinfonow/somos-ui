@@ -21,12 +21,12 @@ export default {
   background-color: $main-dark-blue;
   opacity: 1;
   text-align: center;
-  font: Bold 15px/30px Montserrat !important;
-  letter-spacing: 1.05px;
+  font: Bold 1.071rem/2.143rem Montserrat !important;
+  letter-spacing: 0.075rem;
   color: #ffffff !important;
   opacity: 1;
   height: 40px !important;
-
+  display: block;
   &:disabled {
     background-color: #cecece;
   }
