@@ -1,6 +1,9 @@
 <template>
   <v-app id="app">
-    <publicContainer />
+    <transition name="fade">
+      <router-view></router-view>
+    </transition>
+
     <!-- <AdminContainer /> -->
   </v-app>
 </template>

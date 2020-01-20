@@ -18,9 +18,7 @@
       </v-btn-toggle>
     </v-row>
     <v-row>
-      <transition name="fade">
-        <router-view></router-view>
-      </transition>
+      
     </v-row>
   </v-container>
 </template>
