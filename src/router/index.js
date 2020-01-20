@@ -11,6 +11,7 @@ Vue.use(VueRouter);
 
 
 export default new VueRouter({
+    mode: 'history',
     routes: [{
         path: "/photo-upload",
         component: PhotoUpload
@@ -27,6 +28,7 @@ export default new VueRouter({
         component: SuperUser
     }, {
         path: "/",
+        redirect: "/photoshare",
         name: "root",
         component: PublicContainer
     }]
