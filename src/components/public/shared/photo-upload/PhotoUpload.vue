@@ -1,84 +1,101 @@
 /**Big ol' component encompassing all that is photo upload */
 // TODO add timeout for upload process. Match that timeout on the server and delete the file if it hasn't been approved yet.
 <template>
-  <v-container id="photo-upload-container">
-    <v-row align-center justify-center>
-      <v-col cols="12" id="photo-upload-content" class="elevation-2">
-        <v-stepper v-model="stepper" :vertical="true" id="stepper" class="elevation-0">
-          <div id="stepper-header" class="mb-4" role="heading" aria-level="1">Share Your Photos</div>
-          <p
-            id="stepper-description"
-          >Share your neighborhood photos with the rest of San Antonio. Our shared story begins here.</p>
+  <div id="photo-upload-container">
+    <v-container>
+      <v-row align-center justify-center>
+        <v-col cols="12" id="photo-upload-content" class="elevation-2">
+          <v-stepper v-model="stepper" :vertical="true" id="stepper" class="elevation-0">
+            <div id="stepper-header" class="mb-4" role="heading" aria-level="1">Share Your Photos</div>
+            <p
+              id="stepper-description"
+            >Share your neighborhood photos with the rest of San Antonio. Our shared story begins here.</p>
 
-          <v-stepper-step :step="1" :complete="stepper > 1" :key="`1 - step`" :color="stepperColor">
-            <span
-              class="upload-step-label"
-              :class="determineStepperTextActive(1)"
-              role="heading"
-              aria-level="2"
-            >Upload Photo</span>
-          </v-stepper-step>
-          <v-stepper-content :key="`1 - content`" :step="1">
-            <v-card height="height" flat>
-              <v-card-text>
-                <PhotoInput :key="rerenderKey" />
-              </v-card-text>
-              <v-card-actions>
-                <SomosButton @click="nextStep(1)" block :disabled="photoLoaded">Submit</SomosButton>
-              </v-card-actions>
-            </v-card>
+            <v-stepper-step
+              :step="1"
+              :complete="stepper > 1"
+              :key="`1 - step`"
+              :color="stepperColor"
+            >
+              <span
+                class="upload-step-label"
+                :class="determineStepperTextActive(1)"
+                role="heading"
+                aria-level="2"
+              >Upload Photo</span>
+            </v-stepper-step>
+            <v-stepper-content :key="`1 - content`" :step="1">
+              <v-card height="height" flat>
+                <v-card-text>
+                  <PhotoInput :key="rerenderKey" />
+                </v-card-text>
+                <v-card-actions>
+                  <SomosButton @click="nextStep(1)" block :disabled="photoLoaded">Submit</SomosButton>
+                </v-card-actions>
+              </v-card>
 
-            <!-- TODO remove false -->
-          </v-stepper-content>
-          <v-stepper-step :step="2" :complete="stepper > 2" :key="`2 - step`" :color="stepperColor">
-            <span
-              class="upload-step-label"
-              :class="determineStepperTextActive(2)"
-              role="heading"
-              aria-level="2"
-            >{{locationTitlePrepend}} Photo Location</span>
-          </v-stepper-step>
-          <v-stepper-content :key="`2 - content`" :step="2">
-            <v-card height="height" flat>
-              <v-card-text>
-                <AddressSearch></AddressSearch>
-                <GeoMap
-                  :location="selectedLocation.coordinates"
-                  :zoom="mapZoom"
-                  :center="selectedLocation.coordinates"
-                  :display="false"
-                />
-              </v-card-text>
-              <v-card-actions>
-                <SomosButton @click="nextStep(2)" block :disabled="!isLocationSelected">Submit</SomosButton>
-              </v-card-actions>
-            </v-card>
-          </v-stepper-content>
-          <v-stepper-step :step="3" :complete="stepper > 3" :key="`3 - step`" :color="stepperColor">
-            <span
-              class="upload-step-label"
-              :class="determineStepperTextActive(3)"
-              role="heading"
-              aria-level="2"
-            >Enter Contact Information (not required)</span>
-          </v-stepper-step>
-          <v-stepper-content :key="`3 - content`" :step="3">
-            <v-card class="mb-12" height="height" flat>
-              <v-card-text>
-                <ContactForm></ContactForm>
-              </v-card-text>
-              <v-card-actions>
-                <!-- TODO: message regarding privacy policy and terms of service -->
-                <SomosButton @click="submitUpload" block>Submit</SomosButton>
-              </v-card-actions>
-            </v-card>
-          </v-stepper-content>
-        </v-stepper>
-        <v-alert type="success" :value="showComplete">Upload successful</v-alert>
-        <SomosButton v-if="showComplete" @click="resetUpload" block>Upload Another Photo</SomosButton>
-      </v-col>
-    </v-row>
-  </v-container>
+              <!-- TODO remove false -->
+            </v-stepper-content>
+            <v-stepper-step
+              :step="2"
+              :complete="stepper > 2"
+              :key="`2 - step`"
+              :color="stepperColor"
+            >
+              <span
+                class="upload-step-label"
+                :class="determineStepperTextActive(2)"
+                role="heading"
+                aria-level="2"
+              >{{locationTitlePrepend}} Photo Location</span>
+            </v-stepper-step>
+            <v-stepper-content :key="`2 - content`" :step="2">
+              <v-card height="height" flat>
+                <v-card-text>
+                  <AddressSearch></AddressSearch>
+                  <GeoMap
+                    :location="selectedLocation.coordinates"
+                    :zoom="mapZoom"
+                    :center="selectedLocation.coordinates"
+                    :display="false"
+                  />
+                </v-card-text>
+                <v-card-actions>
+                  <SomosButton @click="nextStep(2)" block :disabled="!isLocationSelected">Submit</SomosButton>
+                </v-card-actions>
+              </v-card>
+            </v-stepper-content>
+            <v-stepper-step
+              :step="3"
+              :complete="stepper > 3"
+              :key="`3 - step`"
+              :color="stepperColor"
+            >
+              <span
+                class="upload-step-label"
+                :class="determineStepperTextActive(3)"
+                role="heading"
+                aria-level="2"
+              >Enter Contact Information (not required)</span>
+            </v-stepper-step>
+            <v-stepper-content :key="`3 - content`" :step="3">
+              <v-card class="mb-12" height="height" flat>
+                <v-card-text>
+                  <ContactForm></ContactForm>
+                </v-card-text>
+                <v-card-actions>
+                  <!-- TODO: message regarding privacy policy and terms of service -->
+                  <SomosButton @click="submitUpload" block>Submit</SomosButton>
+                </v-card-actions>
+              </v-card>
+            </v-stepper-content>
+          </v-stepper>
+          <v-alert type="success" :value="showComplete">Upload successful</v-alert>
+          <SomosButton v-if="showComplete" @click="resetUpload" block>Upload Another Photo</SomosButton>
+        </v-col>
+      </v-row>
+    </v-container>
+  </div>
 </template>
 
 <script>
@@ -180,9 +197,25 @@ export default {
 </script>
 
 <style lang="scss">
+@media (min-width: 1904px) {
+  .container {
+    max-width: 1185px !important;
+  }
+}
+
 #photo-upload-content {
   background-color: white;
   border-radius: $border-radius;
+}
+
+#photo-upload-container {
+  background-image: linear-gradient(
+    90deg,
+    $main-light-blue,
+    $main-light-blue 50%,
+    $main-dark-blue 50%
+  );
+  height: 100%;
 }
 
 #map {
