@@ -5,7 +5,7 @@
       We’re connecting our community together! Meet your counterpart: A neighborhood exactly like yours, with a few major differences.
       Enter your information below and click the button to find out how these differences impact you and your neighbors.
     </p>
-    <AddressSearch class="address-search"></AddressSearch>
+    <AddressSearch class="address-search" @selected="selectionHandler"></AddressSearch>
     <v-row id="location-groups">
       <v-col cols="12" sm="6" class="left pr-0 mr-0">
         <LocationGroup :image="require('../left-flag.svg')" title="your location" />
@@ -20,10 +20,9 @@
 </template>
 
 <script>
-import AddressSearch from "../../../shared/address-search/AddressSearch";
+import AddressSearch from "./address-search/AddressSearch";
 import DataDisplay from "./DataDisplay";
 import LocationGroup from "./LocationGroup";
-import { store } from "../../../../store";
 import { userDataStore } from "../userDataStore";
 export default {
   name: "CommunityCounterpart",
@@ -34,8 +33,7 @@ export default {
   },
   data() {
     return {
-      storeState: store.state,
-      dataStoreState: userDataStore.state,
+      storeState: userDataStore.state,
       commonData: [
         {
           id: 1,
@@ -65,6 +63,11 @@ export default {
         }
       ]
     };
+  },
+  methods: {
+    selectionHandler(selection) {
+      userDataStore.setAddress(selection);
+    }
   }
 };
 </script>
