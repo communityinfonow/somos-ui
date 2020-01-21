@@ -57,7 +57,7 @@ export default {
       blockColors: [
         globals.darkPink,
         globals.yellow,
-        globals.lightPink,
+        globals.greyGreen,
         globals.mainLightBlue
       ],
       sidebar: false
