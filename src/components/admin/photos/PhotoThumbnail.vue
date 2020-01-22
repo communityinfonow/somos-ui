@@ -227,7 +227,7 @@ export default {
       );
       this.closePhotoEnlarge();
     },
-    deletePhoto: function() {
+    deletePhoto() {
       this.closeModal();
       let self = this;
       PhotoData.delete(this.selfPath, response => {
