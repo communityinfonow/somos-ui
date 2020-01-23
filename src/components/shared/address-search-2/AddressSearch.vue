@@ -22,8 +22,8 @@
 <script>
 import AddressInput from "./AddressInput";
 import AddressTypeSelector from "./AddessTypeSelector";
-import { location, coordinates } from "../../../../../Location";
-import locationSearch from "../../../../../api/locationSearch";
+import { location, coordinates } from "../../../Location";
+import locationSearch from "../../../api/locationSearch";
 
 export default {
   name: "AddressSearch",
@@ -51,7 +51,6 @@ export default {
             new coordinates(result.location.lat, result.location.lng)
           )
       );
-      this.$emit("search-complete", this.searchSuggestions);
     },
     selectionHandler(selection) {
       this.$emit("selected", selection);

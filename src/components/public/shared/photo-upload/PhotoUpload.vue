@@ -52,7 +52,7 @@
             <v-stepper-content :key="`2 - content`" :step="2">
               <v-card height="height" flat>
                 <v-card-text>
-                  <AddressSearch></AddressSearch>
+                  <AddressSearch @selected="selectionHandler"></AddressSearch>
                   <GeoMap
                     :location="selectedLocation.coordinates"
                     :zoom="mapZoom"
@@ -99,7 +99,7 @@
 </template>
 
 <script>
-import AddressSearch from "../../../shared/address-search/AddressSearch";
+import AddressSearch from "../../../shared/address-search-2/AddressSearch";
 import ContactForm from "./ContactForm";
 import GeoMap from "../map/Map";
 import PhotoInput from "./PhotoInput";
@@ -151,6 +151,9 @@ export default {
       store.setPhoto(null);
       this.rerenderKey += 1; // re-renders the photo input component
       this.showComplete = false;
+    },
+    selectionHandler(location) {
+      store.setSelectedLocation(location);
     },
     submitUpload() {
       var photo = this.storeState.photo;

@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { keyTracking } from "../../../../../mixins/key-tracking";
+import { keyTracking } from "../../../mixins/key-tracking";
 
 export default {
   name: "AddressInput",
