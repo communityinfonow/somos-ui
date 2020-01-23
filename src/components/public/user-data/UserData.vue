@@ -23,12 +23,12 @@ export default {
     return {
       userTract: null,
       storeState: userDataStore.state,
-      userAddress: null
+      address: null
     };
   },
   computed: {
     selectedLocation() {
-      return this.storeState.userAddress;
+      return this.storeState.address;
     }
   },
   watch: {
@@ -42,12 +42,12 @@ export default {
   methods: {
     getContainingTract(location) {
       userDataStore.resetCounterpart();
-      censusTracts.get(
+      censusTracts.getSingle(
         this.appLinks.censusTracts.href +
-          ";lat=" +
-          location.lat +
-          ",lng=" +
-          location.lng,
+          "/latlng/lat=" +
+          location.coordinates.lat +
+          ";lng=" +
+          location.coordinates.lng,
         response => {
           userDataStore.setTract(response);
         }

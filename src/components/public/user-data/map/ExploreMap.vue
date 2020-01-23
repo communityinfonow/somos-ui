@@ -29,11 +29,12 @@ export default {
   computed: {
     locations() {
       let locations = [];
-      if (this.storeState.userAddress) {
-        locations.push(this.storeState.userAddress);
+      if (this.storeState.address) {
+        locations.push(this.storeState.address);
       }
 
-      if (this.boundaryGeojson && this.tract) {
+      if (this.boundaryGeojson && this.tract && this.tract.counterpart) {
+        // TODO take out coutnerpart check once implemented in data
         locations.push(
           this.boundaryGeojson
             .getLayers()
@@ -59,7 +60,7 @@ export default {
   watch: {
     appLinks: function() {
       if (this.storeState.links) {
-        censusTractApi.get(
+        censusTractApi.getMulti(
           this.storeState.links.censusTracts.href,
           censusTracts => {
             this.censusTracts = censusTracts;
