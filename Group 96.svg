@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="87.92" height="87.92" viewBox="0 0 87.92 87.92">
+  <g id="Group_96" data-name="Group 96" transform="translate(-179.08 -3.152)">
+    <circle id="Ellipse_30" data-name="Ellipse 30" cx="42.46" cy="42.46" r="42.46" transform="translate(180.58 4.652)" stroke-width="3" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" fill="none"/>
+    <g id="Group_86" data-name="Group 86" transform="translate(194.854 17.824)">
+      <path id="Path_921" data-name="Path 921" d="M396.691,81.538a5.174,5.174,0,0,0,4.907-4.907V65.587c0-4.054-6.783-6.137-11.044-6.137s-11.044,2.083-11.044,6.137V76.631a5.17,5.17,0,0,0,4.907,4.907" transform="translate(-362.34 -43.5)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="3"/>
+      <path id="Path_922" data-name="Path 922" d="M395.447,43.079a4.7,4.7,0,0,0,4.906-4.907V35.717a4.907,4.907,0,1,0-9.813,0v2.456A4.7,4.7,0,0,0,395.447,43.079Z" transform="translate(-367.227 -30.81)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="3"/>
+      <line id="Line_32" data-name="Line 32" y1="31.901" transform="translate(34.351 24.538)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="3"/>
+      <line id="Line_33" data-name="Line 33" y2="31.901" transform="translate(22.082 24.538)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="3"/>
+      <line id="Line_34" data-name="Line 34" y2="19.632" transform="translate(28.22 36.807)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="3"/>
+      <line id="Line_35" data-name="Line 35" x1="12.269" transform="translate(0 28.22)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="3"/>
+      <path id="Path_923" data-name="Path 923" d="M361.89,72.67l4.912,4.907-4.912,4.912" transform="translate(-354.533 -49.357)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="3"/>
+      <line id="Line_36" data-name="Line 36" x2="8.588" y2="8.588" transform="translate(4.907 8.588)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="3"/>
+      <path id="Path_924" data-name="Path 924" d="M368.027,50.64v6.132H361.89" transform="translate(-354.533 -39.596)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="3"/>
+      <line id="Line_37" data-name="Line 37" y1="8.588" x2="8.588" transform="translate(4.907 39.263)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="3"/>
+      <path id="Path_925" data-name="Path 925" d="M368.027,107.447V101.31H361.89" transform="translate(-354.533 -62.047)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="3"/>
+      <line id="Line_38" data-name="Line 38" x2="12.269" transform="translate(44.17 28.22)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="3"/>
+      <path id="Path_926" data-name="Path 926" d="M432.9,72.67l-4.907,4.907,4.907,4.912" transform="translate(-383.82 -49.357)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="3"/>
+      <line id="Line_39" data-name="Line 39" x1="8.593" y2="8.588" transform="translate(42.939 8.588)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="3"/>
+      <path id="Path_927" data-name="Path 927" d="M425.78,50.64v6.132h6.137" transform="translate(-382.841 -39.596)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="3"/>
+      <line id="Line_40" data-name="Line 40" x1="8.593" y1="8.588" transform="translate(42.939 39.263)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="3"/>
+      <path id="Path_928" data-name="Path 928" d="M425.78,107.447V101.31h6.137" transform="translate(-382.841 -62.047)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="3"/>
+    </g>
+  </g>
+</svg>

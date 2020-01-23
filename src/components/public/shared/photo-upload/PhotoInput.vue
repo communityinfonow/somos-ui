@@ -76,7 +76,7 @@ export default {
             this.getGPSMetadata(response.data._links["gps-coordinates"].href);
           })
           .catch(error => {
-            this.errorMessage = error;
+            this.errorMessage = error.message;
           })
           .finally(() => {
             this.loading = false;

@@ -1,0 +1,4 @@
+export const ValueType = {
+    PERCENT: 'percent',
+    COUNT: 'count'
+}

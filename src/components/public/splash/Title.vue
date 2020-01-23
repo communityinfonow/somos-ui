@@ -1,13 +1,19 @@
 <template>
-  <div id="splash-title" class="mb-9">
+  <h1 id="splash-title">
     <span class="main-text">WE ARE&nbsp;</span>
-    <span class="secondary-text">{{currentCommunity}}</span>
-  </div>
+    <span id="community">
+      <CyclingText class="secondary-text" :textArray="communities" />
+    </span>
+  </h1>
 </template>
 
 <script>
+import CyclingText from "../../shared/CyclingText";
 export default {
   name: "Title",
+  components: {
+    CyclingText
+  },
   data() {
     return {
       communities: [
@@ -27,27 +33,9 @@ export default {
         "LOVERS",
         "STRONG"
       ],
-      currentCommunity: null
+      currentCommunity: null,
+      show: true
     };
-  },
-  methods: {
-    communityTimer() {
-      if (this.currentCommunity == null) {
-        this.currentCommunity = this.communities[0];
-      }
-      let index = 1;
-      setInterval(() => {
-        this.currentCommunity =
-          index === this.communities.length
-            ? this.communities[(index = 0)]
-            : this.communities[index++];
-      }, 2000);
-    },
-    clickHandler() {}
-  },
-  computed: {},
-  created() {
-    this.communityTimer();
   }
 };
 </script>
@@ -55,10 +43,30 @@ export default {
 <style lang="scss" scoped>
 #splash-title {
   text-align: left;
-  font: Bold 40px/24px Bebas Neue;
-  letter-spacing: 8px;
-  text-transform: uppercase;
-  opacity: 1;
-  font-family: "Bebas Neue";
+  height: 50px;
+  overflow: hidden;
+  position: relative;
+  span {
+    vertical-align: text-bottom;
+  }
+  margin-bottom: 20px;
+}
+
+#community {
+  vertical-align: inherit;
+  position: relative;
+}
+
+@media (max-width: 1264px) {
+  #splash-title {
+    font-size: 1.929rem;
+    margin-bottom: 0;
+  }
+}
+
+@media (min-width: 1265px) {
+  #splash-title {
+    font-size: 2.857rem;
+  }
 }
 </style>

@@ -28,7 +28,7 @@
 import PhotoSelector from "./photos/PhotoSelector";
 import { store } from "../../store";
 import PhotoData from "../../api/photo-data";
-import { appLinks } from "../../mixins/app-links";
+import { adminAppLinks } from "../../mixins/admin-app-links";
 export default {
   name: "Admin",
   data() {
@@ -47,7 +47,7 @@ export default {
   components: {
     PhotoSelector
   },
-  mixins: [appLinks],
+  mixins: [adminAppLinks],
   watch: {
     appLinks: function(newLinks) {
       PhotoData.get(newLinks.photos.href, response => {

@@ -8,7 +8,6 @@
 </template>
 
 <script>
-import { store } from "../../../store";
 import globals from "../../../globals";
 export default {
   name: "AddressTypeSelector",
@@ -16,13 +15,12 @@ export default {
   data() {
     return {
       selected: "address", // address selected by default
-      state: store.state,
       mainDarkBlue: globals.mainDarkBlue
     };
   },
   watch: {
     selected: function(type) {
-      store.setAddressSearchType(type);
+      this.$emit("selected", type);
     }
   }
 };

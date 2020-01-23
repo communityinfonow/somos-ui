@@ -1,16 +1,14 @@
 <template>
-  <l-map
-    id="map"
-    ref="map"
-    :center="mapCenter"
-    :zoom="mapZoom"
-    @click="clicker"
-    @ready="loadListener"
-  >
+  <l-map id="map" ref="map" :center="mapCenter" :zoom="mapZoom" @click="clickHandler">
     <l-tile-layer :url="tileUrl"></l-tile-layer>
-    <span v-if="location  && location.lat && location.lng">
-      <l-marker :lat-lng="location">
-        <l-icon :icon-url="iconUrl" :icon-size="iconSize" :icon-anchor="iconAnchor"></l-icon>
+
+    <span v-for="(location, index) in locations" :key="index">
+      <l-marker :lat-lng="location.coordinates">
+        <l-icon
+          :icon-url="location.icon.url"
+          :icon-size="location.icon.size"
+          :icon-anchor="location.icon.anchor"
+        ></l-icon>
       </l-marker>
     </span>
   </l-map>
@@ -18,12 +16,9 @@
 
 <script>
 import { LMap, LTileLayer, LControl, LMarker, LIcon } from "vue2-leaflet";
-import { store } from "../../../../store";
-import * as leafletPip from "@mapbox/leaflet-pip";
 
 import Legend from "./Legend";
 import MarkerTooltip from "./MarkerTooltip";
-import boundaries from "./Boundaries.js";
 
 export default {
   name: "GeoMap",
@@ -47,62 +42,33 @@ export default {
       defaultCenter: [29.437236, -98.491163],
       tileUrl:
         "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png",
-      defaultZoom: 10,
-      iconUrl: "./assets/map-marker.png",
-      iconSize: [25, 41],
-      geoJson: {},
-      storeState: store.state
+      defaultZoom: 10
     };
   },
-  props: ["location", "zoom", "center", "display"],
+  props: { locations: Array, zoom: Number, center: Array, boundaries: Object },
   methods: {
     loadListener: function(e) {
       if (!e.hasLayer(this.boundaries)) {
         this.boundaries.addTo(e);
       }
     },
-    clicker: function(event) {
-      store.setSelectedLocation({
-        //TODO: unit test to make sure object always has same structure of {lat,lng}
-        coordinates: event.latlng
-      });
-    },
-    findContainingTractByBoundaries: function(latLng) {
-      var containingGeographies = leafletPip.pointInLayer(
-        latLng,
-        this.boundaries
-      );
-      if (containingGeographies.length == 1) {
-        var layer = containingGeographies[0];
-        boundaries().setSelectedStyle(layer);
-        return layer.feature.properties;
-      } else {
-        //TODO: return an error
-      }
-      return null;
+    clickHandler(event) {
+      this.$emit("click", event);
     }
   },
   watch: {
-    location: function(theLocation) {
-      store.setSelectedLocationTract(
-        this.findContainingTractByBoundaries(theLocation) // TODO: handle null
-      );
+    locations: function(theLocation) {
+      // this.findContainingTractByBoundaries(theLocation); // TODO: handle null
     },
     boundaries: function(newBoundaries) {
       newBoundaries.addTo(this.map);
     }
   },
   computed: {
-    iconAnchor: function() {
-      return [this.iconSize[0] / 2, this.iconSize[1]];
-    },
-    boundaries: function() {
-      return boundaries(false).generate(this.storeState.censusTracts);
-    },
-    mapZoom: function() {
+    mapZoom() {
       return this.zoom || this.defaultZoom;
     },
-    mapCenter: function() {
+    mapCenter() {
       return this.center && this.center.lat && this.center.lng
         ? this.center
         : this.defaultCenter;

@@ -7,7 +7,7 @@
       <v-divider></v-divider>
       <v-row>
         <v-col v-for="photo in photos" :key="photo.id" lg="2" md="3" sm="6" xs="12">
-          <PhotoThumbnail :photoObj="photo" @delete="deleteHandler" @update="refreshPhoto">></PhotoThumbnail>
+          <PhotoThumbnail :photoObj="photo" @delete="deleteHandler">></PhotoThumbnail>
         </v-col>
       </v-row>
     </v-col>
@@ -31,8 +31,7 @@ export default {
       if (!this.photos.length) {
         this.$emit("delete", this.censusTract);
       }
-    },
-    refreshPhoto: function(object, event) {}
+    }
   }
 };
 </script>

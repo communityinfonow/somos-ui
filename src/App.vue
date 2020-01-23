@@ -1,6 +1,9 @@
 <template>
   <v-app id="app">
-    <publicContainer />
+    <transition name="fade">
+      <router-view></router-view>
+    </transition>
+
     <!-- <AdminContainer /> -->
   </v-app>
 </template>
@@ -27,8 +30,37 @@ export default {
   /* margin-top: 60px; */
 }
 
-.container {
-  height: 100%;
+html {
+  font-size: 14px !important;
+}
+
+h1 {
+  letter-spacing: 8px;
+  color: $main-dark-blue;
+  text-transform: uppercase;
+  font-family: "Bebas Neue";
+  font-weight: 700;
+  font-size: 2.857rem;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  h1 {
+    font-size: 2.143rem;
+  }
+
+  h2 {
+    text-align: center;
+  }
+}
+
+h2 {
+  font-size: 1.143rem;
+  font-family: "Montserrat" !important;
+  color: #162d54;
+  text-transform: uppercase;
+  font-weight: 900;
+  letter-spacing: 1.6px;
 }
 
 .fade-enter-active,
@@ -49,5 +81,9 @@ export default {
 }
 .secondary-text {
   color: $main-light-blue;
+}
+
+[class^="col"] {
+  z-index: 2;
 }
 </style>
