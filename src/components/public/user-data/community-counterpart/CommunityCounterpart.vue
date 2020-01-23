@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import AddressSearch from "../../../shared/address-search-2/AddressSearch";
+import AddressSearch from "../../../shared/address-search/AddressSearch";
 import DataDisplay from "./DataDisplay";
 import LocationGroup from "./LocationGroup";
 import { userDataStore } from "../userDataStore";

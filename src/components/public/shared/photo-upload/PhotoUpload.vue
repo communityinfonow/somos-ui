@@ -53,12 +53,7 @@
               <v-card height="height" flat>
                 <v-card-text>
                   <AddressSearch @selected="selectionHandler"></AddressSearch>
-                  <GeoMap
-                    :location="selectedLocation.coordinates"
-                    :zoom="mapZoom"
-                    :center="selectedLocation.coordinates"
-                    :display="false"
-                  />
+                  <UploadMap :coordinates="selectedLocation.coordinates" />
                 </v-card-text>
                 <v-card-actions>
                   <SomosButton @click="nextStep(2)" block :disabled="!isLocationSelected">Submit</SomosButton>
@@ -99,16 +94,16 @@
 </template>
 
 <script>
-import AddressSearch from "../../../shared/address-search-2/AddressSearch";
+import AddressSearch from "../../../shared/address-search/AddressSearch";
 import ContactForm from "./ContactForm";
-import GeoMap from "../map/Map";
 import PhotoInput from "./PhotoInput";
-import { store } from "../../../../store";
-import PhotoData from "../../../../api/photo-data";
-import CensusTracts from "../../../../api/census-tracts";
-import { appLinks } from "../../../../mixins/app-links";
+import { store } from "@/store";
+import PhotoData from "@/api/photo-data";
+import CensusTracts from "@/api/census-tracts";
+import { appLinks } from "@/mixins/app-links";
 import SomosButton from "../../shared/SomosButton";
-import globals from "../../../../globals";
+import globals from "@/globals";
+import UploadMap from "./UploadMap";
 import Vue from "vue";
 
 export default {
@@ -116,7 +111,7 @@ export default {
   components: {
     AddressSearch,
     ContactForm,
-    GeoMap,
+    UploadMap,
     PhotoInput,
     SomosButton
   },
@@ -133,9 +128,7 @@ export default {
   mixins: [appLinks],
   watch: {
     appLinks: function(newLinks) {
-      CensusTracts.getMulti(newLinks.censusTracts.href, response => {
-        store.setCensusTracts(response);
-      });
+      store.setAppLinks(newLinks);
     }
   },
   methods: {
@@ -191,9 +184,6 @@ export default {
     },
     locationTitlePrepend: function() {
       return this.isLocationSelected ? "Confirm" : "Select";
-    },
-    mapZoom: function() {
-      return this.isLocationSelected ? 14 : null;
     }
   }
 };

@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import ExploreMap from "./map/ExploreMap";
-import { userDataStore } from "./userDataStore";
+import ExploreMap from "./ExploreMap";
+import { userDataStore } from "../userDataStore";
 export default {
   name: "Explore",
   components: {

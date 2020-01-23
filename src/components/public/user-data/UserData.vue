@@ -7,10 +7,10 @@
 
 <script>
 import { userDataStore } from "./userDataStore";
-import Explore from "./Explore";
+import Explore from "./explore/Explore";
 import CommunityCounterpart from "./community-counterpart/CommunityCounterpart";
-import { appLinks } from "../../../mixins/app-links";
-import censusTracts from "../../../api/census-tracts";
+import { appLinks } from "@/mixins/app-links";
+import censusTracts from "@/api/census-tracts";
 export default {
   name: "UserData",
   components: {

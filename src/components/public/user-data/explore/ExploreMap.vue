@@ -3,34 +3,38 @@
 </template>
 
 <script>
-import Map from "./Map";
-import censusTractApi from "../../../../api/census-tracts";
+import Map from "@/components/public/shared/map/Map";
 import { userDataStore } from "../userDataStore";
-import boundaries from "./Boundaries";
+
+import { mapCommon } from "@/mixins/map-common";
 export default {
   name: "ExploreMap",
   components: {
     Map
   },
   props: { tract: Object },
+  mixins: [mapCommon],
   data() {
     return {
       storeState: userDataStore.state,
-      censusTracts: null
+      userIconUrl: require("../left-flag.svg"),
+      coutnerpartIconUrl: require("../right-flag.svg")
     };
   },
-  methods: {
-    calculateIconAnchor(iconSize) {
-      return [iconSize[0] / 2, this.iconSize[1]];
-    },
-    setBoundaries(censusTractBoundaries) {}
-  },
+  methods: {},
 
   computed: {
     locations() {
       let locations = [];
       if (this.storeState.address) {
-        locations.push(this.storeState.address);
+        locations.push({
+          coordinates: this.storeState.address.coordinates,
+          icon: {
+            url: this.userIconUrl,
+            size: this.iconSize,
+            anchor: this.calculateIconAnchor(this.iconSize)
+          }
+        });
       }
 
       if (this.boundaryGeojson && this.tract && this.tract.counterpart) {
@@ -47,25 +51,14 @@ export default {
       }
       return locations;
     },
-    boundaryGeojson() {
-      if (this.censusTracts) {
-        return boundaries(false).generate(this.censusTracts);
-      }
-      return null;
-    },
     appLinks() {
       return this.storeState.links;
     }
   },
   watch: {
-    appLinks: function() {
+    appLinks() {
       if (this.storeState.links) {
-        censusTractApi.getMulti(
-          this.storeState.links.censusTracts.href,
-          censusTracts => {
-            this.censusTracts = censusTracts;
-          }
-        );
+        this.getCensusTracts(this.storeState.links.censusTracts.href);
       }
     }
   }
