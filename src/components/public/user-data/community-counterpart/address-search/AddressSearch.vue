@@ -9,8 +9,8 @@
         <span id="input-results">
           <AddressInput
             :loading="loading"
-            :items="searchSuggestions"
-            @doneTyping="doneTypingHandler"
+            :searchItems="searchSuggestions"
+            @done-typing="doneTypingHandler"
             @selected="selectionHandler"
           />
         </span>
@@ -41,7 +41,7 @@ export default {
   },
   computed: {},
   methods: {
-    searchCallback: function(response) {
+    searchCallback(response) {
       this.loading = false;
       this.searchSuggestions = response.data.map(
         result =>
@@ -67,7 +67,7 @@ export default {
     typeSelectionHandler(type) {
       this.locationType = type;
     },
-    modifyVuetifyElementsForAccesibility: function() {
+    modifyVuetifyElementsForAccesibility() {
       document
         .getElementById("input-results")
         .querySelectorAll('[role="combobox"]')

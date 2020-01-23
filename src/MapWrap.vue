@@ -23,7 +23,7 @@ export default {
   mixins: [appLinks],
   watch: {
     appLinks: function(newLinks) {
-      CensusTracts.get(newLinks.censusTracts.href, response => {
+      CensusTracts.getMulti(newLinks.censusTracts.href, response => {
         store.setCensusTracts(response);
       });
     }
