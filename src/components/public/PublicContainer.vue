@@ -9,8 +9,6 @@
       <Angle :empty="false" :colorLeft="yellow" :colorRight="secondaryBlue"></Angle>
     </div>
     <UserData />
-    <Disparity />
-    <MakeADifference />
   </v-container>
 </template>
 
@@ -20,8 +18,6 @@ import MeetYourNeighbors from "./meet-your-neighbor/MeetYourNeighbors";
 import Angle from "./shared/Angle";
 import globals from "../../globals";
 import UserData from "./user-data/UserData";
-import Disparity from "./Disparity";
-import MakeADifference from "./MakeADifference";
 
 import Header from "./Header";
 export default {
@@ -31,9 +27,7 @@ export default {
     MeetYourNeighbors,
     Angle,
     Header,
-    UserData,
-    Disparity,
-    MakeADifference
+    UserData
   },
   data() {
     return { yellow: globals.yellow, secondaryBlue: globals.mainLightBlue };
