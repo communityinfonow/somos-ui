@@ -56,12 +56,14 @@ export default {
       this.$emit("selected", selection);
     },
     doneTypingHandler(addressSearchString) {
-      this.loading = true;
-      locationSearch.search(
-        addressSearchString,
-        this.locationType || "address",
-        this.searchCallback
-      );
+      if (addressSearchString) {
+        this.loading = true;
+        locationSearch.search(
+          addressSearchString,
+          this.locationType || "address",
+          this.searchCallback
+        );
+      }
     },
     typeSelectionHandler(type) {
       this.locationType = type;
