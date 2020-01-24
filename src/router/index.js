@@ -12,8 +12,13 @@ Vue.use(VueRouter);
 export default new VueRouter({
     mode: 'history',
     routes: [{
+        path: "/admin",
+        component: Admin
+    }, {
         path: "/",
-        redirect: "/photoshare",
+        redirect: "/photoshare"
+    }, {
+        path: "/photoshare",
         component: PhotoUpload
     }]
 });
