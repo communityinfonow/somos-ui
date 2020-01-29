@@ -1,9 +1,9 @@
 import * as axios from "axios";
-const URL = process.env.VUE_APP_API_DOMAIN + "/";
+const URL = process.env.VUE_APP_API_DOMAIN + "/location-search";
 
 export default {
-    search(address, locationType, callback) {
-        axios.get(URL + locationType, {
+    search(address, callback) {
+        axios.get(URL, {
             params: {
                 location: address
             }
