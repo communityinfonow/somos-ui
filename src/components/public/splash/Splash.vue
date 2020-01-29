@@ -44,7 +44,7 @@
 
 <script>
 import Title from "./Title";
-import SomosButton from "../shared/SomosButton";
+import SomosButton from "@/components/shared/SomosButton";
 import OverlappingImages from "./OverlappingImages";
 import Angle from "../shared/Angle";
 import globals from "../../../globals";

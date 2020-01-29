@@ -101,7 +101,7 @@ import { store } from "@/store";
 import PhotoData from "@/api/photo-data";
 import CensusTracts from "@/api/census-tracts";
 import { appLinks } from "@/mixins/app-links";
-import SomosButton from "../../shared/SomosButton";
+import SomosButton from "@/components/shared/SomosButton";
 import globals from "@/globals";
 import UploadMap from "./UploadMap";
 import Vue from "vue";

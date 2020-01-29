@@ -8,7 +8,7 @@ export const adminAppLinks = {
     },
     created() {
         axios
-            .get(process.env.VUE_APP_API_DOMAIN + "/admin", {
+            .get(process.env.VUE_APP_API_DOMAIN + "/admin-links", {
                 headers: {
                     Accept: "application/hal+json"
                 }

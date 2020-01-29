@@ -72,3 +72,13 @@ export const store = {
         this.state.dataFeatures = dataFeatures;
     }
 };
+
+export const authenticationStore = {
+    state: {
+        authenticated: false
+    },
+    setAuthenticated(isAuthenticated) {
+        this.state.authenticated = isAuthenticated;
+    }
+
+};
