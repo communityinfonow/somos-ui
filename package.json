@@ -69,8 +69,7 @@
     }
   },
   "browserslist": [
-    "> 1%",
-    "last 2 versions"
+    "cover 99.5%"
   ],
   "jest": {
     "moduleFileExtensions": [
