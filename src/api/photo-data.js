@@ -46,7 +46,9 @@ export default {
     },
 
     get(url, callback) {
-        axios.get(url).then(response => {
+        axios.get(url, {
+            withCredentials: false
+        }).then(response => {
             callback(response.data._embedded.photoAdminDtoes);
         });
     },
