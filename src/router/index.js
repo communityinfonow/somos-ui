@@ -5,7 +5,6 @@ import Admin from "../components/admin/Admin.vue";
 import Login from "@/components/admin/Login.vue";
 import SuperUser from "../components/admin/SuperUser.vue"
 import PublicContainer from "../components/public/PublicContainer.vue";
-import App from "../App.vue"
 import {
     authenticationStore
 } from "@/store.js"
@@ -34,5 +33,8 @@ export default new VueRouter({
     }, {
         path: "/admin/login",
         component: Login
+    }, {
+        path: "/admin/users",
+        component: SuperUser
     }]
 });
