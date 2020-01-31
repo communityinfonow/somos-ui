@@ -75,7 +75,7 @@ export const store = {
 
 export const authenticationStore = {
     state: {
-        authenticated: process.env.VUE_APP_AUTHENTICATED
+        authenticated: false
     },
     setAuthenticated(isAuthenticated) {
         this.state.authenticated = isAuthenticated;

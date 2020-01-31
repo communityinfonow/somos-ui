@@ -12,8 +12,11 @@ import {
 import 'leaflet/dist/leaflet.css';
 import "cropperjs/dist/cropper.css";
 import vuetify from './plugins/vuetify';
+import * as axios from "axios";
 
 
+
+axios.defaults.withCredentials = true;
 
 delete Icon.Default.prototype._getIconeUrl;
 
