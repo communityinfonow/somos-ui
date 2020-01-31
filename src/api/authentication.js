@@ -5,10 +5,12 @@ export default {
         axios.post(url, credentials).then(response => {
             successCallback(response);
         }).catch(error => {
-            errorCallback(error);
+            errorCallback(error.response);
         });
     },
-    logout(url) {
-
+    logout(url, successCallback) {
+        axios.post(url).then(response => {
+            successCallback();
+        })
     }
 }

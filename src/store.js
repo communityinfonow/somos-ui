@@ -75,10 +75,10 @@ export const store = {
 
 export const authenticationStore = {
     state: {
-        authenticated: false
+        userRoles: []
     },
-    setAuthenticated(isAuthenticated) {
-        this.state.authenticated = isAuthenticated;
+    setUserRoles(roles) {
+        this.state.userRoles = roles;
     }
 
 };

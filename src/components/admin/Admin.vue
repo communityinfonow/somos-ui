@@ -2,15 +2,19 @@
 // TODO: change name of component since there's not a *single* admin view
 <template>
   <v-container>
+    <v-row justify="end">
+      <v-col cols="12" sm="5" id="admin-menu">
+        <v-btn v-if="isSuperUser" @click="usersClick">Manage Users</v-btn>
+
+        <v-btn color="primary" @click="logout">Logout</v-btn>
+      </v-col>
+    </v-row>
     <v-row>
-      <v-col cols="3">
+      <v-col cols="12">
         <v-btn-toggle v-model="approvedFilter">
           <v-btn :value="false">Not Approved</v-btn>
           <v-btn :value="true">Approved</v-btn>
         </v-btn-toggle>
-      </v-col>
-      <v-col cols="6">
-        <!-- <v-autocomplete :items="filteredPhotos" return-object item-text="tract"></v-autocomplete> -->
       </v-col>
     </v-row>
 
@@ -27,21 +31,38 @@
 <script>
 import PhotoSelector from "./photos/PhotoSelector";
 import { store } from "../../store";
+import { authenticationStore } from "@/store";
 import PhotoData from "../../api/photo-data";
 import { adminAppLinks } from "../../mixins/admin-app-links";
+import authApi from "@/api/authentication.js";
 export default {
   name: "Admin",
   data() {
     return {
       storeState: store.state,
       approvedFilter: false,
-      photos: []
+      photos: [],
+      authState: authenticationStore.state
     };
   },
   methods: {
-    deleteTract: function(tract) {
+    deleteTract(tract) {
       this.filteredPhotos.delete(tract);
       //TODO delete the tract if it no longer has photos left
+    },
+    usersClick() {
+      this.$router.push("/admin/users");
+    },
+    logout() {
+      authApi.logout(process.env.VUE_APP_API_DOMAIN + "/logout", response => {
+        this.$router.push("/admin/login");
+      }); //TODO hateoas
+    },
+    getPhotos(url) {
+      PhotoData.get(url, response => {
+        this.photos = response;
+        //TODO: error handling
+      });
     }
   },
   components: {
@@ -50,15 +71,12 @@ export default {
   mixins: [adminAppLinks],
   watch: {
     appLinks: function(newLinks) {
-      PhotoData.get(newLinks.photos.href, response => {
-        this.photos = response;
-        //TODO: error handling
-      });
+      this.getPhotos(newLinks.photos.href);
     }
   },
 
   computed: {
-    filteredPhotos: function() {
+    filteredPhotos() {
       var map = new Map();
       var toggledPhotos = this.photos.filter(
         photo =>
@@ -77,10 +95,19 @@ export default {
         }
       });
       return map;
+    },
+    isSuperUser() {
+      return this.authState.userRoles.find(role => role === "ROLE_SUPER_USER");
     }
   }
 };
 </script>
 
-<style>
+<style lang="scss">
+#admin-menu {
+  text-align: right;
+  button {
+    margin: 5px;
+  }
+}
 </style>
