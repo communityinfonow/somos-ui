@@ -17,21 +17,14 @@ export default {
   data() {
     return {
       communities: [
-        "NEIGHBORS",
-        "SAN ANTONIANS",
-        "LEADERS",
-        "MOTHERS",
-        "FATHERS",
-        "TEACHERS",
-        "STUDENTS",
-        "SONS",
-        "DAUGHTERS",
-        "UNITED",
-        "CREATIVE THINKERS",
-        "PROBLEM SOLVERS",
-        "FRIENDS",
-        "LOVERS",
-        "STRONG"
+        "Neighbors",
+        "San Antonians",
+        "Leaders",
+        "United",
+        "Problem Solvers",
+        "Friends",
+        "Strong",
+        "Compassionate"
       ],
       currentCommunity: null,
       show: true
@@ -49,6 +42,7 @@ export default {
   span {
     vertical-align: text-bottom;
   }
+  text-transform: uppercase;
   margin-bottom: 20px;
 }
 

@@ -26,7 +26,7 @@ export default new VueRouter({
         }
     }, {
         path: "/",
-        redirect: "/photoshare"
+        component: PublicContainer
     }, {
         path: "/photoshare",
         component: PhotoUpload

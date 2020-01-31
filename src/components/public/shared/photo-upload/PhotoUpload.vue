@@ -85,7 +85,10 @@
               </v-card>
             </v-stepper-content>
           </v-stepper>
-          <v-alert type="success" :value="showComplete">Upload successful</v-alert>
+          <v-alert type="success" :value="showComplete">
+            <p>Upload successful</p>
+            <p>Thank you for being part of Somos Neighbors! To keep this community respectful we check all the photos that are uploaded. Photos will not show up on the website until they have been reviewed and approved. Review takes about three business days once a photo is uploaded.</p>
+          </v-alert>
           <SomosButton v-if="showComplete" @click="resetUpload" block>Upload Another Photo</SomosButton>
         </v-col>
       </v-row>
