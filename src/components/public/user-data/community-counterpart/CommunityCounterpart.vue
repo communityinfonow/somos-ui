@@ -1,21 +1,22 @@
 <template>
   <v-container id="community-counterpart">
-    <h1>Find your community counterpart</h1>
-    <p>
-      We’re connecting our community together! Meet your counterpart: A neighborhood exactly like yours, with a few major differences.
-      Enter your information below and click the button to find out how these differences impact you and your neighbors.
-    </p>
-    <AddressSearch class="address-search" @selected="selectionHandler"></AddressSearch>
+    <h1>Find your match</h1>
+    <p>If our daily routine is to go from home to school or work and back, our day-to-day lives don’t offer many chances to get to know other neighborhoods. Enter your information below to see how a neighborhood somewhere else in the county is the same and different from yours.</p>
+    <AddressSearch
+      class="address-search"
+      @selected="selectionHandler"
+      label="Input your neighborhood"
+    ></AddressSearch>
     <v-row id="location-groups">
       <v-col cols="12" sm="6" class="left pr-0 mr-0">
-        <LocationGroup :image="require('../left-flag.svg')" title="your location" />
+        <LocationGroup :image="require('../left-flag.svg')" title="your neighborhood" />
       </v-col>
       <v-col cols="12" sm="6" class="right pl-0 ml-0">
-        <LocationGroup :image="require('../right-flag.svg')" title="your counterpart" />
+        <LocationGroup :image="require('../right-flag.svg')" title="your match neighborhood" />
       </v-col>
     </v-row>
-    <DataDisplay title="you two have a lot in common. take a look:" :data="commonData" />
-    <DataDisplay title="you two are also very different" :data="differenceData" />
+    <DataDisplay title="YOUR NEIGHBORHOODS HAVE A LOT IN COMMON. TAKE A LOOK." :data="commonData" />
+    <DataDisplay title="you are also very different." :data="differenceData" />
   </v-container>
 </template>
 

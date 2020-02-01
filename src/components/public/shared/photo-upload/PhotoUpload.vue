@@ -52,7 +52,7 @@
             <v-stepper-content :key="`2 - content`" :step="2">
               <v-card height="height" flat>
                 <v-card-text>
-                  <AddressSearch @selected="selectionHandler"></AddressSearch>
+                  <AddressSearch @selected="selectionHandler" label="Search for location"></AddressSearch>
                   <UploadMap :coordinates="selectedLocation.coordinates" />
                 </v-card-text>
                 <v-card-actions>

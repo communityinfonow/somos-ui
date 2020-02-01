@@ -9,6 +9,7 @@
             :searchItems="searchSuggestions"
             @done-typing="doneTypingHandler"
             @selected="selectionHandler"
+            :label="label"
           />
         </span>
       </v-col>
@@ -26,7 +27,7 @@ export default {
   components: {
     AddressInput
   },
-
+  props: { label: String },
   data() {
     return {
       searchSuggestions: [],

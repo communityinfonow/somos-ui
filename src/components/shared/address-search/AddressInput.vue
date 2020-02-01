@@ -1,7 +1,7 @@
 /** Generic text input to be used everywhere */
 <template>
   <v-autocomplete
-    label="Search for location"
+    :label="label"
     :items="searchItems"
     v-on:keyup="keyupHandler"
     v-on:keydown="keydownHandler"
@@ -25,7 +25,7 @@ export default {
   data() {
     return { text: "", selected: null };
   },
-  props: ["loading", "searchItems"],
+  props: ["loading", "searchItems", "label"],
   components: {},
   mixins: [keyTracking],
   watch: {
