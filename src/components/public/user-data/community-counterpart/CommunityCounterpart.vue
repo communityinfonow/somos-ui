@@ -67,6 +67,12 @@ export default {
   methods: {
     selectionHandler(selection) {
       userDataStore.setAddress(selection);
+      ga("send", {
+        hitType: "event",
+        eventCategory: "Address Search",
+        eventAction: "select",
+        eventLabel: "address"
+      });
     }
   }
 };

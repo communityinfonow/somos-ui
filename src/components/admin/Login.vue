@@ -66,11 +66,13 @@ export default {
           password: this.password
         },
         response => {
-          authenticationStore.setAuthenticated(true);
+          authenticationStore.setUserRoles(
+            response.data.authorities.map(item => item.authority)
+          );
           this.$router.replace("/admin");
         },
-        error => {
-          this.errorMessage = error;
+        response => {
+          this.errorMessage = response.data.message;
         }
       );
     }

@@ -9,6 +9,8 @@ import {
     authenticationStore
 } from "@/store.js"
 
+import axios from "axios";
+
 Vue.use(VueRouter);
 
 
@@ -18,21 +20,38 @@ export default new VueRouter({
         path: "/admin",
         component: Admin,
         beforeEnter: (to, from, next) => {
-            if (!authenticationStore.state.authenticated) {
+            // TODO definitely get this from HATEOAS
+            axios.get(process.env.VUE_APP_API_DOMAIN + "/authenticated").then(response => {
+                if (response.data) {
+                    authenticationStore.setUserRoles(response.data); //TODO probably move this into an api component/funciton
+                    next();
+                }
+            }).catch(error => {
                 next("/admin/login");
-            } else {
-                next();
-            }
+            });
+
         }
     }, {
         path: "/",
-        redirect: "/photoshare"
+        component: PublicContainer
     }, {
         path: "/photoshare",
         component: PhotoUpload
     }, {
         path: "/admin/login",
-        component: Login
+        component: Login,
+        beforeEnter: (to, from, next) => {
+            // TODO Same. HATEOAS
+            axios.get(process.env.VUE_APP_API_DOMAIN + "/authenticated").then(response => {
+                if (response.data) {
+                    next("/admin");
+                }
+                next();
+            }).catch(error => {
+                next();
+            });
+
+        }
     }, {
         path: "/admin/users",
         component: SuperUser
