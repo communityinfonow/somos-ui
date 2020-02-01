@@ -165,6 +165,12 @@ export default {
           photo.id,
         photo,
         () => {
+          ga("send", {
+            hitType: "event",
+            eventCategory: "Photo Upload",
+            eventAction: "submit",
+            eventLabel: "tract: " + photo.gid
+          });
           this.nextStep(3);
           this.showComplete = true;
         }
