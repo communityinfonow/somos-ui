@@ -1,6 +1,18 @@
 <template>
-  <v-content>
-    <v-data-table :items="users" :headers="headers" item-key="id" hide-default-footer>
+  <v-container>
+    <v-row justify="end">
+      <v-col cols="12">
+        <LogoutButton class="logout-btn" />
+      </v-col>
+    </v-row>
+    <v-data-table
+      :items="users"
+      :headers="headers"
+      item-key="id"
+      hide-default-footer
+      id="datatable"
+      class="elevation-3"
+    >
       <template v-slot:top>
         <v-toolbar flat>
           <v-toolbar-title>Users</v-toolbar-title>
@@ -9,7 +21,7 @@
 
           <v-dialog v-model="dialog" persistent max-width="290">
             <template v-slot:activator="{on}">
-              <v-btn color="primary" dark v-on="on">Add</v-btn>
+              <v-btn color="primary" dark v-on="on">Add User</v-btn>
             </template>
             <v-card>
               <v-card-title class="headline">{{dialogTitle}}</v-card-title>
@@ -74,11 +86,12 @@
         </v-btn>
       </template>
     </v-data-table>
-  </v-content>
+  </v-container>
 </template>
 
 <script>
 import axios from "axios";
+import LogoutButton from "./shared/LogoutButton";
 export default {
   name: "SuperUser",
   data() {
@@ -113,6 +126,9 @@ export default {
       ],
       emailRules: [v => /.+@.+/.test(v) || "E-mail must be valid"]
     };
+  },
+  components: {
+    LogoutButton
   },
   methods: {
     addItem: function() {
@@ -194,5 +210,16 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
+.logout-btn {
+  float: right;
+}
+
+#datatable {
+  border-radius: 13px;
+
+  header {
+    border-radius: 13px;
+  }
+}
 </style>

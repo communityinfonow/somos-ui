@@ -26,11 +26,10 @@
                 type="password"
                 v-model="password"
               />
+              <SomosButton block @click="login">Login</SomosButton>
             </v-form>
           </v-card-text>
-          <v-card-actions>
-            <SomosButton block @click="login">Login</SomosButton>
-          </v-card-actions>
+          <v-card-actions></v-card-actions>
           <v-alert type="error" :value="errorMessage">{{errorMessage}}</v-alert>
         </v-card>
       </v-col>
