@@ -68,7 +68,8 @@ export default {
           authenticationStore.setUserRoles(
             response.data.authorities.map(item => item.authority)
           );
-          this.$router.replace("/admin");
+
+          this.$router.replace("/admin"); //TODO forward to whichever admin page we came from if redirected here
         },
         response => {
           this.errorMessage = response.data.message;

@@ -3,7 +3,7 @@ import VueRouter from "vue-router";
 import PhotoUpload from "../components/public/shared/photo-upload/PhotoUpload.vue";
 import Admin from "../components/admin/Admin.vue";
 import Login from "@/components/admin/Login.vue";
-import SuperUser from "../components/admin/SuperUser.vue"
+import SuperUser from "@/components/admin/SuperUser/SuperUser.vue"
 import PublicContainer from "../components/public/PublicContainer.vue";
 import {
     authenticationStore
