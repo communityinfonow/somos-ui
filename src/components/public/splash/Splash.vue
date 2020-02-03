@@ -9,18 +9,7 @@
     <v-row class="angle-container">
       <v-col cols="12" sm="6">
         <Title />
-        <p>
-          At the heart of San Antonio’s vibrant community is a diverse
-          population of people with one thing in common: A love for San
-          Antonio. However, not every neighborhood in San Antonio
-          experiences equal benefits. Where you live could mean the
-          difference in 20 years on your life expectancy. Somos
-          Neighbors is connecting our San Antonian neighbors together
-          to celebrate our similarities while creating a united stance
-          against social inequalities such as the age disparity gap
-          between communities.
-        </p>
-        <!-- <SomosButton @click="clickHandler" id="explore-communities">EXPLORE COMMUNITIES</SomosButton> -->
+        <Paragraph />
       </v-col>
       <v-col cols="12" sm="6" class="hidden-xs-only">
         <OverlappingImages
@@ -48,13 +37,15 @@ import SomosButton from "@/components/shared/SomosButton";
 import OverlappingImages from "./OverlappingImages";
 import Angle from "../shared/Angle";
 import globals from "../../../globals";
+import Paragraph from "./Paragraph";
 export default {
   name: "Splash",
   components: {
     Title,
     OverlappingImages,
     SomosButton,
-    Angle
+    Angle,
+    Paragraph
   },
   data() {
     return { yellow: globals.yellow, secondaryBlue: globals.mainLightBlue };

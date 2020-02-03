@@ -9,7 +9,6 @@
           :colorRight="yellow"
           class="hidden-sm-and-up"
         ></Angle>
-        <!-- <v-img class="hidden-xs-only" id="som" :src="require('./som.svg')"></v-img> -->
       </div>
 
       <h1>meet your neighbors</h1>

@@ -6,7 +6,7 @@
       <v-col cols="12" sm="5" id="admin-menu">
         <v-btn v-if="isSuperUser" @click="usersClick">Manage Users</v-btn>
 
-        <v-btn color="primary" @click="logout">Logout</v-btn>
+        <LogoutButton />
       </v-col>
     </v-row>
     <v-row>
@@ -35,6 +35,7 @@ import { authenticationStore } from "@/store";
 import PhotoData from "../../api/photo-data";
 import { adminAppLinks } from "../../mixins/admin-app-links";
 import authApi from "@/api/authentication.js";
+import LogoutButton from "./shared/LogoutButton";
 export default {
   name: "Admin",
   data() {
@@ -53,11 +54,6 @@ export default {
     usersClick() {
       this.$router.push("/admin/users");
     },
-    logout() {
-      authApi.logout(process.env.VUE_APP_API_DOMAIN + "/logout", response => {
-        this.$router.push("/admin/login");
-      }); //TODO hateoas
-    },
     getPhotos(url) {
       PhotoData.get(url, response => {
         this.photos = response;
@@ -66,7 +62,8 @@ export default {
     }
   },
   components: {
-    PhotoSelector
+    PhotoSelector,
+    LogoutButton
   },
   mixins: [adminAppLinks],
   watch: {

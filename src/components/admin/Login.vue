@@ -26,11 +26,10 @@
                 type="password"
                 v-model="password"
               />
+              <SomosButton block @click="login">Login</SomosButton>
             </v-form>
           </v-card-text>
-          <v-card-actions>
-            <SomosButton block @click="login">Login</SomosButton>
-          </v-card-actions>
+          <v-card-actions></v-card-actions>
           <v-alert type="error" :value="errorMessage">{{errorMessage}}</v-alert>
         </v-card>
       </v-col>
@@ -69,7 +68,8 @@ export default {
           authenticationStore.setUserRoles(
             response.data.authorities.map(item => item.authority)
           );
-          this.$router.replace("/admin");
+
+          this.$router.replace("/admin"); //TODO forward to whichever admin page we came from if redirected here
         },
         response => {
           this.errorMessage = response.data.message;
