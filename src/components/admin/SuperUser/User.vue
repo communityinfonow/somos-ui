@@ -32,7 +32,6 @@
               v-model="passwordConfirm"
               :type="showPassword ? 'text' : 'password' "
               :rules="passwordRules"
-              :required="model.password && model.password.length > 0 ? true: false"
             ></v-text-field>
             <v-select
               multiple
