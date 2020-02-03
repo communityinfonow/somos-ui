@@ -22,7 +22,7 @@
           :marginOfError="data.counterpartTractData.marginOfError"
           :denomenator="data.maxValue"
           :label="data.dataLabel"
-          right
+          :right="$vuetify.breakpoint.smAndUp"
         />
       </v-col>
     </v-row>

@@ -52,6 +52,7 @@ $bar-height: 48px;
 .bar-container {
   background: #e4e4e4;
   height: $bar-height;
+  position: relative;
 }
 
 .value-container {

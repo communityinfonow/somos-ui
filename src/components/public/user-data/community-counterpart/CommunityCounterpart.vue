@@ -41,16 +41,22 @@ export default {
           name: "Indicator One",
           maxValue: 100,
           dataLabel: "%",
-          userTractData: { value: 40, marginOfError: 10 },
-          counterpartTractData: { value: 50, marginOfError: 10 }
+          userTractData: { value: 40, marginOfError: { high: 60, low: 30 } },
+          counterpartTractData: {
+            value: 50,
+            marginOfError: { high: 54.3, low: 40.3 }
+          }
         },
         {
           id: 2,
           name: "Indicator Two",
           maxValue: 100,
           dataLabel: "%",
-          userTractData: { value: 24.5, marginOfError: 10 },
-          counterpartTractData: { value: 50, marginOfError: 10 }
+          userTractData: { value: 24.5, marginOfError: { high: 30, low: 10 } },
+          counterpartTractData: {
+            value: 50,
+            marginOfError: { high: 70, low: 30 }
+          }
         }
       ],
       differenceData: [
@@ -59,8 +65,11 @@ export default {
           name: "Indicator Three",
           maxValue: 4000,
           dataLabel: "Households",
-          userTractData: { value: 3040, marginOfError: 10 },
-          counterpartTractData: { value: 2500, marginOfError: 10 }
+          userTractData: { value: 3040, marginOfError: { high: 70, low: 30 } },
+          counterpartTractData: {
+            value: 2500,
+            marginOfError: { high: 70, low: 30 }
+          }
         }
       ]
     };
