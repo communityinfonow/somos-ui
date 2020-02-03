@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import DataBarGrouping from "./DataBarGrouping";
+import DataBarGrouping from "@/components/public/shared/data-bar/DataBarGrouping";
 export default {
   name: "DataDisplay",
   props: { title: String, data: Array },

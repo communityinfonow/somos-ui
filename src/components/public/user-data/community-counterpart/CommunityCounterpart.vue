@@ -41,16 +41,16 @@ export default {
           name: "Indicator One",
           maxValue: 100,
           dataLabel: "%",
-          userTractData: { value: 40 },
-          counterpartTractData: { value: 50 }
+          userTractData: { value: 40, marginOfError: 10 },
+          counterpartTractData: { value: 50, marginOfError: 10 }
         },
         {
           id: 2,
           name: "Indicator Two",
           maxValue: 100,
           dataLabel: "%",
-          userTractData: { value: 24.5 },
-          counterpartTractData: { value: 50 }
+          userTractData: { value: 24.5, marginOfError: 10 },
+          counterpartTractData: { value: 50, marginOfError: 10 }
         }
       ],
       differenceData: [
@@ -59,8 +59,8 @@ export default {
           name: "Indicator Three",
           maxValue: 4000,
           dataLabel: "Households",
-          userTractData: { value: 3040 },
-          counterpartTractData: { value: 2500 }
+          userTractData: { value: 3040, marginOfError: 10 },
+          counterpartTractData: { value: 2500, marginOfError: 10 }
         }
       ]
     };

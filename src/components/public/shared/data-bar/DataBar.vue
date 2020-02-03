@@ -3,11 +3,13 @@
     <div class="value-container" :style="{background: color, width: valueContainerWidth}">
       <span>{{formattedLabel}}</span>
     </div>
+    <MarginOfError :marginOfError="marginOfError" :denomenator="denomenator" :right="right" />
   </div>
 </template>
 
 <script>
-import { ValueType } from "../ValueType";
+import { ValueType } from "@/components/public/shared/ValueType";
+import MarginOfError from "./MarginOfError";
 export default {
   name: "DataBar",
   data() {
@@ -21,6 +23,7 @@ export default {
     data: Object,
     numerator: Number,
     denomenator: Number,
+    marginOfError: Number,
     label: String
   },
   computed: {
@@ -36,6 +39,9 @@ export default {
     valueContainerWidth() {
       return (this.numerator / this.denomenator) * 100 + "%";
     }
+  },
+  components: {
+    MarginOfError
   }
 };
 </script>
@@ -53,6 +59,10 @@ $bar-height: 48px;
   letter-spacing: 0.24px;
   color: #ffffff;
   line-height: $bar-height;
+  span {
+    position: relative;
+    z-index: 2;
+  }
 }
 
 .bar-container,

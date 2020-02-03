@@ -11,16 +11,18 @@
           :color="userDataColor"
           :numerator="data.userTractData.value"
           :denomenator="data.maxValue"
+          :marginOfError="data.userTractData.marginOfError"
           :label="data.dataLabel"
         />
       </v-col>
       <v-col cols="12" sm="6" class="right">
         <DataBar
-          right
           :color="counterpartDataColor"
           :numerator="data.counterpartTractData.value"
+          :marginOfError="data.counterpartTractData.marginOfError"
           :denomenator="data.maxValue"
           :label="data.dataLabel"
+          right
         />
       </v-col>
     </v-row>
@@ -30,7 +32,7 @@
 <script>
 import DataBar from "./DataBar";
 import globals from "../../../../globals";
-import { userDataStore } from "../userDataStore";
+import { userDataStore } from "@/components/public/user-data/userDataStore";
 import { store } from "../../../../store";
 export default {
   name: "DataBarGrouping",
@@ -80,6 +82,10 @@ h4 {
   .value-container {
     padding-left: 20px;
     text-align: left;
+    float: left;
+  }
+  .margin-of-error {
+    float: left;
   }
 }
 
@@ -87,6 +93,10 @@ h4 {
   .value-container {
     padding-right: 20px;
     text-align: right;
+    float: right;
+  }
+
+  .margin-of-error {
     float: right;
   }
 }
