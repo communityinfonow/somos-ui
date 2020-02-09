@@ -4,11 +4,14 @@
 
     <span v-for="(location, index) in locations" :key="index">
       <l-marker :lat-lng="location.coordinates">
-        <l-icon
-          :icon-url="location.icon.url"
-          :icon-size="location.icon.size"
-          :icon-anchor="location.icon.anchor"
-        ></l-icon>
+        <l-icon :icon-size="location.icon.size" :icon-anchor="location.icon.anchor">
+          <img :src="location.icon.url" />
+          <span
+            class="icon-data"
+            :style="location.icon.data.style"
+            v-if="location.icon.data && location.icon.data.value"
+          >{{location.icon.data.value}}</span>
+        </l-icon>
       </l-marker>
     </span>
   </l-map>
@@ -34,6 +37,7 @@ export default {
   mounted() {
     this.$nextTick(() => {
       this.map = this.$refs.map.mapObject;
+      this.map.scrollWheelZoom.disable();
     });
   },
   data() {

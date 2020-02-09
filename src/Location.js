@@ -1,6 +1,7 @@
-export const location = function (name, tract, coordinates) {
+export const location = function (name, addressDetails, tract, coordinates) {
     return {
         name: name,
+        addressDetails: addressDetails,
         tract: tract,
         coordinates: coordinates
     }

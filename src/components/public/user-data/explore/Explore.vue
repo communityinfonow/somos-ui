@@ -2,16 +2,19 @@
   <div>
     <h1>explore the community</h1>
     <ExploreMap :tract="storeState.tract" />
+    <ExploreActions />
   </div>
 </template>
 
 <script>
 import ExploreMap from "./ExploreMap";
+import ExploreActions from "./ExploreActions";
 import { userDataStore } from "../userDataStore";
 export default {
   name: "Explore",
   components: {
-    ExploreMap
+    ExploreMap,
+    ExploreActions
   },
   data() {
     return {

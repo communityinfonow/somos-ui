@@ -10,5 +10,10 @@ export default {
         axios.get(url).then(response => {
             callback(response.data);
         });
+    },
+    getMatched(url, callback) {
+        axios.get(url).then(response => {
+            callback(response.data._embedded.matchedCensusTractDtoes)
+        });
     }
 }

@@ -14,6 +14,7 @@
     :loading="loading"
     filled
     dense
+    ref="addressInput"
   ></v-autocomplete>
 </template>
 

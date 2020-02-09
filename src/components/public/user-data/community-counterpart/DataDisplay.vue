@@ -20,12 +20,14 @@ export default {
 h3 {
   text-align: center;
   letter-spacing: 1.6px;
-  font-weight: 800;
   text-transform: uppercase;
   margin-bottom: 20px;
+  font: 800 16px/28px Montserrat;
 }
 
 .data-display {
   margin-bottom: 42px;
+  position: relative;
+  z-index: 2;
 }
 </style>

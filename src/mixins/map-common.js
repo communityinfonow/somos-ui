@@ -19,8 +19,21 @@ export const mapCommon = {
                 this.setCensusTracts(censusTracts);
             });
         },
-        calculateIconAnchor(iconSize) {
-            return [iconSize[0] / 2, this.iconSize[1]];
+        calculateIconAnchor(width, height, justify = "center") {
+            let x = null;
+
+            switch (justify) {
+                case "right":
+                    x = width;
+                    break;
+                case "left":
+                    x = 0;
+                    break;
+                default:
+                    x = width / 2
+                    break;
+            }
+            return [x, height];
         }
     },
     computed: {

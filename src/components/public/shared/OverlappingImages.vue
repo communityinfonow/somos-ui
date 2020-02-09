@@ -8,7 +8,12 @@
 <script>
 export default {
   name: "OverlappingImages",
-  props: ["topSource", "topLazySource", "bottomSource", "bottomLazySource"]
+  props: {
+    topSource: String,
+    topLazySource: String,
+    bottomSource: String,
+    bottomLazySource: String
+  }
 };
 </script>
 

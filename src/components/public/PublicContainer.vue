@@ -1,14 +1,14 @@
 <template>
   <v-container>
     <Header />
-
     <splash id="splash" />
-
     <MeetYourNeighbors />
     <div class="angle-container hidden-xs-only">
       <Angle :empty="false" :colorLeft="yellow" :colorRight="secondaryBlue"></Angle>
     </div>
     <UserData />
+    <CloseTheGap />
+    <Footer />
   </v-container>
 </template>
 
@@ -18,6 +18,8 @@ import MeetYourNeighbors from "./meet-your-neighbor/MeetYourNeighbors";
 import Angle from "./shared/Angle";
 import globals from "../../globals";
 import UserData from "./user-data/UserData";
+import CloseTheGap from "./close-the-gap/CloseTheGap";
+import Footer from "./Footer";
 
 import Header from "./Header";
 export default {
@@ -27,7 +29,9 @@ export default {
     MeetYourNeighbors,
     Angle,
     Header,
-    UserData
+    UserData,
+    CloseTheGap,
+    Footer
   },
   data() {
     return { yellow: globals.yellow, secondaryBlue: globals.mainLightBlue };
@@ -36,7 +40,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import url("https://fonts.googleapis.com/css?family=Bebas+Neue&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Montserrat:500,600,700,800,900&display=swap");
 
@@ -47,6 +51,10 @@ export default {
 #mos {
   // top: -300px;
   left: 50%;
+}
+
+#som,
+#mos {
   width: 35%;
   position: absolute;
   z-index: 1;

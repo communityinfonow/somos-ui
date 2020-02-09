@@ -17,13 +17,22 @@ export default {
   data() {
     return {
       storeState: userDataStore.state,
-      userIconUrl: require("../left-flag.svg"),
-      coutnerpartIconUrl: require("../right-flag.svg")
+      userIconUrl: require("./map-left-flag.svg"),
+      matchIconUrl: require("./map-right-flag.svg"),
+      iconSize: [50, 59]
     };
   },
   methods: {},
 
   computed: {
+    matchedTract() {
+      if (this.tract && this.tract.matchedTracts) {
+        return this.tract.matchedTracts.find(
+          tract => tract.rank === this.storeState.counterpartRank
+        );
+      }
+      return null;
+    },
     locations() {
       let locations = [];
       if (this.storeState.address) {
@@ -32,22 +41,46 @@ export default {
           icon: {
             url: this.userIconUrl,
             size: this.iconSize,
-            anchor: this.calculateIconAnchor(this.iconSize)
+            anchor: this.calculateIconAnchor(
+              this.iconSize[0],
+              this.iconSize[1],
+              "right"
+            ),
+            data: {
+              value: "45",
+              style: {
+                bottom: "42px",
+                left: "13px"
+              }
+            }
           }
         });
       }
 
-      if (this.boundaryGeojson && this.tract && this.tract.counterpart) {
-        // TODO take out coutnerpart check once implemented in data
-        locations.push(
-          this.boundaryGeojson
+      if (this.boundaryGeojson && this.matchedTract) {
+        locations.push({
+          coordinates: this.boundaryGeojson
             .getLayers()
-            .filter(
-              layer => layer.feature.properties.id === this.tract.counterpart.id
-            )
+            .find(layer => layer.feature.properties.id === this.matchedTract.id)
             .getBounds()
-            .getCenter()
-        );
+            .getCenter(),
+          icon: {
+            url: this.matchIconUrl,
+            size: this.iconSize,
+            anchor: this.calculateIconAnchor(
+              this.iconSize[0],
+              this.iconSize[1],
+              "left"
+            ),
+            data: {
+              value: "75",
+              style: {
+                bottom: "42px",
+                left: "16px"
+              }
+            }
+          }
+        });
       }
       return locations;
     },
@@ -71,5 +104,11 @@ export default {
   box-shadow: 0px 2px 4px 0px #00000026;
   height: 700px !important;
   padding: 15px;
+}
+
+.icon-data {
+  position: relative;
+  font: 800 18px/24px Montserrat;
+  color: white;
 }
 </style>

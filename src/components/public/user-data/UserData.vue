@@ -48,8 +48,18 @@ export default {
           location.coordinates.lat +
           ";lng=" +
           location.coordinates.lng,
+        this.containingTractHandler
+      );
+    },
+    containingTractHandler(response) {
+      userDataStore.setTract(response);
+      censusTracts.getMatched(
+        response._links["matched-tracts"].href,
         response => {
-          userDataStore.setTract(response);
+          let tract = {};
+          Object.assign(tract, this.storeState.tract);
+          tract.matchedTracts = response;
+          userDataStore.setTract(tract);
         }
       );
     }

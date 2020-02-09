@@ -65,7 +65,7 @@ export default {
           icon: {
             url: this.iconUrl,
             size: this.iconSize,
-            anchor: this.calculateIconAnchor(this.iconSize)
+            anchor: this.calculateIconAnchor(this.iconSize[0], this.iconSize[1])
           }
         }
       ];

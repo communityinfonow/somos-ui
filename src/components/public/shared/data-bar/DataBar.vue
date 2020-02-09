@@ -23,7 +23,7 @@ export default {
     data: Object,
     numerator: Number,
     denomenator: Number,
-    marginOfError: Number,
+    marginOfError: Object,
     label: String
   },
   computed: {
