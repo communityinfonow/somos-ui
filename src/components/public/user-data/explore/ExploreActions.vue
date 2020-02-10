@@ -104,6 +104,7 @@ export default {
   #change-neighborhood-btn {
     background: $main-dark-blue !important;
     color: #ffffff !important;
+    white-space: normal;
   }
 
   #change-match-btn {

@@ -36,7 +36,7 @@ export default {
           this.displayText = this.textArray[this.cycleIndex++];
           this.cycleTimer(this.forwardTime);
         } else {
-          this.displayText = this.textArray[this.cycleIndex--];
+          this.displayText = this.textArray[--this.cycleIndex];
           this.cycleTimer(this.backwardTime);
         }
       }, timer);
