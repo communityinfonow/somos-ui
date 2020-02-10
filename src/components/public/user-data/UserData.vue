@@ -1,7 +1,7 @@
 <template>
   <div>
-    <CommunityCounterpart />
-    <Explore />
+    <CommunityCounterpart ref="counterpart" />
+    <Explore @click:new="newNeighborhood" />
   </div>
 </template>
 
@@ -40,8 +40,13 @@ export default {
     }
   },
   methods: {
+    newNeighborhood() {
+      this.$refs.counterpart.$refs.addressInput.$refs.addressInput.$el
+        .getElementsByTagName("input")[0]
+        .focus();
+    },
     getContainingTract(location) {
-      userDataStore.resetCounterpart();
+      userDataStore.setMatchRank(1);
       censusTracts.getSingle(
         this.appLinks.censusTracts.href +
           "/latlng/lat=" +
@@ -53,6 +58,7 @@ export default {
     },
     containingTractHandler(response) {
       userDataStore.setTract(response);
+      userDataStore.setMatchRank(1);
       censusTracts.getMatched(
         response._links["matched-tracts"].href,
         response => {

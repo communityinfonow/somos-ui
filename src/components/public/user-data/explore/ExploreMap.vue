@@ -28,7 +28,7 @@ export default {
     matchedTract() {
       if (this.tract && this.tract.matchedTracts) {
         return this.tract.matchedTracts.find(
-          tract => tract.rank === this.storeState.counterpartRank
+          tract => tract.rank === this.storeState.matchRank
         );
       }
       return null;

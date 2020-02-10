@@ -1,5 +1,5 @@
 <template>
-  <v-container id="community-counterpart" v-scroll="onScroll">
+  <v-container id="community-counterpart">
     <h1>Find your match</h1>
     <p>If our daily routine is to go from home to school or work and back, our day-to-day lives don’t offer many chances to get to know other neighborhoods. Enter your information below to see how a neighborhood somewhere else in the county is the same and different from yours.</p>
     <AddressSearch
@@ -179,9 +179,6 @@ export default {
           }
         );
       }
-    },
-    onScroll() {
-      this.$refs.addressInput.$el.focus();
     },
     sendGoogleAnalytics() {
       ga("send", {

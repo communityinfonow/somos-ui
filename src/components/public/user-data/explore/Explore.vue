@@ -2,7 +2,7 @@
   <div>
     <h1>explore the community</h1>
     <ExploreMap :tract="storeState.tract" />
-    <ExploreActions />
+    <ExploreActions @click:new="$emit('click:new')" />
   </div>
 </template>
 

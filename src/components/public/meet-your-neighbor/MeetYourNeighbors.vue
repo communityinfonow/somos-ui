@@ -170,11 +170,15 @@ h2 {
 .left {
   .profile-image {
     right: -50%;
-    padding-left: 32px;
   }
   .profile-info {
     left: 0;
     top: 0;
+  }
+
+  .info-text {
+    padding-right: 32px;
+    padding-left: 10px;
   }
 
   .circle-tab-grouping {
@@ -187,8 +191,10 @@ h2 {
     right: 0;
     top: 0;
   }
-  .profile-image {
-    padding-right: 32px;
+
+  .info-text {
+    padding-left: 32px;
+    padding-right: 10px;
   }
 
   .profile-container {
