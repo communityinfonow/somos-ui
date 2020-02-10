@@ -7,8 +7,12 @@
       <Angle :empty="false" :colorLeft="yellow" :colorRight="secondaryBlue"></Angle>
     </div>
     <UserData />
+    <Angle :colorLeft="secondaryBlue" :colorRight="darkBlue" empty="false" />
     <CloseTheGap />
-    <Footer />
+    <div id="footer-grouping">
+      <Angle :colorLeft="secondaryBlue" :colorRight="darkBlue" />
+      <Footer />
+    </div>
   </v-container>
 </template>
 
@@ -34,7 +38,11 @@ export default {
     Footer
   },
   data() {
-    return { yellow: globals.yellow, secondaryBlue: globals.mainLightBlue };
+    return {
+      yellow: globals.yellow,
+      darkBlue: globals.mainDarkBlue,
+      secondaryBlue: globals.mainLightBlue
+    };
   },
   methods: {}
 };
@@ -46,6 +54,10 @@ export default {
 
 #splash {
   margin-bottom: 190px;
+}
+
+#footer-grouping {
+  position: relative;
 }
 
 #mos {

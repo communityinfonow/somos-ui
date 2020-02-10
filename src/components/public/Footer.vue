@@ -64,6 +64,10 @@ footer {
     margin: auto;
     margin-bottom: 30px;
   }
+  position: absolute;
+  width: 100%;
+  top: 20px;
+  padding-bottom: 44px;
 }
 
 #cinow-logo {

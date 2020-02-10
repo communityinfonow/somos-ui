@@ -1,8 +1,12 @@
 <template>
   <section id="close-the-gap">
+    <div id="left-background" class="background"></div>
+    <div id="right-background" class="background"></div>
+
     <!-- TODO: change all sections to section tag -->
     <h1>Close The Gap</h1>
     <p v-for="(paragraph, index) in translatedParagraphs" :key="index">{{paragraph}}</p>
+
     <LinksImages />
   </section>
 </template>
@@ -10,10 +14,14 @@
 <script>
 import { translate } from "@/mixins/translate.js";
 import LinksImages from "./LinksImages";
+import globals from "@/globals.js";
+import Angle from "@/components/public/shared/Angle";
 export default {
   name: "CloseTheGap",
   data() {
     return {
+      lightBlue: globals.mainLightBlue,
+      darkBlue: globals.mainDarkBlue,
       paragraphs: [
         {
           en:
@@ -40,17 +48,45 @@ export default {
   },
   mixins: [translate],
   components: {
-    LinksImages
+    LinksImages,
+    Angle
   }
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 #close-the-gap {
-  margin-top: 93px;
+  position: relative;
+}
+
+.background {
+  position: absolute;
+  height: 100%;
+  width: 50%;
+}
+
+#left-background {
+  background: $main-light-blue;
+}
+
+#right-background {
+  right: 0;
+  background: $main-dark-blue;
 }
 
 h1 {
   margin-bottom: 44px;
+}
+
+p {
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
+h1,
+p {
+  color: white;
+  position: relative;
+  z-index: 100;
 }
 </style>

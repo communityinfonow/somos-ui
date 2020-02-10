@@ -5,14 +5,14 @@
         <v-container>
           <v-row justify="space-around">
             <v-col cols="12" md="4">
-              <v-btn block depressed @click="nextCounterpart">Change Counterpart</v-btn>
+              <v-btn block depressed @click="nextCounterpart">Change match</v-btn>
             </v-col>
             <v-col cols="12" md="4">
               <v-btn
                 block
                 depressed
                 @click="$vuetify.goTo('#community-counterpart')"
-              >Change you neighborhood</v-btn>
+              >Change your neighborhood</v-btn>
             </v-col>
             <v-col cols="12" md="4">
               <v-btn block depressed>explore data</v-btn>
