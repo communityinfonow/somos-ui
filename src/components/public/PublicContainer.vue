@@ -2,6 +2,7 @@
   <v-container>
     <Header />
     <splash id="splash" />
+    <Angle :empty="true" :colorLeft="yellow" :colorRight="yellow" class="hidden-sm-and-up"></Angle>
     <MeetYourNeighbors />
     <div class="angle-container hidden-xs-only">
       <Angle :empty="false" :colorLeft="yellow" :colorRight="secondaryBlue"></Angle>

@@ -1,15 +1,7 @@
 <template>
   <div id="meet-your-neighbors">
     <v-container class="my-0 py-0">
-      <div class="angle-container">
-        <Angle
-          id="meet-your-neighbors-topper"
-          :empty="true"
-          :colorLeft="yellow"
-          :colorRight="yellow"
-          class="hidden-sm-and-up"
-        ></Angle>
-      </div>
+      <div class="angle-container"></div>
 
       <h1>meet your neighbors</h1>
 

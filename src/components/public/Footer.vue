@@ -51,7 +51,7 @@ export default {
           { text: "interactive map", link: "#interactive-map" }
         ]
       },
-      blockColors: [globals.mainDarkBlue, globals.mainLightBlue]
+      blockColors: [globals.mainLightBlue, globals.mainDarkBlue]
     };
   }
 };
