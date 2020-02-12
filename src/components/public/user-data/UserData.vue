@@ -1,6 +1,6 @@
 <template>
   <div>
-    <CommunityCounterpart ref="counterpart" />
+    <CommunityCounterpart ref="counterpart" :lifeExpectancyIndicator="lifeExpectancyIndicator" />
     <Explore @click:new="newNeighborhood" />
   </div>
 </template>
@@ -11,6 +11,7 @@ import Explore from "./explore/Explore";
 import CommunityCounterpart from "./community-counterpart/CommunityCounterpart";
 import { appLinks } from "@/mixins/app-links";
 import censusTracts from "@/api/census-tracts";
+import axios from "axios";
 export default {
   name: "UserData",
   components: {
@@ -29,7 +30,18 @@ export default {
   computed: {
     selectedLocation() {
       return this.storeState.address;
+    },
+    matchedTract() {
+      return userDataStore.getMatchedTract();
+    },
+    lifeExpectancyIndicator() {
+      return this.matchedTract
+        ? this.matchedTract.lifeExpectancyIndicator
+        : null;
     }
+  },
+  mounted() {
+    this.getLifeExpectancyData(this.indicator);
   },
   watch: {
     selectedLocation(newLocation) {
@@ -37,9 +49,27 @@ export default {
     },
     appLinks(newLinks) {
       userDataStore.setLinks(newLinks);
+    },
+    lifeExpectancyIndicator(newIndicator) {
+      this.getLifeExpectancyData(newIndicator);
     }
   },
   methods: {
+    getLifeExpectancyData(indicator) {
+      if (indicator && indicator._links) {
+        axios
+          .get(indicator._links["parent-life-expectancy"].href)
+          .then(response => {
+            userDataStore.setNeighborhoodData(response.data);
+          });
+
+        axios
+          .get(indicator._links["child-life-expectancy"].href)
+          .then(response => {
+            userDataStore.setMatchData(response.data);
+          });
+      }
+    },
     newNeighborhood() {
       this.$refs.counterpart.$refs.addressInput.$refs.addressInput.$el
         .getElementsByTagName("input")[0]

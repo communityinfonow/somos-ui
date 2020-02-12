@@ -1,16 +1,22 @@
 <template>
-  <Map :boundaries="boundaryGeojson" :locations="locations" id="map" />
+  <Map :boundaries="boundaryGeojson" :locations="locations" id="map" ref="exploremap">
+    <ExploreLegend :mapBreaks="orderedBreaks" :mapBreakColors="orderedBreakColors"></ExploreLegend>
+  </Map>
 </template>
 
 <script>
 import Map from "@/components/public/shared/map/Map";
+import ExploreLegend from "./ExploreLegend";
+import axios from "axios";
 import { userDataStore } from "../userDataStore";
-
 import { mapCommon } from "@/mixins/map-common";
+import { LGeoJson } from "vue2-leaflet";
+import globals from "@/globals.js";
 export default {
   name: "ExploreMap",
   components: {
-    Map
+    Map,
+    ExploreLegend
   },
   props: { tract: Object },
   mixins: [mapCommon],
@@ -19,19 +25,55 @@ export default {
       storeState: userDataStore.state,
       userIconUrl: require("./map-left-flag.svg"),
       matchIconUrl: require("./map-right-flag.svg"),
-      iconSize: [50, 59]
+      iconSize: [50, 59],
+      data: null,
+      displayTracts: true,
+      orderedBreaks: [74, 77, 79, 81],
+      orderedBreakColors: [
+        globals.mainLightBlue,
+        globals.mapBlueLight,
+        globals.mapBlueDarker,
+        globals.mapBlueDarkest,
+        globals.mainDarkBlue
+      ]
     };
   },
-  methods: {},
-
+  methods: {
+    determineShadingByValue(value) {
+      // TODO write a test for this
+      let color = "transparent";
+      this.orderedBreaks.forEach((breakNum, index, array) => {
+        if (index < array.length - 1) {
+          if (value > breakNum && value <= array[index + 1]) {
+            color = this.orderedBreakColors[index];
+          }
+        }
+      });
+      return color;
+    },
+    renderShading() {
+      this.boundaryGeojson.getLayers().forEach(layer => {
+        this.data.indicatorData.forEach(dataObj => {
+          if (dataObj.censusTractId === layer.feature.properties.id) {
+            layer.setStyle({
+              fillColor: this.determineShadingByValue(dataObj.value)
+            });
+          }
+        });
+      });
+    }
+  },
   computed: {
     matchedTract() {
-      if (this.tract && this.tract.matchedTracts) {
-        return this.tract.matchedTracts.find(
-          tract => tract.rank === this.storeState.matchRank
-        );
-      }
-      return null;
+      return userDataStore.getMatchedTract();
+    },
+    neighborhoodLifeExpectancy() {
+      return this.storeState.neighborhoodData
+        ? this.storeState.neighborhoodData.value
+        : "";
+    },
+    matchLifeExpectancy() {
+      return this.storeState.matchData ? this.storeState.matchData.value : "";
     },
     locations() {
       let locations = [];
@@ -47,7 +89,7 @@ export default {
               "right"
             ),
             data: {
-              value: "45",
+              value: this.neighborhoodLifeExpectancy,
               style: {
                 bottom: "42px",
                 left: "13px"
@@ -73,7 +115,7 @@ export default {
               "left"
             ),
             data: {
-              value: "75",
+              value: this.matchLifeExpectancy,
               style: {
                 bottom: "42px",
                 left: "16px"
@@ -88,10 +130,29 @@ export default {
       return this.storeState.links;
     }
   },
+  mounted() {
+    axios
+      .get(
+        process.env.VUE_APP_API_DOMAIN + "/census-tracts/indicators/50001/data"
+      ) // TODO obviously do this through hateoas
+      .then(response => {
+        this.data = response.data;
+        this.orderedBreaks.push(this.data.maxValue);
+        this.orderedBreaks.unshift(this.data.minValue);
+        if (this.boundaryGeojson) {
+          this.renderShading();
+        }
+      });
+  },
   watch: {
     appLinks() {
       if (this.storeState.links) {
         this.getCensusTracts(this.storeState.links.censusTracts.href);
+      }
+    },
+    boundaryGeojson() {
+      if (this.data) {
+        this.renderShading();
       }
     }
   }

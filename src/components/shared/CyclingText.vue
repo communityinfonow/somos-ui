@@ -10,9 +10,7 @@ export default {
   data() {
     return {
       displayText: null,
-      isForward: true,
-      forwardTime: 1000,
-      backwardTime: 100,
+      forwardTime: 2000,
       cycleIndex: 0,
       transitionName: "forward-text-cycle"
     };
@@ -25,20 +23,11 @@ export default {
 
       setTimeout(() => {
         if (this.cycleIndex === this.textArray.length) {
-          this.isForward = false;
-          this.transitionName = "backward-text-cycle";
-        } else if (this.cycleIndex === 0) {
-          this.isForward = true;
-          this.transitionName = "forward-text-cycle";
+          this.cycleIndex = 0;
         }
 
-        if (this.isForward) {
-          this.displayText = this.textArray[this.cycleIndex++];
-          this.cycleTimer(this.forwardTime);
-        } else {
-          this.displayText = this.textArray[--this.cycleIndex];
-          this.cycleTimer(this.backwardTime);
-        }
+        this.displayText = this.textArray[this.cycleIndex++];
+        this.cycleTimer(this.forwardTime);
       }, timer);
     }
   },

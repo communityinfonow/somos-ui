@@ -21,12 +21,12 @@
 import DataDisplay from "./DataDisplay";
 import DataBarGrouping from "@/components/public/shared/data-bar/DataBarGrouping";
 import axios from "axios";
+import { userDataStore } from "../userDataStore";
 export default {
   name: "LifeExpectancy",
   data() {
     return {
-      neighborhoodData: null,
-      matchData: null
+      storeState: userDataStore.state
     };
   },
   components: {
@@ -37,30 +37,13 @@ export default {
     indicator: Object,
     difference: Number
   },
-  methods: {
-    getData(indicator) {
-      if (indicator && indicator._links) {
-        axios
-          .get(indicator._links["parent-life-expectancy"].href)
-          .then(response => {
-            this.neighborhoodData = response.data;
-          });
-
-        axios
-          .get(indicator._links["child-life-expectancy"].href)
-          .then(response => {
-            this.matchData = response.data;
-          });
-      }
+  computed: {
+    neighborhoodData() {
+      return this.storeState.neighborhoodData;
+    },
+    matchData() {
+      return this.storeState.matchData;
     }
-  },
-  watch: {
-    indicator(newIndicator) {
-      this.getData(newIndicator);
-    }
-  },
-  mounted() {
-    this.getData(this.indicator);
   }
 };
 </script>

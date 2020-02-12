@@ -7,7 +7,9 @@ export const mapCommon = {
         return {
             censusTracts: null,
             iconSize: [25, 41],
-            iconUrl: "./assets/map-marker.png"
+            iconUrl: "./assets/map-marker.png",
+            displayTracts: false,
+            boundaryGeojson: null
         }
     },
     methods: {
@@ -36,12 +38,12 @@ export const mapCommon = {
             return [x, height];
         }
     },
-    computed: {
-        boundaryGeojson() {
+    watch: {
+        censusTracts() {
             if (this.censusTracts) {
-                return boundaries(false).generate(this.censusTracts);
+                this.boundaryGeojson = boundaries(this.displayTracts).generate(this.censusTracts);
             }
-            return null;
+
         }
     }
 }

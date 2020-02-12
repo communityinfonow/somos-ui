@@ -1,6 +1,13 @@
 <template>
   <l-map id="map" ref="map" :center="mapCenter" :zoom="mapZoom" @click="clickHandler">
-    <l-tile-layer :url="tileUrl"></l-tile-layer>
+    <l-tile-layer :url="baseTileLayer.url" :attribution="baseTileLayer.attribution"></l-tile-layer>
+    <l-tile-layer
+      :url="streetTileLayer.url"
+      :attribution="streetTileLayer.attribution"
+      pane="overlayPane"
+      :zIndex="500"
+      :opacity="0.6 "
+    ></l-tile-layer>
 
     <span v-for="(location, index) in locations" :key="index">
       <l-marker :lat-lng="location.coordinates">
@@ -14,6 +21,7 @@
         </l-icon>
       </l-marker>
     </span>
+    <slot></slot>
   </l-map>
 </template>
 
@@ -44,9 +52,19 @@ export default {
     return {
       map: {},
       defaultCenter: [29.437236, -98.491163],
-      tileUrl:
-        "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png",
-      defaultZoom: 10
+
+      defaultZoom: 10.5,
+      baseTileLayer: {
+        url: "https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png",
+        attribution:
+          "&copy; <a href='https://cartodb.com/attributions'>CartoDB</a>"
+      },
+      streetTileLayer: {
+        url:
+          "https://stamen-tiles-{s}.a.ssl.fastly.net/toner-hybrid/{z}/{x}/{y}.png",
+        attribution:
+          "Map tiles by <a href='http://stamen.com'>Stamen Design</a>, under <a href='http://creativecommons.org/licenses/by/3.0'>CC BY 3.0</a>. Data by <a href='http://openstreetmap.org'>OpenStreetMap</a>, under <a href='http://www.openstreetmap.org/copyright'>ODbL</a>."
+      }
     };
   },
   props: { locations: Array, zoom: Number, center: Array, boundaries: Object },

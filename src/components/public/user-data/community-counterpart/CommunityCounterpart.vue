@@ -46,8 +46,6 @@
     <LifeExpectancy
       v-if="lifeExpectancy"
       :difference="lifeExpectancy"
-      :neighborhoodData="neighborhoodLifeExpectancy"
-      :matchData="matchLifeExpectancy"
       :indicator="lifeExpectancyIndicator"
     />
     <p>Your neighborhoods have other differences, too. The differences may not directly cause the life expectancy gap you’re seeing. Local data tells us, though, that there’s a relationship between these issues and a neighborhood’s average life expectancy.</p>
@@ -82,6 +80,7 @@ export default {
     LifeExpectancy,
     DataBarGroupingContainer
   },
+  props: { lifeExpectancyIndicator: Object },
   data() {
     return {
       storeState: userDataStore.state,
@@ -118,11 +117,6 @@ export default {
     lifeExpectancy() {
       return this.matchedTract
         ? this.matchedTract.lifeExpectancyDifference
-        : null;
-    },
-    lifeExpectancyIndicator() {
-      return this.matchedTract
-        ? this.matchedTract.lifeExpectancyIndicator
         : null;
     }
   },

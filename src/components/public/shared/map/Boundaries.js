@@ -10,8 +10,11 @@ var displayBoundaries = 1;
 function style() {
   return {
     weight: 1,
-    opacity: displayBoundaries,
-    color: "black"
+    opacity: 1,
+    color: "grey",
+    fillOpacity: 0,
+    fillColor: "transparent",
+    zIndex: 1
   };
 }
 
@@ -38,7 +41,8 @@ function onEachFeature(feature, layer) {
   });
 
   layer.setStyle({
-    fillOpacity: displayBoundaries ? 0.2 : 0
+    fillOpacity: displayBoundaries ? 0.8 : 0,
+    opacity: .7
   });
 }
 
@@ -46,8 +50,7 @@ function convertTractToGeoJson(tract) {
   var feature = L.GeoJSON.asFeature(tract.geometry);
   feature.properties = {
     id: tract.id,
-    tract: tract.tract,
-    _links: tract._links //TODO: remove from here and use on the features with data
+    tract: tract.tract
   };
   return feature;
 }
@@ -73,7 +76,7 @@ export default function (display) {
     },
     setSelectedStyle: function (layer) {
       layer.setStyle({
-        weight: 4
+        opacity: 0
       });
     }
   }
