@@ -20,7 +20,13 @@
         <LocationGroup :image="require('../right-flag.svg')" title="your match neighborhood" />
       </v-col>
     </v-row>
-    <DataDisplay title="YOUR NEIGHBORHOODS HAVE A LOT IN COMMON. TAKE A LOOK." :data="commonData" />
+    <DataDisplay title="YOUR NEIGHBORHOODS HAVE A LOT IN COMMON. TAKE A LOOK.">
+      <DataBarGroupingContainer
+        v-for="(dataGroup, index) in commonData"
+        :key="index"
+        :data="dataGroup"
+      />
+    </DataDisplay>
     <v-row>
       <v-col cols="12" sm="6">
         <ImageGallery :photos="tractPhotos" />
@@ -37,23 +43,35 @@
       class="my-3"
       @click="$router.push('/photoshare')"
     >Upload your own photos here</v-btn>
-
-    <LifeExpectancy :data="lifeExpectancy" />
-
+    <LifeExpectancy
+      v-if="lifeExpectancy"
+      :difference="lifeExpectancy"
+      :neighborhoodData="neighborhoodLifeExpectancy"
+      :matchData="matchLifeExpectancy"
+      :indicator="lifeExpectancyIndicator"
+    />
     <p>Your neighborhoods have other differences, too. The differences may not directly cause the life expectancy gap you’re seeing. Local data tells us, though, that there’s a relationship between these issues and a neighborhood’s average life expectancy.</p>
-    <DataDisplay :data="differenceData" />
+    <DataDisplay>
+      <DataBarGroupingContainer
+        v-for="(dataGroup, index) in differenceData"
+        :key="index"
+        :data="dataGroup"
+      />
+    </DataDisplay>
   </v-container>
 </template>
 
 <script>
 import AddressSearch from "../../../shared/address-search/AddressSearch";
 import DataDisplay from "./DataDisplay";
+import * as axios from "axios";
 import LocationGroup from "./LocationGroup";
 import ImageGallery from "./ImageGallery";
 import { userDataStore } from "../userDataStore";
 import photoData from "@/api/photo-data.js";
 import globals from "@/globals.js";
 import LifeExpectancy from "./LifeExpectancy";
+import DataBarGroupingContainer from "@/components/public/shared/data-bar/DataBarGroupingContainer";
 export default {
   name: "CommunityCounterpart",
   components: {
@@ -61,7 +79,8 @@ export default {
     DataDisplay,
     LocationGroup,
     ImageGallery,
-    LifeExpectancy
+    LifeExpectancy,
+    DataBarGroupingContainer
   },
   data() {
     return {
@@ -70,59 +89,8 @@ export default {
       tractPhotos: [],
       matchedTractPhotos: [],
       address: { line1: "", line2: "" },
-      commonData: [
-        {
-          id: 1,
-          name: "Indicator One",
-          maxValue: 100,
-          dataLabel: "%",
-          userTractData: { value: 40, marginOfError: { high: 60, low: 30 } },
-          counterpartTractData: {
-            value: 50,
-            marginOfError: { high: 54.3, low: 40.3 }
-          }
-        },
-        {
-          id: 2,
-          name: "Indicator Two",
-          maxValue: 100,
-          dataLabel: "%",
-          userTractData: { value: 24.5, marginOfError: { high: 30, low: 10 } },
-          counterpartTractData: {
-            value: 50,
-            marginOfError: { high: 70, low: 30 }
-          }
-        }
-      ],
-      differenceData: [
-        {
-          id: 3,
-          name: "Indicator Three",
-          maxValue: 4000,
-          dataLabel: "Households",
-          userTractData: { value: 3040, marginOfError: { high: 70, low: 30 } },
-          counterpartTractData: {
-            value: 2500,
-            marginOfError: { high: 70, low: 30 }
-          }
-        }
-      ],
-      lifeExpectancy: [
-        {
-          id: 3,
-
-          maxValue: 90,
-          dataLabel: "Years",
-          userTractData: {
-            value: 65,
-            marginOfError: { high: null, low: null }
-          },
-          counterpartTractData: {
-            value: 85,
-            marginOfError: { high: null, low: null }
-          }
-        }
-      ]
+      neighborhoodLifeExpectancy: null,
+      matchLifeExpectancy: null
     };
   },
   watch: {
@@ -133,6 +101,29 @@ export default {
   computed: {
     tract() {
       return userDataStore.state.tract;
+    },
+    matchedTract() {
+      return userDataStore.getMatchedTract();
+    },
+    commonData() {
+      return this.matchedTract
+        ? this.matchedTract.similarIndicators.sort((a, b) => a.rank - b.rank)
+        : [];
+    },
+    differenceData() {
+      return this.matchedTract
+        ? this.matchedTract.dissimilarIndicators.sort((a, b) => a.rank - b.rank)
+        : [];
+    },
+    lifeExpectancy() {
+      return this.matchedTract
+        ? this.matchedTract.lifeExpectancyDifference
+        : null;
+    },
+    lifeExpectancyIndicator() {
+      return this.matchedTract
+        ? this.matchedTract.lifeExpectancyIndicator
+        : null;
     }
   },
   methods: {

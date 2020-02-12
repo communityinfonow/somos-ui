@@ -12,14 +12,14 @@ export default {
   computed: {
     marginOfErrorWidth() {
       return (
-        ((this.marginOfError.high - this.marginOfError.low) /
+        ((this.marginOfError.moeValueHigh - this.marginOfError.moeValueLow) /
           this.denomenator) *
           100 +
         "%"
       );
     },
     shift() {
-      return (this.marginOfError.low / this.denomenator) * 100;
+      return (this.marginOfError.moeValueLow / this.denomenator) * 100;
     },
     marginOfErrorShiftLeft() {
       return this.right ? this.shift + "%" : "unset";

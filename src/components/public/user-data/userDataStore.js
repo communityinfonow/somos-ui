@@ -17,5 +17,8 @@ export const userDataStore = {
     },
     setMatchRank(rank) {
         this.state.matchRank = rank;
+    },
+    getMatchedTract() {
+        return this.state.tract && this.state.tract.matchedTracts ? this.state.tract.matchedTracts.find(tract => tract.rank === this.state.matchRank) : null;
     }
 }

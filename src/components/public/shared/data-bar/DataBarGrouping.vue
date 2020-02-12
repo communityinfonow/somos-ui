@@ -1,32 +1,41 @@
 <template>
-  <div class="data-bar-grouping">
-    <h4>{{title}}</h4>
-    <v-row>
-      <v-col
-        cols="12"
-        sm="6"
-        :class="{left: $vuetify.breakpoint.smAndUp, right: $vuetify.breakpoint.xsOnly}"
-      >
-        <DataBar
-          :color="userDataColor"
-          :numerator="data.userTractData.value"
-          :denomenator="data.maxValue"
-          :marginOfError="data.userTractData.marginOfError"
-          :label="data.dataLabel"
-        />
-      </v-col>
-      <v-col cols="12" sm="6" class="right">
-        <DataBar
-          :color="counterpartDataColor"
-          :numerator="data.counterpartTractData.value"
-          :marginOfError="data.counterpartTractData.marginOfError"
-          :denomenator="data.maxValue"
-          :label="data.dataLabel"
-          :right="$vuetify.breakpoint.smAndUp"
-        />
-      </v-col>
-    </v-row>
-  </div>
+  <v-tooltip top color="black">
+    <template v-slot:activator="{ on }">
+      <div class="data-bar-grouping" v-on="on">
+        <h4>{{title}}</h4>
+        <v-row>
+          <v-col
+            cols="12"
+            sm="6"
+            :class="{left: $vuetify.breakpoint.smAndUp, right: $vuetify.breakpoint.xsOnly}"
+          >
+            <DataBar
+              v-if="neighborhoodData"
+              :color="userDataColor"
+              :numerator="neighborhoodData.value"
+              :denomenator="neighborhoodData.maxValue"
+              :marginOfError="neighborhoodData.marginOfError"
+              :label="label"
+              :valueType="valueType"
+            />
+          </v-col>
+          <v-col cols="12" sm="6" class="right">
+            <DataBar
+              v-if="matchData"
+              :color="counterpartDataColor"
+              :numerator="matchData.value"
+              :denomenator="matchData.maxValue"
+              :marginOfError="matchData.marginOfError"
+              :label="label"
+              :valueType="valueType"
+              :right="$vuetify.breakpoint.smAndUp"
+            />
+          </v-col>
+        </v-row>
+      </div>
+    </template>
+    <span>{{tooltip}}</span>
+  </v-tooltip>
 </template>
     
 <script>
@@ -34,6 +43,7 @@ import DataBar from "./DataBar";
 import globals from "../../../../globals";
 import { userDataStore } from "@/components/public/user-data/userDataStore";
 import { store } from "../../../../store";
+import * as axios from "axios";
 export default {
   name: "DataBarGrouping",
   components: {
@@ -48,18 +58,12 @@ export default {
     };
   },
   props: {
-    data: Object
-  },
-  computed: {
-    userData() {
-      //  TODO filter data by tract id from state
-    },
-    counterpartData() {
-      // TODO see above
-    },
-    title() {
-      return this.data.name;
-    }
+    matchData: Object,
+    neighborhoodData: Object,
+    title: String,
+    tooltip: String,
+    label: String,
+    valueType: String
   }
 };
 </script>

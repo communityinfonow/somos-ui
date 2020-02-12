@@ -1,17 +1,17 @@
 <template>
   <div class="data-display">
     <h3>{{title}}</h3>
-    <DataBarGrouping v-for="dataGroup in data" :key="dataGroup.id" :data="dataGroup" />
+    <slot></slot>
   </div>
 </template>
 
 <script>
-import DataBarGrouping from "@/components/public/shared/data-bar/DataBarGrouping";
+import DataBarGroupingContainer from "@/components/public/shared/data-bar/DataBarGroupingContainer";
 export default {
   name: "DataDisplay",
-  props: { title: String, data: Array },
+  props: { title: String },
   components: {
-    DataBarGrouping
+    DataBarGroupingContainer
   }
 };
 </script>

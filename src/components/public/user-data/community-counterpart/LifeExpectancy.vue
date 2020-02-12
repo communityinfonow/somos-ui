@@ -1,7 +1,13 @@
 <template>
   <div id="life-expectancy">
     <h1>you are also very different.</h1>
-    <DataDisplay title="average life expectancy" :data="data"></DataDisplay>
+    <DataDisplay title="average life expectancy">
+      <DataBarGrouping
+        :matchData="matchData"
+        :neighborhoodData="neighborhoodData"
+        :tooltip="indicator.description"
+      />
+    </DataDisplay>
     <ul id="life-expectancy-difference">
       <li id="value">{{difference}}</li>
       <li>year difference.</li>
@@ -13,16 +19,48 @@
 
 <script>
 import DataDisplay from "./DataDisplay";
+import DataBarGrouping from "@/components/public/shared/data-bar/DataBarGrouping";
+import axios from "axios";
 export default {
   name: "LifeExpectancy",
-  components: {
-    DataDisplay
+  data() {
+    return {
+      neighborhoodData: null,
+      matchData: null
+    };
   },
-  props: { data: Array },
-  computed: {
-    difference() {
-      return "19";
+  components: {
+    DataDisplay,
+    DataBarGrouping
+  },
+  props: {
+    indicator: Object,
+    difference: Number
+  },
+  methods: {
+    getData(indicator) {
+      if (indicator && indicator._links) {
+        axios
+          .get(indicator._links["parent-life-expectancy"].href)
+          .then(response => {
+            this.neighborhoodData = response.data;
+          });
+
+        axios
+          .get(indicator._links["child-life-expectancy"].href)
+          .then(response => {
+            this.matchData = response.data;
+          });
+      }
     }
+  },
+  watch: {
+    indicator(newIndicator) {
+      this.getData(newIndicator);
+    }
+  },
+  mounted() {
+    this.getData(this.indicator);
   }
 };
 </script>

@@ -3,7 +3,12 @@
     <div class="value-container" :style="{background: color, width: valueContainerWidth}">
       <span>{{formattedLabel}}</span>
     </div>
-    <MarginOfError :marginOfError="marginOfError" :denomenator="denomenator" :right="right" />
+    <MarginOfError
+      v-if="marginOfError"
+      :marginOfError="marginOfError"
+      :denomenator="denomenator"
+      :right="right"
+    />
   </div>
 </template>
 
@@ -13,9 +18,7 @@ import MarginOfError from "./MarginOfError";
 export default {
   name: "DataBar",
   data() {
-    return {
-      valueType: ValueType.PERCENT
-    };
+    return {};
   },
   props: {
     right: Boolean,
@@ -24,17 +27,20 @@ export default {
     numerator: Number,
     denomenator: Number,
     marginOfError: Object,
-    label: String
+    label: String,
+    valueType: String
   },
   computed: {
     formattedLabel() {
       let suffix = "";
+      let number = this.numerator;
       if (this.valueType === ValueType.PERCENT) {
         suffix = "%";
+        number = number.toFixed(2);
       } else {
-        suffix = " " + this.label;
+        suffix = this.label ? " " + this.label : "";
       }
-      return this.numerator + suffix;
+      return number + suffix;
     },
     valueContainerWidth() {
       return (this.numerator / this.denomenator) * 100 + "%";
@@ -64,6 +70,7 @@ $bar-height: 48px;
     position: relative;
     z-index: 2;
   }
+  white-space: nowrap;
 }
 
 .bar-container,
