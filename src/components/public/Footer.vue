@@ -25,7 +25,12 @@
           <div class="color-block" :style="{backgroundColor: blockColors[1]}"></div>
         </v-row>
         <v-row justify="start">
-          <a href="#" class="px-2">About the data</a>
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://cinow.info/somos-neighbors/"
+            class="px-2"
+          >About the data</a>
 
           <a href="#" class="px-2">Privacy Policy</a>
         </v-row>

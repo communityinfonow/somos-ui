@@ -15,6 +15,7 @@
 <script>
 import { ValueType } from "@/components/public/shared/ValueType";
 import MarginOfError from "./MarginOfError";
+import format from "@/components/format.js";
 export default {
   name: "DataBar",
   data() {
@@ -32,14 +33,8 @@ export default {
   },
   computed: {
     formattedLabel() {
-      let suffix = "";
-      let number = this.numerator;
-      if (this.valueType === ValueType.PERCENT) {
-        suffix = "%";
-        number = number.toFixed(2);
-      } else {
-        suffix = this.label ? " " + this.label : "";
-      }
+      let number = format.formatData(this.numerator, this.valueType);
+      let suffix = this.label ? " " + this.label : "";
       return number + suffix;
     },
     valueContainerWidth() {
