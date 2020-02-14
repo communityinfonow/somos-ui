@@ -127,8 +127,6 @@ $label-height: $bar-height - $label-padding * 2 - $label-margin * 2;
   &.shifted {
     background: #162d5417;
     color: black;
-    // left: unset;
-    // right: unset;
   }
 }
 

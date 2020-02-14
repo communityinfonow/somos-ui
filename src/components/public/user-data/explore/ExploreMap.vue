@@ -30,10 +30,10 @@ export default {
       displayTracts: true,
       orderedBreaks: [74, 77, 79, 81],
       orderedBreakColors: [
-        globals.mainLightBlue,
-        globals.mapBlueLight,
-        globals.mapBlueDarker,
-        globals.mapBlueDarkest,
+        globals.mapColor1,
+        globals.mapColor2,
+        globals.mapColor3,
+        globals.mapColor4,
         globals.mainDarkBlue
       ]
     };

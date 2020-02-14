@@ -35,14 +35,16 @@
         <ImageGallery :photos="matchedTractPhotos" />
       </v-col>
     </v-row>
-    <v-btn
-      id="photo-upload-btn"
-      dense
-      block
-      :color="lightBlue"
-      class="my-3"
-      @click="$router.push('/photoshare')"
-    >Upload your own photos here</v-btn>
+    <a href="https:somosneighbors.com/photoshare" target="_blank" rel="noopener noreferrer">
+      <v-btn
+        id="photo-upload-btn"
+        dense
+        block
+        :color="lightBlue"
+        class="my-3"
+      >Upload your own photos here</v-btn>
+    </a>
+
     <LifeExpectancy
       v-if="lifeExpectancy"
       :difference="lifeExpectancy"
