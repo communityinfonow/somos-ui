@@ -17,6 +17,7 @@
               :marginOfError="neighborhoodData.marginOfError"
               :label="label"
               :valueType="valueType"
+              :right="$vuetify.breakpoint.xsOnly"
             />
           </v-col>
           <v-col cols="12" sm="6" class="right">
@@ -28,7 +29,7 @@
               :marginOfError="matchData.marginOfError"
               :label="label"
               :valueType="valueType"
-              :right="$vuetify.breakpoint.smAndUp"
+              :right="true"
             />
           </v-col>
         </v-row>
@@ -84,9 +85,14 @@ h4 {
 
 .right {
   .value-container {
-    padding-left: 20px;
     text-align: left;
     float: left;
+  }
+  .value-label {
+    left: 0;
+    &.shifted {
+      float: left;
+    }
   }
   .margin-of-error {
     float: left;
@@ -95,9 +101,15 @@ h4 {
 
 .left {
   .value-container {
-    padding-right: 20px;
     text-align: right;
     float: right;
+  }
+
+  .value-label {
+    right: 0;
+    &.shifted {
+      float: right;
+    }
   }
 
   .margin-of-error {

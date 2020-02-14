@@ -36,7 +36,7 @@ $moe-height: 5px;
 
 .margin-of-error {
   height: $moe-height;
-  background: #afafaf;
+  background: #ababab;
   position: absolute;
   top: calc(50% - #{$moe-height} / 2);
   border-radius: 3px;
