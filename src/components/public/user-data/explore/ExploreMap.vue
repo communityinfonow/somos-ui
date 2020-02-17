@@ -7,11 +7,14 @@
 <script>
 import Map from "@/components/public/shared/map/Map";
 import ExploreLegend from "./ExploreLegend";
+import * as leafletPip from "@mapbox/leaflet-pip";
 import axios from "axios";
 import { userDataStore } from "../userDataStore";
 import { mapCommon } from "@/mixins/map-common";
 import { LGeoJson } from "vue2-leaflet";
 import globals from "@/globals.js";
+import GeometryUtil from "leaflet-geometryutil";
+import polylabel from "polylabel";
 export default {
   name: "ExploreMap",
   components: {
@@ -25,17 +28,17 @@ export default {
       storeState: userDataStore.state,
       userIconUrl: require("./map-left-flag.svg"),
       matchIconUrl: require("./map-right-flag.svg"),
-      iconSize: [50, 59],
+      iconSize: [55, 64],
       data: null,
       displayTracts: true,
-      orderedBreaks: [74, 77, 79, 81],
+      orderedBreaks: [75, 78, 81],
       orderedBreakColors: [
         globals.mapColor1,
         globals.mapColor2,
         globals.mapColor3,
-        globals.mapColor4,
-        globals.mainDarkBlue
-      ]
+        globals.mapColor4
+      ],
+      zoom: 10.5
     };
   },
   methods: {
@@ -61,6 +64,33 @@ export default {
           }
         });
       });
+    },
+    determineMatchFlagLocation() {
+      let matchedLayer = this.boundaryGeojson
+        .getLayers()
+        .find(layer => layer.feature.properties.id === this.matchedTract.id);
+      let latLng = matchedLayer.getBounds().getCenter();
+      var containingGeographies = leafletPip.pointInLayer(
+        latLng,
+        this.boundaryGeojson
+      );
+      if (
+        containingGeographies.length > 0 &&
+        containingGeographies.find(
+          geography => geography.feature.properties.id === this.matchedTract.id
+        )
+      ) {
+        return latLng;
+      } else {
+        let point = polylabel(
+          matchedLayer.feature.geometry.coordinates[0],
+          1.0
+        );
+        return {
+          lat: point[1],
+          lng: point[0]
+        };
+      }
     }
   },
   computed: {
@@ -91,8 +121,9 @@ export default {
             data: {
               value: this.neighborhoodLifeExpectancy,
               style: {
-                bottom: "42px",
-                left: "13px"
+                bottom: "45px",
+                left: "8px",
+                transform: "rotate(-13deg)"
               }
             }
           }
@@ -101,11 +132,7 @@ export default {
 
       if (this.boundaryGeojson && this.matchedTract) {
         locations.push({
-          coordinates: this.boundaryGeojson
-            .getLayers()
-            .find(layer => layer.feature.properties.id === this.matchedTract.id)
-            .getBounds()
-            .getCenter(),
+          coordinates: this.determineMatchFlagLocation(),
           icon: {
             url: this.matchIconUrl,
             size: this.iconSize,
@@ -118,7 +145,8 @@ export default {
               value: this.matchLifeExpectancy,
               style: {
                 bottom: "42px",
-                left: "16px"
+                left: "11px",
+                tranform: "rotate(13deg)"
               }
             }
           }
@@ -154,6 +182,20 @@ export default {
       if (this.data) {
         this.renderShading();
       }
+    },
+    locations(newLocations) {
+      let map = this.$refs.exploremap.$refs.map.mapObject;
+      if (newLocations.length > 1) {
+        map.flyToBounds(
+          L.latLngBounds([
+            newLocations[0].coordinates,
+            newLocations[1].coordinates
+          ])
+        );
+        if (map.getZoom() > this.zoom + 1) {
+          map.zoomOut();
+        }
+      }
     }
   }
 };
@@ -171,5 +213,6 @@ export default {
   position: relative;
   font: 800 18px/24px Montserrat;
   color: white;
+  display: block;
 }
 </style>

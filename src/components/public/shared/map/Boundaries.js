@@ -21,10 +21,6 @@ function style() {
 function highlightFeature(e) {
   var layer = e.target;
 
-  // layer.setStyle({
-  //   fillOpacity: 0.2
-  // });
-
   if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
     layer.bringToFront();
   }

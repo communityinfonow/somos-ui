@@ -84,6 +84,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.tract-item {
+  font-family: Montserrat !important;
+  text-transform: uppercase;
+  font-weight: 700 !important;
+}
+
 #explore-actions {
   .v-btn {
     color: $main-dark-blue;
@@ -93,12 +99,6 @@ export default {
 
   .v-card {
     border-radius: 15px;
-  }
-
-  .tract-item {
-    font-family: Montserrat !important;
-    text-transform: uppercase;
-    font-weight: 700 !important;
   }
 
   #change-neighborhood-btn {

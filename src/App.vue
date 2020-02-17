@@ -9,15 +9,8 @@
 </template>
 
 <script>
-import publicContainer from "./components/public/PublicContainer";
-// import AdminContainer from "./components/admin/AdminContainer";
-
 export default {
-  name: "app",
-  components: {
-    // AdminContainer,
-    publicContainer
-  }
+  name: "app"
 };
 </script>
 

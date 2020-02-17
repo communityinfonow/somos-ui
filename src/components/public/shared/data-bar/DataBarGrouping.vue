@@ -18,6 +18,7 @@
               :label="label"
               :valueType="valueType"
               :right="$vuetify.breakpoint.xsOnly"
+              :key="neighborhoodData.value"
             />
           </v-col>
           <v-col cols="12" sm="6" class="right">
@@ -30,6 +31,7 @@
               :label="label"
               :valueType="valueType"
               :right="true"
+              :key="matchData.value"
             />
           </v-col>
         </v-row>
@@ -97,6 +99,10 @@ h4 {
   .margin-of-error {
     float: left;
   }
+
+  .is-long {
+    text-align: left;
+  }
 }
 
 .left {
@@ -114,6 +120,10 @@ h4 {
 
   .margin-of-error {
     float: right;
+  }
+
+  .is-long {
+    text-align: right;
   }
 }
 </style>

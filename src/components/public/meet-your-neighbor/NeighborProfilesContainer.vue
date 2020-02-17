@@ -32,13 +32,7 @@ export default {
     neighborsIndex: Number,
     down: Boolean,
     up: Boolean
-  },
-  data() {
-    return {
-      //   neighborsIndex: 0
-    };
-  },
-  methods: {}
+  }
 };
 </script>
 

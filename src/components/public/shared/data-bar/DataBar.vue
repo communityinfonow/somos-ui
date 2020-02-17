@@ -38,13 +38,13 @@ export default {
   props: {
     right: Boolean,
     color: String,
-    data: Object,
     numerator: Number,
     denomenator: Number,
     marginOfError: Object,
     label: String,
     valueType: String
   },
+  watch: {},
   methods: {
     shiftLabels() {
       this.isShifted =
@@ -52,7 +52,7 @@ export default {
         this.$refs.valuecontainer.clientWidth;
 
       if (this.isShifted) {
-        if (!!this.marginOfError) {
+        if (!!this.marginOfError && this.$refs.marginoferror) {
           this.shiftLength = this.right
             ? parseFloat(this.$refs.marginoferror.$el.style.left) || 0
             : parseFloat(this.$refs.marginoferror.$el.style.right) || 0;
@@ -94,7 +94,9 @@ export default {
     MarginOfError
   },
   mounted() {
-    this.shiftLabels();
+    this.$nextTick(this.shiftLabels);
+  },
+  created() {
     window.addEventListener("resize", this.onResize);
   }
 };
@@ -131,7 +133,7 @@ $label-height: $bar-height - $label-padding * 2 - $label-margin * 2;
 }
 
 .is-long.value-label {
-  line-height: 11px;
+  line-height: 13px;
 }
 
 .bar-container,

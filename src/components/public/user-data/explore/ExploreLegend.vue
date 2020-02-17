@@ -47,8 +47,6 @@ export default {
           let modifier = index ? 0.1 : 0.0;
           return mapBreak + modifier + " - " + array[index + 1] + " years";
         }
-
-        // return array[index - 1] + 0.1 + " - " + mapBreak + " years";
       });
     }
   }

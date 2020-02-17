@@ -68,7 +68,6 @@ export default {
       return 100 / this.blockColors.length + "%";
     }
   }
-  //   , props: ['links'] TODO
 };
 </script>
 

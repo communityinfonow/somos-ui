@@ -61,7 +61,7 @@ export default {
       if (!photo.type.includes("image")) {
         this.errorMessage = "Please upload an image file type";
       } else if (photo.size > this.supportedMaxFileSize * 1048576) {
-        // convert MB to bytes
+        // converts MB to bytes
         this.errorMessage =
           "Please limit image size to " + this.supportedMaxFileSize + "MB";
       } else {

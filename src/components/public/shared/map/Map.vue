@@ -79,9 +79,6 @@ export default {
     }
   },
   watch: {
-    locations: function(theLocation) {
-      // this.findContainingTractByBoundaries(theLocation); // TODO: handle null
-    },
     boundaries: function(newBoundaries) {
       newBoundaries.addTo(this.map);
     }

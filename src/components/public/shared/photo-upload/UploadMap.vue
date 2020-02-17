@@ -50,11 +50,6 @@ export default {
       if (newCoordinates.lat && newCoordinates.lng) {
         this.findContainingTractByBoundaries(newCoordinates);
       }
-    },
-    appLinks(newLinks) {
-      if (newLinks) {
-        // this.getCensusTracts(newLinks.censusTracts.href);
-      }
     }
   },
   computed: {

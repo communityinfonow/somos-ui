@@ -87,6 +87,6 @@ h1,
 p {
   color: white;
   position: relative;
-  z-index: 100;
+  z-index: 2;
 }
 </style>
