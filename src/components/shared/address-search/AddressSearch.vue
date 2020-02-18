@@ -55,10 +55,17 @@ export default {
     doneTypingHandler(addressSearchString) {
       if (addressSearchString) {
         this.loading = true;
-        locationSearch.searchByAddress(
-          addressSearchString,
-          this.searchCallback
-        );
+        if (addressSearchString.match(/\d{5}/g)) {
+          locationSearch.searchByZipCode(
+            addressSearchString,
+            this.searchCallback
+          );
+        } else {
+          locationSearch.searchByAddress(
+            addressSearchString,
+            this.searchCallback
+          );
+        }
       }
     },
 

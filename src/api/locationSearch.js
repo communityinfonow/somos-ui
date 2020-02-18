@@ -11,6 +11,11 @@ export default {
             callback(response)
         });
     },
+    searchByZipCode(zip, callback) {
+        axios.get(URL + "/zip/" + zip).then(response => {
+            callback(response.data);
+        });
+    },
     searchByLatLng(lat, lng, callback) {
         axios.get(URL + "/latlng/lat=" + lat + ";lng=" + lng).then(response => {
             callback(response);
