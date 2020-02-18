@@ -9,8 +9,8 @@ export const translate = {
         }
     },
     methods: {
-        translateText(textArray) {
-            return textArray.map(text => text[this.language]);
+        translateText(textObject) {
+            return textObject[this.language];
         }
     }
 }

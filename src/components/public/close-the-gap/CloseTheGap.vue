@@ -43,7 +43,7 @@ export default {
   },
   computed: {
     translatedParagraphs() {
-      return this.translateText(this.paragraphs);
+      return this.paragraphs.map(paragraph => this.translateText(paragraph));
     }
   },
   mixins: [translate],

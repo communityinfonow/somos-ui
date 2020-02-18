@@ -27,6 +27,7 @@ import Angle from "../shared/Angle";
 import globals from "../../../globals";
 import NeighborProfilesContainer from "./NeighborProfilesContainer";
 import Vue from "vue";
+
 export default {
   name: "MeetYourNeighbors",
   components: {
@@ -38,32 +39,65 @@ export default {
       neighbors: [
         {
           left: {
-            name: "Name12",
-            story:
-              "this is my very compelling story. definitely more compelling than the other person's.",
-            lazyImage: require("./jen.png"),
-            image: require("./jen_@2x.png")
+            name: "Patti",
+            story: {
+              en:
+                "As a white woman from a middle class upbringing, Patti was worried that her new West Side neighbors would agree her with suspicion. She could not have been more wrong. Working shoulder-to-shoulder and freely being herself, Patti has felt the acceptance and protection of a close neighborly bond forged over 50 years of shared struggle and laughter. To those who wonder if such community can be real in a place so often stigmatized, she says simply, “Come close.”",
+              es: ""
+            },
+            image: require("./patti.png")
           },
           right: {
-            name: "Name1",
-            story: "this is my very compelling story",
-            lazyImage: require("./jack.png"),
-            image: require("./jack_@2x.png")
+            name: "Ana",
+            story: {
+              en:
+                "The house next door to her parents sat vacant for two years before Ana bought it, keen to invest in the West Side neighborhood where she grew up. She knew that just across the road the sidewalks were better and the historic designation boosted home values—but a sense of home and fairness kept her rooted west of the dividing line. The people and parks still warm her heart, but Ana wants to change some things as well, like the way the city invests in infrastructure and neighborhood connectivity. She wants to make sure that every neighborhood in San Antonio is on the right side of the road.",
+              es: ""
+            },
+
+            image: require("./Ana.png")
           }
         },
         {
           left: {
-            name: "Name1",
-            story: "this is my very compelling story",
-            lazyImage: require("./jack.png"),
-            image: require("./jack_@2x.png")
+            name: "Chawanna",
+            story: {
+              en:
+                "Chawanna originally chose to live in Converse to be close to where she worked as a teacher in Judson ISD. When her husband’s job took their small family around the world and back again, she realized it was the community she wanted to keep. Even though her new job takes her all over the city, coming home to Converse feels right. While her kids play outside in their neighborhood, they see other black children and families, and Chawanna catches up with some new neighbors…her former students.",
+              es: ""
+            },
+
+            image: require("./patti.png")
           },
           right: {
-            name: "Name12",
-            story:
-              "this is my very compelling story. definitely more compelling than the other person's.",
-            lazyImage: require("./jen.png"),
-            image: require("./jen_@2x.png")
+            name: "Patton",
+            story: {
+              en:
+                "Moving to San Antonio from Boston, Patton had two days to find a house near good schools for his three kids. Though he and his wife had always lived in dense, mixed-income neighborhoods, the oak-dense yards and greenbelt in Stone Oak won them over. They saw kids playing in the streets and sidewalks. A week after they moved in, those new friends rang their doorbell, and haven’t stopped ringing it since.",
+              es: ""
+            },
+            image: require("./patton.png")
+          }
+        },
+        {
+          left: {
+            name: "Edward",
+            story: {
+              en:
+                "Edward didn’t have to look far to find everything he was looking for in a home. His South Side neighborhood had new bakeries, easy access to major roads, and one more important thing: his grandmother. Some of his neighbors have known him his whole life, but there are also plenty of open parcels and new homes to welcome young families looking to invest. Developers bring new businesses regularly as Palo Alto College and Texas A&M-San Antonio continue to grow. Here, he has both a history and a future.",
+              es: ""
+            },
+
+            image: require("./Edward.png")
+          },
+          right: {
+            name: "Elva",
+            story: {
+              en:
+                "Elva has always been a city girl. With her husband stationed in South Korea and a baby on the way 40 years ago, she chose a near Southeast side home close to her sister with easy access to downtown shops. The fig and avocado trees she planted are still thriving and bearing fruit, and so is the small neighborhood salon she has run since she became a single mother of two small kids. “Home” has been a hard won victory for Elva, but her house and neighborhood have been a source of stability and comfort she can rely on for the years ahead.",
+              es: ""
+            },
+            image: require("./elva.png")
           }
         }
       ],
@@ -176,11 +210,6 @@ h2 {
     top: 0;
   }
 
-  .info-text {
-    padding-right: 32px;
-    padding-left: 10px;
-  }
-
   .circle-tab-grouping {
     bottom: 0;
   }
@@ -190,11 +219,6 @@ h2 {
   .profile-info {
     right: 0;
     top: 0;
-  }
-
-  .info-text {
-    padding-left: 32px;
-    padding-right: 10px;
   }
 
   .profile-container {

@@ -180,7 +180,7 @@ export default {
   },
   computed: {
     translatedTabItems() {
-      return this.translateText(this.tabItems);
+      return this.tabItems.map(item => this.translateText(item));
     }
   }
 };
