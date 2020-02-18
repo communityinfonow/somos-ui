@@ -181,7 +181,6 @@ export default {
     photoLoaded: function() {
       return this.storeState.photo === null;
     },
-    // Whether a location has been selected or not
     isLocationSelected: function() {
       return (
         this.selectedLocation.coordinates.lat &&

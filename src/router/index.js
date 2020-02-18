@@ -36,6 +36,10 @@ export default new VueRouter({
             beforeEnter: checkAuthenticated
         },
         {
+            path: '*',
+            component: PublicContainer
+        },
+        {
             path: "/",
             component: PublicContainer
         },

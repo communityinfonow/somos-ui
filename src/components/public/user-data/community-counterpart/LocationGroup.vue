@@ -1,7 +1,7 @@
 <template>
   <div class="location-group">
     <div class="location-text">
-      <h2>{{title}}</h2>
+      <h2 v-html="title"></h2>
       <div class="address-1" v-if="address && address.line1">{{address.line1}}</div>
       <div class="address-2" v-if="address && address.line2">{{address.line2}}</div>
     </div>

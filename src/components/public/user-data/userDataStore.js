@@ -6,7 +6,10 @@ export const userDataStore = {
         matchRank: 1,
         neighborhoodData: null,
         matchData: null,
-        lifeExpectancyIndicator: null
+        lifeExpectancyIndicator: null,
+        lifeExpectancyData: null,
+        mapObject: null,
+        geojson: null
 
     },
     setTract(tract) {
@@ -29,6 +32,15 @@ export const userDataStore = {
     },
     setLifeExpectancyIndicator(indicator) {
         this.state.lifeExpectancyIndicator = indicator;
+    },
+    setLifeExpectancyData(data) {
+        this.state.lifeExpectancyData = data;
+    },
+    setMapObject(map) {
+        this.state.mapObject = map;
+    },
+    setGeojson(geojson) {
+        this.state.geojson = geojson;
     },
     getMatchedTract() {
         return this.state.tract && this.state.tract.matchedTracts ? this.state.tract.matchedTracts.find(tract => tract.rank === this.state.matchRank) : null;

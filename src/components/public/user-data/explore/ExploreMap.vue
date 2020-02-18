@@ -1,5 +1,12 @@
 <template>
-  <Map :boundaries="boundaryGeojson" :locations="locations" id="map" ref="exploremap">
+  <Map
+    :boundaries="boundaryGeojson"
+    :locations="locations"
+    :center="center"
+    @click="mapClickSelectLocation"
+    id="map"
+    ref="exploremap"
+  >
     <ExploreLegend :mapBreaks="orderedBreaks" :mapBreakColors="orderedBreakColors"></ExploreLegend>
   </Map>
 </template>
@@ -13,8 +20,10 @@ import { userDataStore } from "../userDataStore";
 import { mapCommon } from "@/mixins/map-common";
 import { LGeoJson } from "vue2-leaflet";
 import globals from "@/globals.js";
+import { location, coordinates } from "@/Location.js";
 import GeometryUtil from "leaflet-geometryutil";
 import polylabel from "polylabel";
+import locationSearch from "@/api/locationSearch.js";
 export default {
   name: "ExploreMap",
   components: {
@@ -38,10 +47,28 @@ export default {
         globals.mapColor3,
         globals.mapColor4
       ],
-      zoom: 10.5
+      zoom: 11,
+      center: [29.437236, -98.491163]
     };
   },
   methods: {
+    mapClickSelectLocation(event) {
+      let clickedLatLng = event.latlng;
+      locationSearch.searchByLatLng(
+        clickedLatLng.lat,
+        clickedLatLng.lng,
+        response => {
+          userDataStore.setAddress(
+            new location(
+              response.data.formattedAddress,
+              response.data.addressDetails,
+              null,
+              new coordinates(clickedLatLng.lat, clickedLatLng.lng)
+            )
+          );
+        }
+      );
+    },
     determineShadingByValue(value) {
       // TODO write a test for this
       let color = "transparent";
@@ -55,24 +82,26 @@ export default {
       return color;
     },
     renderShading() {
-      this.boundaryGeojson.getLayers().forEach(layer => {
+      this.storeState.geojson.getLayers().forEach(layer => {
+        layer.feature.properties.hasData = false;
         this.data.indicatorData.forEach(dataObj => {
           if (dataObj.censusTractId === layer.feature.properties.id) {
             layer.setStyle({
               fillColor: this.determineShadingByValue(dataObj.value)
             });
+            layer.feature.properties.hasData = true;
           }
         });
       });
     },
     determineMatchFlagLocation() {
-      let matchedLayer = this.boundaryGeojson
+      let matchedLayer = this.storeState.geojson
         .getLayers()
         .find(layer => layer.feature.properties.id === this.matchedTract.id);
       let latLng = matchedLayer.getBounds().getCenter();
       var containingGeographies = leafletPip.pointInLayer(
         latLng,
-        this.boundaryGeojson
+        this.storeState.geojson
       );
       if (
         containingGeographies.length > 0 &&
@@ -91,11 +120,20 @@ export default {
           lng: point[0]
         };
       }
+    },
+    resetZoom() {
+      this.mapObject.setView(this.center, this.zoom);
     }
   },
   computed: {
+    mapObject() {
+      return this.storeState.mapObject;
+    },
     matchedTract() {
       return userDataStore.getMatchedTract();
+    },
+    matchTractRank() {
+      return this.storeState.matchRank;
     },
     neighborhoodLifeExpectancy() {
       return this.storeState.neighborhoodData
@@ -130,7 +168,7 @@ export default {
         });
       }
 
-      if (this.boundaryGeojson && this.matchedTract) {
+      if (this.storeState.geojson && this.matchedTract) {
         locations.push({
           coordinates: this.determineMatchFlagLocation(),
           icon: {
@@ -146,7 +184,7 @@ export default {
               style: {
                 bottom: "42px",
                 left: "11px",
-                tranform: "rotate(13deg)"
+                transform: "rotate(13deg)"
               }
             }
           }
@@ -165,12 +203,17 @@ export default {
       ) // TODO obviously do this through hateoas
       .then(response => {
         this.data = response.data;
+        userDataStore.setLifeExpectancyData(response.data.indicatorData);
         this.orderedBreaks.push(this.data.maxValue);
         this.orderedBreaks.unshift(this.data.minValue);
-        if (this.boundaryGeojson) {
+        if (this.storeState.geojson) {
           this.renderShading();
         }
       });
+
+    this.$nextTick(() => {
+      userDataStore.setMapObject(this.$refs.exploremap.$refs.map.mapObject);
+    });
   },
   watch: {
     appLinks() {
@@ -178,23 +221,20 @@ export default {
         this.getCensusTracts(this.storeState.links.censusTracts.href);
       }
     },
-    boundaryGeojson() {
+    boundaryGeojson(newGeojson) {
+      userDataStore.setGeojson(newGeojson);
       if (this.data) {
         this.renderShading();
       }
     },
     locations(newLocations) {
-      let map = this.$refs.exploremap.$refs.map.mapObject;
-      if (newLocations.length > 1) {
-        map.flyToBounds(
-          L.latLngBounds([
-            newLocations[0].coordinates,
-            newLocations[1].coordinates
-          ])
-        );
-        if (map.getZoom() > this.zoom + 1) {
-          map.zoomOut();
-        }
+      let mapCenter = this.mapObject.getCenter();
+      if (
+        mapCenter.lat != this.center[0] ||
+        mapCenter.lng != this.center[1] ||
+        this.mapObject.getZoom() != this.zoom
+      ) {
+        this.resetZoom();
       }
     }
   }

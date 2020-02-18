@@ -12,7 +12,7 @@
       <v-col cols="12" sm="6" class="left pr-0 mr-0">
         <LocationGroup
           :image="require('../left-flag.svg')"
-          title="your neighborhood"
+          title="your</br>neighborhood"
           :address="address"
         />
       </v-col>
@@ -82,7 +82,7 @@ export default {
     LifeExpectancy,
     DataBarGroupingContainer
   },
-  props: { lifeExpectancyIndicator: Object },
+  props: { lifeExpectancyIndicator: Object, isClosestLocation: Boolean },
   data() {
     return {
       storeState: userDataStore.state,
@@ -97,6 +97,9 @@ export default {
   watch: {
     tract(newTract) {
       this.getPhotos(newTract);
+    },
+    selectedLocation(newLocation) {
+      this.setTractFormattedAddress(newLocation);
     }
   },
   computed: {
@@ -118,29 +121,38 @@ export default {
     },
     lifeExpectancy() {
       return this.matchedTract
-        ? this.matchedTract.lifeExpectancyDifference
+        ? parseFloat(this.matchedTract.lifeExpectancyDifference.toFixed(1))
         : null;
+    },
+    selectedLocation() {
+      return this.storeState.address;
     }
   },
   methods: {
     selectionHandler(selection) {
       userDataStore.setAddress(selection);
-      this.setTractFormattedAddress(selection);
       this.getMatchedData();
       this.sendGoogleAnalytics();
     },
     setTractFormattedAddress(addressSelection) {
       let details = addressSelection.addressDetails;
-      let address1 = details.house_number || "";
-      address1 += address1 ? " " : "";
-      address1 +=
-        details.road ||
-        details.pedestrian ||
-        addressSelection.name.split(",")[0];
-      let address2 = details.city || details.town || details.village || "";
-      address2 += address2 ? ", TX" : "TX";
-      address2 += " " + details.postcode || "";
-      this.address = { line1: address1, line2: address2 };
+      if (details) {
+        let address1 = details.house_number || "";
+        address1 += address1 ? " " : "";
+        address1 +=
+          details.road ||
+          details.pedestrian ||
+          addressSelection.name.split(",")[0];
+        let address2 = details.city || details.town || details.village || "";
+        address2 += address2 ? ", TX" : "TX";
+        address2 += " " + details.postcode || "";
+        this.address = {
+          line1: this.isClosestLocation ? "Nearest " + address1 : address1,
+          line2: address2
+        };
+      } else {
+        this.address = { line1: null, line2: null };
+      }
     },
     getPhotos(tract) {
       if (tract) {

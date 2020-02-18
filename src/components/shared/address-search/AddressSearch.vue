@@ -55,7 +55,10 @@ export default {
     doneTypingHandler(addressSearchString) {
       if (addressSearchString) {
         this.loading = true;
-        locationSearch.search(addressSearchString, this.searchCallback);
+        locationSearch.searchByAddress(
+          addressSearchString,
+          this.searchCallback
+        );
       }
     },
 
