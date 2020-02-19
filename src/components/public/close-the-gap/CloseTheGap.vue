@@ -4,7 +4,7 @@
     <div id="right-background" class="background"></div>
 
     <!-- TODO: change all sections to section tag -->
-    <h1>Close The Gap</h1>
+    <h1>{{translateText(title)}}</h1>
     <p v-for="(paragraph, index) in translatedParagraphs" :key="index">{{paragraph}}</p>
 
     <LinksImages />
@@ -22,6 +22,7 @@ export default {
     return {
       lightBlue: globals.mainLightBlue,
       darkBlue: globals.mainDarkBlue,
+      title: { en: "Close The Gap", es: "" },
       paragraphs: [
         {
           en:

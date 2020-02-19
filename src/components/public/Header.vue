@@ -28,13 +28,6 @@ export default {
   },
   data() {
     return {
-      links: [
-        { text: "featured stories", link: "#featured-stories" },
-        { text: "compare", link: "#compare" },
-        { text: "life expectancy", link: "#life-expectancy" },
-        { text: "interactive map", link: "#interactive-map" },
-        { text: "make a difference", link: "#make-a-difference" }
-      ],
       blockColors: [
         globals.darkPink,
         globals.yellow,
@@ -53,30 +46,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.somos-link {
-  text-align: left;
-  font: 500 1.286rem Bebas Neue;
-  letter-spacing: 3.6px;
-  color: $main-dark-blue;
-  text-transform: uppercase;
-  text-decoration: none;
-
-  &:hover {
-    color: $main-light-blue;
-  }
-
-  transition: color 200ms ease-in-out;
-}
-
 .color-block {
   height: 9px;
 
   @media (max-width: 600px) {
     height: 20px;
-  }
-
-  #somos-hamburger-menu {
-    float: right;
   }
 }
 </style>

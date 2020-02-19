@@ -11,18 +11,18 @@
         >
           <v-tab
             class="tab-title"
-            v-for="(item, index) in translatedTabItems"
+            v-for="(item, index) in tabItems"
             :key="index"
-          >{{item.title}}</v-tab>
+          >{{translateText(item.title)}}</v-tab>
         </v-tabs>
         <v-tabs-items v-model="tabs" background-color="transparent" id="tab-links">
-          <v-tab-item v-for="(item, index) in translatedTabItems" :key="index">
+          <v-tab-item v-for="(item, index) in tabItems" :key="index">
             <div>
               <ExternalLink
-                v-for="link in item.links"
-                :key="link.label"
+                v-for="(link, index) in item.links"
+                :key="index"
                 :icon="link.icon"
-                :title="link.label"
+                :title="translateText(link.label)"
                 :link="link.link"
               />
             </div>
@@ -101,87 +101,76 @@ export default {
       darkBlue: globals.mainDarkBlue,
       tabItems: [
         {
-          en: {
-            title: "learn",
-            links: [
-              {
-                label: "Discover policies and programs that work",
-                link: links.policies,
-                icon: require("./Group 61.svg")
-              },
-              {
-                label: "Get inspired by what others are doing",
-                link: links.othersDoing,
-                icon: require("./Group 62.svg")
-              },
-              {
-                label: "Find out who represents you",
-                link: links.represents,
-                icon: require("./Group 63.svg")
-              }
-            ]
-          },
-          es: null
+          title: { en: "learn", es: "" },
+          links: [
+            {
+              label: { en: "Discover policies and programs that work", es: "" },
+              link: links.policies,
+              icon: require("./Group 61.svg")
+            },
+            {
+              label: { en: "Get inspired by what others are doing", es: "" },
+              link: links.othersDoing,
+              icon: require("./Group 62.svg")
+            },
+            {
+              label: { en: "Find out who represents you", es: "" },
+              link: links.represents,
+              icon: require("./Group 63.svg")
+            }
+          ]
         },
         {
-          en: {
-            title: "speak",
-            links: [
-              {
-                label: "Speak up on local issues",
-                link: links.speakUp,
-                icon: require("./Group 64.svg")
-              },
-              {
-                label: "Be counted in the 2020 Census",
-                link: links.beCounted,
-                icon: require("./Group 88.svg")
-              },
-              {
-                label: "Paint your vision for our community",
-                link: links.paintYourVision,
-                icon: require("./Group 95.svg")
-              }
-            ]
-          },
-          es: null
+          title: { en: "speak", es: "" },
+          links: [
+            {
+              label: { en: "Speak up on local issues", es: "" },
+              link: links.speakUp,
+              icon: require("./Group 64.svg")
+            },
+            {
+              label: { en: "Be counted in the 2020 Census", es: "" },
+              link: links.beCounted,
+              icon: require("./Group 88.svg")
+            },
+            {
+              label: { en: "Paint your vision for our community", es: "" },
+              link: links.paintYourVision,
+              icon: require("./Group 95.svg")
+            }
+          ]
         },
         {
-          en: {
-            title: "act",
-            links: [
-              {
-                label: "Volunteer or donate to a local nonprofit",
-                link: links.volunteer,
-                icon: require("./Group 96.svg")
+          title: { en: "act", es: "" },
+          links: [
+            {
+              label: {
+                en: "Volunteer or donate to a local nonprofit",
+                es: ""
               },
-              {
-                label: "Request city services",
-                link: links.cityServices,
-                icon: require("./Group 97.svg")
-              },
-              {
-                label: "Request county services",
-                link: links.countyServices,
-                icon: require("./Group 61.svg")
-              },
-              {
-                label: "Get informed and vote",
-                link: links.getInformed,
-                icon: require("./Group 61.svg")
-              }
-            ]
-          },
-          es: null
+              link: links.volunteer,
+              icon: require("./Group 96.svg")
+            },
+            {
+              label: { en: "Request city services", es: "" },
+              link: links.cityServices,
+              icon: require("./Group 97.svg")
+            },
+            {
+              label: { en: "Request county services", es: "" },
+              link: links.countyServices,
+              icon: require("./Group 61.svg")
+            },
+            {
+              label: { en: "Get informed and vote", es: "" },
+              link: links.getInformed,
+              icon: require("./Group 61.svg")
+            }
+          ]
         }
       ],
       tabs: null
     };
-  },
-  computed: {
-    translatedTabItems() {
-      return this.tabItems.map(item => this.translateText(item));
-    }
   }
 };
 </script>

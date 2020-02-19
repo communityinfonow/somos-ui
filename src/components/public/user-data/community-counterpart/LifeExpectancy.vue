@@ -1,7 +1,7 @@
 <template>
   <div id="life-expectancy">
-    <h1>you are also very different.</h1>
-    <DataDisplay title="average life expectancy">
+    <h1>{{translateText(differenceTitle)}}</h1>
+    <DataDisplay :title="translateText(lifeExpectancyTitle)">
       <DataBarGrouping
         :matchData="matchData"
         :neighborhoodData="neighborhoodData"
@@ -10,8 +10,8 @@
     </DataDisplay>
     <ul id="life-expectancy-difference">
       <li id="value">{{difference}}</li>
-      <li>year difference.</li>
-      <li>that's a big gap!</li>
+      <li>{{translateText(yearsDifference)}}</li>
+      <li>{{translateText(bigGap)}}</li>
     </ul>
     <img :src="require('./circle.svg')" />
   </div>
@@ -22,13 +22,31 @@ import DataDisplay from "./DataDisplay";
 import DataBarGrouping from "@/components/public/shared/data-bar/DataBarGrouping";
 import axios from "axios";
 import { userDataStore } from "../userDataStore";
+import translate from "@/mixins/translate";
 export default {
   name: "LifeExpectancy",
   data() {
     return {
-      storeState: userDataStore.state
+      storeState: userDataStore.state,
+      differenceTitle: {
+        en: "you are also very different.",
+        es: ""
+      },
+      lifeExpectancyTitle: {
+        en: "average life expectancy",
+        es: ""
+      },
+      yearsDifference: {
+        en: "year difference.",
+        es: ""
+      },
+      bigGap: {
+        en: "that's a big gap!",
+        es: ""
+      }
     };
   },
+  mixins: [translate],
   components: {
     DataDisplay,
     DataBarGrouping

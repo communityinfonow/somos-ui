@@ -6,14 +6,14 @@
       <v-col cols="12" md="6">
         <v-row justify="start" id="nav-links">
           <span v-for="(link, index) in links.left" :key="index" :href="link.link" class="px-5">
-            <a class="somos-link">{{link.text}}</a>
+            <a class="somos-link">{{translateText(link.text)}}</a>
           </span>
         </v-row>
       </v-col>
       <v-col cols="12" md="6">
         <v-row justify="end" id="nav-links">
           <span v-for="(link, index) in links.right" :key="index" :href="link.link" class="px-5">
-            <a class="somos-link">{{link.text}}</a>
+            <a class="somos-link">{{translateText(link.text)}}</a>
           </span>
         </v-row>
       </v-col>
@@ -30,9 +30,9 @@
             rel="noopener noreferrer"
             href="https://cinow.info/somos-neighbors/"
             class="px-2"
-          >About the data</a>
+          >{{translateText(aboutText)}}</a>
 
-          <a href="#" class="px-2">Privacy Policy</a>
+          <a href="#" class="px-2">{{translateText(privacyPolicyText)}}</a>
         </v-row>
       </v-col>
     </v-row>
@@ -41,22 +41,29 @@
 
 <script>
 import globals from "@/globals.js";
+import translate from "@/mixins/translate";
 export default {
   name: "Footer",
+  mixins: [translate],
   data() {
     return {
       links: {
         left: [
-          { text: "compare", link: "#compare" },
-          { text: "featured stories", link: "#featured-stories" }
+          { text: { en: "compare", es: "" }, link: "#compare" },
+          {
+            text: { en: "featured stories", es: "" },
+            link: "#featured-stories"
+          }
         ],
 
         right: [
-          { text: "life expectancy", link: "#life-expectancy" },
-          { text: "interactive map", link: "#interactive-map" }
+          { text: { en: "life expectancy", es: "" }, link: "#life-expectancy" },
+          { text: { en: "interactive map", es: "" }, link: "#interactive-map" }
         ]
       },
-      blockColors: [globals.mainLightBlue, globals.mainDarkBlue]
+      blockColors: [globals.mainLightBlue, globals.mainDarkBlue],
+      aboutText: { en: "About the data", es: "" },
+      privacyPolicyText: { en: "Privacy Policy", es: "" }
     };
   }
 };

@@ -1,13 +1,13 @@
 <template>
   <l-control position="bottomright" id="legend-control">
     <div id="legend" class="elevation-2">
-      <h2>Key</h2>
+      <h2>{{translateText(keyText)}}</h2>
       <ul id="tract-key" v-if="neighborhoodTract && matchingTract">
         <li>
-          <span id="neighborhood-key">Your neighborhood</span>
+          <span id="neighborhood-key">{{translateText(yourNeighborhood)}}</span>
         </li>
         <li>
-          <span id="match-key">Your match</span>
+          <span id="match-key">{{translateText(yourMatch)}}</span>
         </li>
       </ul>
       <ul>
@@ -23,15 +23,20 @@
 <script>
 import { LControl } from "vue2-leaflet";
 import { userDataStore } from "@/components/public/user-data/userDataStore.js";
+import translate from "@/mixins/translate";
 export default {
   name: "ExploreLegend",
   components: {
     LControl
   },
   props: { mapBreaks: Array, mapBreakColors: Array },
+  mixins: [translate],
   data() {
     return {
-      storeState: userDataStore.state
+      storeState: userDataStore.state,
+      keyText: { en: "Key", es: "" },
+      yourNeighborhood: { en: "Your neighborhood", es: "" },
+      yourMatch: { en: "Your match", es: "" }
     };
   },
   computed: {
@@ -42,6 +47,7 @@ export default {
       return userDataStore.getMatchedTract();
     },
     mapBreaksLabels() {
+      // TODO translate
       return this.mapBreaks.map((mapBreak, index, array) => {
         if (index < array.length - 1) {
           let modifier = index ? 0.1 : 0.0;

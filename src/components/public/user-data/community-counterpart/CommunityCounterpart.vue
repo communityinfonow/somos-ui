@@ -1,26 +1,15 @@
 <template>
   <v-container id="community-counterpart">
-    <h1>Find your match</h1>
-    <p>If our daily routine is to go from home to school or work and back, our day-to-day lives don’t offer many chances to get to know other neighborhoods. Enter your information below to see how a neighborhood somewhere else in the county is the same and different from yours.</p>
+    <h1>{{translateText(title)}}</h1>
+    <p>{{translateText(introParagraph)}}</p>
     <AddressSearch
       class="address-search"
       @selected="selectionHandler"
-      label="Input your neighborhood"
+      :label="translateText(addressSearchLabel)"
       ref="addressInput"
     ></AddressSearch>
-    <v-row id="location-groups">
-      <v-col cols="12" sm="6" class="left pr-0 mr-0">
-        <LocationGroup
-          :image="require('../left-flag.svg')"
-          title="your</br>neighborhood"
-          :address="address"
-        />
-      </v-col>
-      <v-col cols="12" sm="6" class="right pl-0 ml-0">
-        <LocationGroup :image="require('../right-flag.svg')" title="your match neighborhood" />
-      </v-col>
-    </v-row>
-    <DataDisplay title="YOUR NEIGHBORHOODS HAVE A LOT IN COMMON. TAKE A LOOK.">
+    <LocationGroups :isClosestLocation="isClosestLocation" />
+    <DataDisplay :title="translateText(commonIndicatorsTitle)">
       <DataBarGroupingContainer
         v-for="(dataGroup, index) in commonData"
         :key="index"
@@ -42,7 +31,7 @@
         block
         :color="lightBlue"
         class="my-3"
-      >Upload your own photos here</v-btn>
+      >{{translateText(uploadPhotosText)}}</v-btn>
     </a>
 
     <LifeExpectancy
@@ -50,7 +39,7 @@
       :difference="lifeExpectancy"
       :indicator="lifeExpectancyIndicator"
     />
-    <p>Your neighborhoods have other differences, too. The differences may not directly cause the life expectancy gap you’re seeing. Local data tells us, though, that there’s a relationship between these issues and a neighborhood’s average life expectancy.</p>
+    <p>{{translateText(differentIndicatorsParagraph)}}</p>
     <DataDisplay>
       <DataBarGroupingContainer
         v-for="(dataGroup, index) in differenceData"
@@ -66,12 +55,14 @@ import AddressSearch from "../../../shared/address-search/AddressSearch";
 import DataDisplay from "./DataDisplay";
 import * as axios from "axios";
 import LocationGroup from "./LocationGroup";
+import translate from "@/mixins/translate";
 import ImageGallery from "./ImageGallery";
 import { userDataStore } from "../userDataStore";
 import photoData from "@/api/photo-data.js";
 import globals from "@/globals.js";
 import LifeExpectancy from "./LifeExpectancy";
 import DataBarGroupingContainer from "@/components/public/shared/data-bar/DataBarGroupingContainer";
+import LocationGroups from "./LocationGroups";
 export default {
   name: "CommunityCounterpart",
   components: {
@@ -80,8 +71,10 @@ export default {
     LocationGroup,
     ImageGallery,
     LifeExpectancy,
-    DataBarGroupingContainer
+    DataBarGroupingContainer,
+    LocationGroups
   },
+  mixins: [translate],
   props: { lifeExpectancyIndicator: Object, isClosestLocation: Boolean },
   data() {
     return {
@@ -91,15 +84,34 @@ export default {
       matchedTractPhotos: [],
       address: { line1: "", line2: "" },
       neighborhoodLifeExpectancy: null,
-      matchLifeExpectancy: null
+      matchLifeExpectancy: null,
+      title: { en: "find your match", es: "ENCUENTRE A SU PAR" },
+      introParagraph: {
+        en:
+          "If our daily routine is to go from home to school or work and back, our day-to-day lives don’t offer many chances to get to know other neighborhoods. Enter your information below to see how a neighborhood somewhere else in the county is the same and different from yours.",
+        es:
+          "Si nuestra rutina diaria es ir de la casa a la escuela o al trabajo y viceversa, nuestra vida cotidiana no ofrece muchas oportunidades de conocer otros vecindarios. Ingrese su información a continuación para ver cómo un vecindario en otro lugar del condado es igual y diferente al suyo."
+      },
+      addressSearchLabel: { en: "Input your neighborhood", es: "" },
+
+      commonIndicatorsTitle: {
+        en: "YOUR NEIGHBORHOODS HAVE A LOT IN COMMON. TAKE A LOOK.",
+        es: ""
+      },
+      differentIndicatorsParagraph: {
+        en:
+          "Your neighborhoods have other differences, too. The differences may not directly cause the life expectancy gap you’re seeing. Local data tells us, though, that there’s a relationship between these issues and a neighborhood’s average life expectancy.",
+        es: ""
+      },
+      uploadPhotosText: {
+        en: "Upload your own photos here",
+        es: ""
+      }
     };
   },
   watch: {
     tract(newTract) {
       this.getPhotos(newTract);
-    },
-    selectedLocation(newLocation) {
-      this.setTractFormattedAddress(newLocation);
     }
   },
   computed: {
@@ -123,9 +135,6 @@ export default {
       return this.matchedTract
         ? parseFloat(this.matchedTract.lifeExpectancyDifference.toFixed(1))
         : null;
-    },
-    selectedLocation() {
-      return this.storeState.address;
     }
   },
   methods: {
@@ -133,26 +142,6 @@ export default {
       userDataStore.setAddress(selection);
       this.getMatchedData();
       this.sendGoogleAnalytics();
-    },
-    setTractFormattedAddress(addressSelection) {
-      let details = addressSelection.addressDetails;
-      if (details) {
-        let address1 = details.house_number || "";
-        address1 += address1 ? " " : "";
-        address1 +=
-          details.road ||
-          details.pedestrian ||
-          addressSelection.name.split(",")[0];
-        let address2 = details.city || details.town || details.village || "";
-        address2 += address2 ? ", TX" : "TX";
-        address2 += " " + details.postcode || "";
-        this.address = {
-          line1: this.isClosestLocation ? "Nearest " + address1 : address1,
-          line2: address2
-        };
-      } else {
-        this.address = { line1: null, line2: null };
-      }
     },
     getPhotos(tract) {
       if (tract) {

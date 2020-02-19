@@ -7,15 +7,15 @@
             block
             @click="newNeighborhood"
             id="change-neighborhood-btn"
-          >Change your neighborhood</v-btn>
+          >{{translateText(newNeighborhoodText)}}</v-btn>
         </v-col>
         <v-col cols="12" md="4">
-          <v-btn block>explore data</v-btn>
+          <v-btn block>{{translateText(exploreDataText)}}</v-btn>
         </v-col>
         <v-col cols="12" md="4">
           <v-menu offset-y>
             <template v-slot:activator="{on}">
-              <v-btn block v-on="on" id="change-match-btn">Change your match</v-btn>
+              <v-btn block v-on="on" id="change-match-btn">{{translateText(changeYourMatchText)}}</v-btn>
             </template>
             <v-list>
               <v-list-item
@@ -36,11 +36,16 @@
 <script>
 import globals from "@/globals.js";
 import { userDataStore } from "../userDataStore.js";
+import translate from "@/mixins/translate";
 export default {
   name: "ExploreActions",
+  mixins: [translate],
   data() {
     return {
-      storeState: userDataStore.state
+      storeState: userDataStore.state,
+      newNeighborhoodText: { en: "Change your neighborhood", es: "" },
+      exploreDataText: { en: "explore data", es: "" },
+      changeYourMatchText: { en: "Change your match", es: "" }
     };
   },
   methods: {
@@ -55,6 +60,7 @@ export default {
       }, 600);
     },
     createTractTitles(tract) {
+      //TODO translations
       switch (tract.rank) {
         case 1:
           tract.title = "Closest Match";

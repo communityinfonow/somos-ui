@@ -8,7 +8,7 @@
           ></MultiSourceImage>
         </v-col>
         <v-col v-if="photos.length === 0">
-          <p>There are no approved photos for this neighborhood.</p>
+          <p>{{translateText(noPhotosMessage)}}</p>
         </v-col>
       </v-row>
       <v-card-actions></v-card-actions>
@@ -19,12 +19,23 @@
 <script>
 import SomosButton from "@/components/shared/SomosButton";
 import MultiSourceImage from "@/components/shared/MultiSourceImage";
+import translate from "@/mixins/translate";
+// TODO: ADA desciprtion for photos
 export default {
   name: "ImageGallery",
   props: { photos: Array },
+  mixins: [translate],
   components: {
     SomosButton,
     MultiSourceImage
+  },
+  data() {
+    return {
+      noPhotosMessage: {
+        en: "There are no approved photos for this neighborhood.",
+        es: ""
+      }
+    };
   }
 };
 </script>

@@ -1,9 +1,9 @@
 <template>
-  <div id="meet-your-neighbors">
+  <section id="meet-your-neighbors">
     <v-container class="my-0 py-0">
       <div class="angle-container"></div>
 
-      <h1>meet your neighbors</h1>
+      <h1>{{translateText(title)}}</h1>
 
       <v-row class="content">
         <v-col cols="12" sm="6" class="left mx-0 px-0" @click="cycleNeighbors">
@@ -19,7 +19,7 @@
       </v-row>
       <v-img id="mos" :src="require('../Mos.svg')"></v-img>
     </v-container>
-  </div>
+  </section>
 </template>
 
 <script>
@@ -27,6 +27,7 @@ import Angle from "../shared/Angle";
 import globals from "../../../globals";
 import NeighborProfilesContainer from "./NeighborProfilesContainer";
 import Vue from "vue";
+import translate from "@/mixins/translate";
 
 export default {
   name: "MeetYourNeighbors",
@@ -34,8 +35,13 @@ export default {
     Angle,
     NeighborProfilesContainer
   },
+  mixins: [translate],
   data() {
     return {
+      title: {
+        en: "meet your neighbors",
+        es: "CONOCE A TUS VECINOS"
+      },
       neighbors: [
         {
           left: {

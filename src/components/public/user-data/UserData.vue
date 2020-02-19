@@ -6,27 +6,7 @@
       :isClosestLocation="isClosestLocation"
     />
     <Explore @click:new="newNeighborhood" />
-    <v-dialog v-model="closestTractDialog" width="50%" id="closest-tract-dialog">
-      <v-card>
-        <v-card-title
-          class="headline lighten-2"
-          primary-title
-          id="closest-tract-title"
-        >Location does not have data</v-card-title>
-
-        <v-card-text>
-          <p>Life expectancy data does not exist for the location you selected.</p>
-          <p>Would you like to view data for the nearest neighborhood?</p>
-        </v-card-text>
-        <v-divider></v-divider>
-
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="secondary" text @click="closeModal">No thanks</v-btn>
-          <v-btn color="primary" text @click="selectClosestTract">Yes</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+    <NoDataDialog :model="closestTractDialog" @close="closeModal" @proceed="selectClosestTract" />
   </div>
 </template>
 
@@ -40,13 +20,16 @@ import axios from "axios";
 import GeometryUtil from "leaflet-geometryutil";
 import polylabel from "polylabel";
 import { location, coordinates } from "@/Location";
+import translate from "@/mixins/translate";
+import NoDataDialog from "./NoDataDialog";
 export default {
   name: "UserData",
   components: {
     CommunityCounterpart,
-    Explore
+    Explore,
+    NoDataDialog
   },
-  mixins: [appLinks],
+  mixins: [appLinks, translate],
   data() {
     return {
       userTract: null,
@@ -172,16 +155,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#closest-tract-title {
-  background: $main-dark-blue;
-  color: white;
-  margin-bottom: 13px;
-}
-
-#closest-tract-dialog {
-  p {
-    font-size: 16px;
-    font-family: Montserrat;
-  }
-}
 </style>
