@@ -84,15 +84,22 @@ export const authenticationStore = {
 };
 
 export const languageStore = {
-    languages: {
-        english: 'en',
-        spanish: 'es'
-    },
+    languages: [{
+            lang: 'english',
+            code: 'en',
+            label: 'English'
+        },
+        {
+            lang: 'spanish',
+            code: 'es',
+            label: 'Espa&ntilde;ol'
+        }
+    ],
     state: {
-        language: 'en'
+        languageCode: 'en'
     },
-    setLanguage(language) {
-        this.state.language = language;
+    setLanguageCode(language) {
+        this.state.languageCode = language;
     }
 
 }

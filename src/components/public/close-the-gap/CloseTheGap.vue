@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { translate } from "@/mixins/translate.js";
+import translate from "@/mixins/translate.js";
 import LinksImages from "./LinksImages";
 import globals from "@/globals.js";
 import Angle from "@/components/public/shared/Angle";

@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { translate } from "@/mixins/translate.js";
+import translate from "@/mixins/translate.js";
 export default {
   name: "NeighborProfile",
   props: ["name", "story", "image"],

@@ -43,7 +43,7 @@
 
 <script>
 import OverlappingImages from "@/components/public/shared/OverlappingImages";
-import { translate } from "@/mixins/translate.js";
+import translate from "@/mixins/translate.js";
 import ExternalLink from "./ExternalLink";
 import globals from "@/globals";
 const links = {

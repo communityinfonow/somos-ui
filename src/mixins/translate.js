@@ -2,15 +2,20 @@ import {
     languageStore
 } from "@/store.js";
 
-export const translate = {
+export default {
     data() {
         return {
-            language: languageStore.state.language,
+            storeState: languageStore.state,
         }
     },
     methods: {
         translateText(textObject) {
             return textObject[this.language];
+        }
+    },
+    computed: {
+        language() {
+            return this.storeState.languageCode;
         }
     }
 }
