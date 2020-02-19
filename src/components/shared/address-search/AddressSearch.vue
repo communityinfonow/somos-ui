@@ -39,7 +39,7 @@ export default {
   methods: {
     searchCallback(response) {
       this.loading = false;
-      this.searchSuggestions = response.data.map(
+      this.searchSuggestions = response.map(
         result =>
           new location(
             result.formattedAddress,
@@ -55,7 +55,7 @@ export default {
     doneTypingHandler(addressSearchString) {
       if (addressSearchString) {
         this.loading = true;
-        if (addressSearchString.match(/\d{5}/g)) {
+        if (addressSearchString.match(/^\d{5}$/g)) {
           locationSearch.searchByZipCode(
             addressSearchString,
             this.searchCallback

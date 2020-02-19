@@ -33,7 +33,7 @@ h1 {
   color: $main-dark-blue;
   text-transform: uppercase;
   font-family: "Bebas Neue";
-  font-weight: 700;
+  font-weight: 500;
   font-size: 2.857rem;
   text-align: center;
 }

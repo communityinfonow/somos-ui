@@ -61,7 +61,6 @@ export default {
 }
 
 .circle-tab-grouping {
-  position: absolute;
   width: 100%;
 }
 

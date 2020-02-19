@@ -203,7 +203,7 @@ h2 {
 
 .left {
   .profile-image {
-    right: -50%;
+    right: -60%;
   }
   .profile-info {
     left: 0;

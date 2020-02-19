@@ -70,7 +70,7 @@ export default {
 #mos {
   width: 35%;
   position: absolute;
-  z-index: 1;
+  z-index: 100;
 }
 
 @media (min-width: 1904px) {

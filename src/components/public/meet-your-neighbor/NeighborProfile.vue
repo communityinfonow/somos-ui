@@ -8,8 +8,8 @@
         <div class="info-text">
           <h2>{{name}}</h2>
           <p>{{translatedStory}}</p>
+          <slot></slot>
         </div>
-        <slot></slot>
       </div>
     </div>
   </div>
@@ -43,13 +43,13 @@ export default {
 }
 
 .profile-info {
-  width: 50%;
+  width: 60%;
   position: absolute;
   height: 100%;
 }
 
 .profile-image {
-  width: 50%;
+  width: 40%;
   position: relative;
 }
 
