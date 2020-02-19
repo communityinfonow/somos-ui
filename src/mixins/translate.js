@@ -5,7 +5,7 @@ import {
 export default {
     data() {
         return {
-            storeState: languageStore.state,
+            languageStoreState: languageStore.state,
         }
     },
     methods: {
@@ -15,7 +15,7 @@ export default {
     },
     computed: {
         language() {
-            return this.storeState.languageCode;
+            return this.languageStoreState.languageCode;
         }
     }
 }

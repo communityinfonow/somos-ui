@@ -51,11 +51,11 @@
 </template>
 
 <script>
+import translate from "@/mixins/translate";
 import AddressSearch from "../../../shared/address-search/AddressSearch";
 import DataDisplay from "./DataDisplay";
 import * as axios from "axios";
 import LocationGroup from "./LocationGroup";
-import translate from "@/mixins/translate";
 import ImageGallery from "./ImageGallery";
 import { userDataStore } from "../userDataStore";
 import photoData from "@/api/photo-data.js";
