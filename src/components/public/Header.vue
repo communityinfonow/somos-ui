@@ -1,6 +1,6 @@
 <template>
   <header id="header">
-    <TranslateBtn />
+    
     <v-container class="mb-0 pb-0">
       <v-row>
         <v-col cols="12">
@@ -14,6 +14,7 @@
           </v-row>
         </v-col>
       </v-row>
+      <TranslateBtn />
     </v-container>
   </header>
 </template>
