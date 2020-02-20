@@ -8,8 +8,7 @@
     <span
       class="value-label"
       ref="valuelabel"
-      :class="{shifted: isShifted, 'is-long': valueLabelIsLong}"
-      :style="shift"
+      :class="{'exceeds-container': exceedsContainer, 'is-long': valueLabelIsLong}"
     >
       <span>{{formattedValue}}</span>
       <span class="label">{{valueLabel}}</span>
@@ -33,7 +32,7 @@ const labelMargins = 20;
 export default {
   name: "DataBar",
   data() {
-    return { isShifted: false, shiftLength: 0, shift: {} };
+    return { exceedsContainer: false };
   },
   props: {
     right: Boolean,
@@ -46,34 +45,13 @@ export default {
   },
   watch: {},
   methods: {
-    shiftLabels() {
-      this.isShifted =
-        this.$refs.valuelabel.clientWidth + labelMargins >
+    checkLabelsSize() {
+      this.exceedsContainer =
+        this.$refs.valuelabel.clientWidth >
         this.$refs.valuecontainer.clientWidth;
-
-      if (this.isShifted) {
-        if (!!this.marginOfError && this.$refs.marginoferror) {
-          this.shiftLength = this.right
-            ? parseFloat(this.$refs.marginoferror.$el.style.left) || 0
-            : parseFloat(this.$refs.marginoferror.$el.style.right) || 0;
-          this.shiftLength += parseFloat(
-            this.$refs.marginoferror.$el.style.width
-          );
-        } else {
-          this.shiftLength = parseFloat(this.$refs.valuecontainer.style.width);
-        }
-
-        this.shift = {
-          left: this.right ? this.shiftLength + "%" : "unset",
-          right: this.right ? "unset" : this.shiftLength + "%"
-        };
-      } else {
-        this.shift = {};
-        this.shiftLength = 0;
-      }
     },
     onResize() {
-      this.shiftLabels();
+      this.checkLabelsSize();
     }
   },
   computed: {
@@ -94,7 +72,7 @@ export default {
     MarginOfError
   },
   mounted() {
-    this.$nextTick(this.shiftLabels);
+    this.$nextTick(this.checkLabelsSize);
   },
   created() {
     window.addEventListener("resize", this.onResize);
@@ -126,8 +104,7 @@ $label-height: $bar-height - $label-padding * 2 - $label-margin * 2;
   z-index: 2;
   white-space: nowrap;
 
-  &.shifted {
-    background: #162d5417;
+  &.exceeds-container {
     color: black;
   }
 }

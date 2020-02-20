@@ -45,14 +45,16 @@ export default {
       neighbors: [
         {
           left: {
-            name: "Patti",
+            name: "Chawanna",
             story: {
               en:
-                "As a white woman from a middle class upbringing, Patti was worried that her new West Side neighbors would agree her with suspicion. She could not have been more wrong. Working shoulder-to-shoulder and freely being herself, Patti has felt the acceptance and protection of a close neighborly bond forged over 50 years of shared struggle and laughter. To those who wonder if such community can be real in a place so often stigmatized, she says simply, “Come close.”",
+                "Chawanna originally chose to live in Converse to be close to where she worked as a teacher in Judson ISD. When her husband’s job took their small family around the world and back again, she realized it was the community she wanted to keep. Even though her new job takes her all over the city, coming home to Converse feels right. While her kids play outside in their neighborhood, they see other black children and families, and Chawanna catches up with some new neighbors…her former students.",
               es: ""
             },
-            image: require("./patti.png")
+
+            image: require("./Chawanna.png")
           },
+
           right: {
             name: "Ana",
             story: {
@@ -66,13 +68,12 @@ export default {
         },
         {
           left: {
-            name: "Chawanna",
+            name: "Patti",
             story: {
               en:
-                "Chawanna originally chose to live in Converse to be close to where she worked as a teacher in Judson ISD. When her husband’s job took their small family around the world and back again, she realized it was the community she wanted to keep. Even though her new job takes her all over the city, coming home to Converse feels right. While her kids play outside in their neighborhood, they see other black children and families, and Chawanna catches up with some new neighbors…her former students.",
+                "As a white woman from a middle class upbringing, Patti was worried that her new West Side neighbors would agree her with suspicion. She could not have been more wrong. Working shoulder-to-shoulder and freely being herself, Patti has felt the acceptance and protection of a close neighborly bond forged over 50 years of shared struggle and laughter. To those who wonder if such community can be real in a place so often stigmatized, she says simply, “Come close.”",
               es: ""
             },
-
             image: require("./patti.png")
           },
           right: {

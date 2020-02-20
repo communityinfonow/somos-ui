@@ -92,9 +92,6 @@ h4 {
   }
   .value-label {
     left: 0;
-    &.shifted {
-      float: left;
-    }
   }
   .margin-of-error {
     float: left;
@@ -113,9 +110,6 @@ h4 {
 
   .value-label {
     right: 0;
-    &.shifted {
-      float: right;
-    }
   }
 
   .margin-of-error {

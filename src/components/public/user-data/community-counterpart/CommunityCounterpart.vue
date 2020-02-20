@@ -190,7 +190,7 @@ export default {
     getMatchedTractPhotos(tract) {
       if (tract) {
         photoData.get(
-          tract.tract._links.photos.href,
+          tract._links.photos.href,
           response => {
             this.matchedTractPhotos = response;
           },
