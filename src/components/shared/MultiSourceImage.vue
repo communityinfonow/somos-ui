@@ -1,5 +1,17 @@
 <template>
-  <v-img :src="photoSource" @load="loadSuccessHandler" @error="loadFailHandler"></v-img>
+  <v-img
+    :src="photoSource"
+    @load="loadSuccessHandler"
+    @error="loadFailHandler"
+    height="122"
+    class="tract-image"
+  >
+    <template v-slot:placeholder>
+      <v-row class="fill-height ma-0 img-placeholder" align="center" justify="center">
+        <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+      </v-row>
+    </template>
+  </v-img>
 </template>
 
 <script>
@@ -25,5 +37,15 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
+.img-placeholder {
+  background: #e4e4e475;
+}
+
+.tract-image {
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.03);
+  }
+}
 </style>

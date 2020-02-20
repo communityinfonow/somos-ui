@@ -7,6 +7,7 @@
     v-on:keydown="keydownHandler"
     :search-input.sync="text"
     hide-no-data
+    :messages="message"
     item-text="name"
     return-object
     v-model="selected"
@@ -24,7 +25,7 @@ import { keyTracking } from "../../../mixins/key-tracking";
 export default {
   name: "AddressInput",
   data() {
-    return { text: "", selected: null };
+    return { text: "", selected: null, message: "" };
   },
   props: ["loading", "searchItems", "label"],
   components: {},
@@ -35,6 +36,13 @@ export default {
     },
     selected: function(selectedLocation) {
       this.$emit("selected", selectedLocation);
+    },
+    searchItems(newItems) {
+      if (newItems.length === 0) {
+        this.message = "No results. Please try again";
+      } else {
+        this.message = "";
+      }
     }
   }
 };

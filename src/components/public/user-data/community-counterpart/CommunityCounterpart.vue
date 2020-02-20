@@ -18,10 +18,24 @@
     </DataDisplay>
     <v-row>
       <v-col cols="12" sm="6">
-        <ImageGallery :photos="tractPhotos" />
+        <ImageGallery
+          :photos="tractPhotos"
+          id="neighborhood-gallery"
+          v-if="tractPhotos && tractPhotos.length"
+        />
+        <div id="neighborhood-no-photos" v-if="tractPhotos && !tractPhotos.length">
+          <p v-html="translateText(noNeighborhoodPhotosMessage)"></p>
+        </div>
       </v-col>
       <v-col cols="12" sm="6">
-        <ImageGallery :photos="matchedTractPhotos" />
+        <ImageGallery
+          :photos="matchedTractPhotos"
+          id="match-gallery"
+          v-if="matchedTractPhotos && matchedTractPhotos.length"
+        />
+        <div id="match-no-photos" v-if="matchedTractPhotos && !matchedTractPhotos.length">
+          <p>{{translateText(noMatchPhotosMessage)}}</p>
+        </div>
       </v-col>
     </v-row>
     <a href="https:somosneighbors.com/photoshare" target="_blank" rel="noopener noreferrer">
@@ -106,12 +120,25 @@ export default {
       uploadPhotosText: {
         en: "Upload your own photos here",
         es: ""
+      },
+      noMatchPhotosMessage: {
+        en: "No approved photos yet",
+        es: ""
+      },
+      noNeighborhoodPhotosMessage: {
+        en:
+          "No approved photos yet </br></br>Upload and share photos of your neighborhood below",
+        es: ""
       }
     };
   },
   watch: {
     tract(newTract) {
       this.getPhotos(newTract);
+      this.resetPhotos();
+    },
+    matchedTract(newTract) {
+      this.getMatchedTractPhotos(newTract);
     }
   },
   computed: {
@@ -138,6 +165,10 @@ export default {
     }
   },
   methods: {
+    resetPhotos() {
+      this.tractPhotos = [];
+      this.matchedTractPhotos = [];
+    },
     selectionHandler(selection) {
       userDataStore.setAddress(selection);
       this.getMatchedData();
@@ -155,10 +186,11 @@ export default {
           }
         );
       }
-
-      if (tract && tract.matchedTract) {
+    },
+    getMatchedTractPhotos(tract) {
+      if (tract) {
         photoData.get(
-          tract.matchedTract._links.photos.href,
+          tract.tract._links.photos.href,
           response => {
             this.matchedTractPhotos = response;
           },
@@ -247,5 +279,36 @@ export default {
 
 #location-groups {
   padding-bottom: 60px;
+}
+
+#neighborhood-gallery,
+#neighborhood-no-photos {
+  background: $dark-pink;
+}
+
+#match-gallery,
+#match-no-photos {
+  background: $main-yellow;
+}
+
+#match-no-photos,
+#neighborhood-no-photos {
+  height: 200px;
+  border-radius: 10px;
+  font-size: 18px;
+  padding: 10px;
+  text-align: center;
+
+  color: white;
+  font-family: Montserrat;
+  font-weight: 600;
+}
+
+#neighborhood-no-photos p {
+  padding-top: 7%;
+}
+
+#match-no-photos p {
+  padding-top: 15%;
 }
 </style>

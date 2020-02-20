@@ -1,19 +1,24 @@
 <template>
-  <div>
-    <v-card outlined>
-      <v-row>
-        <v-col cols="4" v-for="(photo, index) in photos" :key="index">
-          <MultiSourceImage
-            :photos="[photo._links['cropped-photo-file'].href, photo._links['photo-file'].href]"
-          ></MultiSourceImage>
-        </v-col>
-        <v-col v-if="photos.length === 0">
-          <p>{{translateText(noPhotosMessage)}}</p>
-        </v-col>
-      </v-row>
-      <v-card-actions></v-card-actions>
-    </v-card>
-  </div>
+  <v-carousel
+    height="200"
+    class="carousel"
+    hide-delimiter-background
+    :hide-delimiters="photos.length <= 3"
+    :show-arrows="photos.length > 3"
+  >
+    <v-carousel-item v-for="(grid, index) in carouselItems" :key="index">
+      <v-container>
+        <v-row>
+          <v-col cols="6" lg="4" v-for="(photo, index) in grid" :key="index">
+            <MultiSourceImage
+              class="multi-image"
+              :photos="[photo._links['cropped-photo-file'].href, photo._links['photo-file'].href]"
+            ></MultiSourceImage>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-carousel-item>
+  </v-carousel>
 </template>
 
 <script>
@@ -30,15 +35,46 @@ export default {
     MultiSourceImage
   },
   data() {
-    return {
-      noPhotosMessage: {
-        en: "There are no approved photos for this neighborhood.",
-        es: ""
+    return {};
+  },
+  computed: {
+    photoGridLength() {
+      return this.$vuetify.breakpoint.lgAndUp ? 3 : 2;
+    },
+    carouselItems() {
+      let items = [];
+      if (this.photos) {
+        this.photos.forEach((photo, index) => {
+          if (!items.length) {
+            items.push([photo]);
+          } else {
+            let newItem = false;
+            items.forEach(item => {
+              if (item.length < this.photoGridLength) {
+                item.push(photo);
+              } else {
+                newItem = true;
+              }
+            });
+            if (newItem) {
+              items.push([photo]);
+            }
+          }
+        });
       }
-    };
+
+      return items;
+    }
   }
 };
 </script>
 
 <style>
+.multi-image {
+  border-radius: 10px;
+}
+
+.carousel {
+  border-radius: 10px;
+}
 </style>

@@ -15,7 +15,7 @@
 
 <script>
 import translate from "@/mixins/translate";
-import userDataStore from "../userDataStore";
+import { userDataStore } from "../userDataStore";
 import LocationGroup from "./LocationGroup";
 export default {
   name: "LocationGroups",
@@ -33,7 +33,8 @@ export default {
         en: "your match</br>neighborhood",
         es: "Tu vecindario Similar"
       },
-      address: null
+      address: null,
+      storeState: userDataStore.state
     };
   },
   computed: {

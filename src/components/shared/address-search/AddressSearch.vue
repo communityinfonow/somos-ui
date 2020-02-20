@@ -58,7 +58,11 @@ export default {
         if (addressSearchString.match(/^\d{5}$/g)) {
           locationSearch.searchByZipCode(
             addressSearchString,
-            this.searchCallback
+            this.searchCallback,
+            error => {
+              this.loading = false;
+              this.searchSuggestions = [];
+            }
           );
         } else {
           locationSearch.searchByAddress(

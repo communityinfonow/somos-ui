@@ -62,7 +62,7 @@ export default {
         ]
       },
       blockColors: [globals.mainLightBlue, globals.mainDarkBlue],
-      aboutText: { en: "About the data", es: "" },
+      aboutText: { en: "About the Project", es: "" },
       privacyPolicyText: { en: "Privacy Policy", es: "" }
     };
   }
