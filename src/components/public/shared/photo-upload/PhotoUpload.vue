@@ -106,6 +106,7 @@
           </v-stepper>
           <v-alert type="success" :value="showComplete">
             <p>{{translateText(uploadSuccessful)}}</p>
+            <p>{{translateText(thankYou)}}</p>
           </v-alert>
           <SomosButton
             v-if="showComplete"
@@ -153,15 +154,16 @@ export default {
       showComplete: false,
       stepperColor: globals.mainLightBlue,
       rerenderKey: 1,
-      title: { en: "Share Your Photos", es: "" },
+      title: { en: "Share Your Photos", es: "COMPARTE TUS FOTOS" },
       stepperDescription: {
         en:
           "Share your neighborhood photos with the rest of San Antonio. Our shared story begins here.",
-        es: ""
+        es:
+          "Comparta las fotos de su vecindario con el resto de San Antonio. Nuestra historia compartida comienza aquí."
       },
       firstStepTitle: {
         en: "Upload Photo",
-        es: ""
+        es: "SUBIR FOTO"
       },
       secondStepTitle: {
         en: "Photo Location",
@@ -169,16 +171,26 @@ export default {
       },
       thirdStepTitle: {
         en: "Enter Contact Information (not required)",
-        es: ""
+        es: "INGRESE INFORMACIÓN DE CONTACTO (OPCIONAL)"
       },
-      submit: { en: "Submit", es: "" },
-      uploadSuccessful: { en: "Upload successful", es: "" },
+      submit: { en: "Submit", es: "Enviar" },
+      uploadSuccessful: {
+        en: "Upload successful",
+        es: "Subida exitosa  -  Envió exitoso "
+      },
+      thankYou: {
+        en:
+          "Thank you for being part of Somos Neighbors! To keep this community respectful we check all the photos that are uploaded. Photos will not show up on the website until they have been reviewed and approved. Review takes about three business days once a photo is uploaded.",
+        es:
+          "¡Gracias por ser parte de Somos Vecinos! Para mantener esta comunidad respetuosa, verificamos todas las fotos que se cargan. Las fotos no aparecerán en el sitio web hasta que hayan sido revisadas y aprobadas. La revisión demora tarda aproximadamente tres días hábiles una vez que se carga una foto."
+      },
       addressSearchLabel: { en: "Help us find your Neighborhood", es: "" },
       addressSearchDirections: {
-        en: "Enter an address, nearby landmark or select from the map",
+        en:
+          "Enter a nearby address or landmark in your neighborhood or select from the map",
         es: ""
       },
-      uploadAnother: { en: "Upload Another Photo", es: "" }
+      uploadAnother: { en: "Upload Another Photo", es: "Subir otra foto" }
     };
   },
   mixins: [appLinks, translate],

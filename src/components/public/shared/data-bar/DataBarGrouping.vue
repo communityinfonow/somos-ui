@@ -10,7 +10,7 @@
             :class="{left: $vuetify.breakpoint.smAndUp, right: $vuetify.breakpoint.xsOnly}"
           >
             <DataBar
-              v-if="neighborhoodData"
+              v-if="neighborhoodData && !placeholder"
               :color="userDataColor"
               :numerator="neighborhoodData.value"
               :denomenator="neighborhoodData.maxValue"
@@ -20,10 +20,22 @@
               :right="$vuetify.breakpoint.xsOnly"
               :key="neighborhoodData.value"
             />
+
+            <DataBar
+              v-if="placeholder"
+              color="#e4e4e4"
+              :numerator="null"
+              :denomenator="null"
+              :marginOfError="null"
+              :label="null"
+              :valueType="null"
+              :right="true"
+              :key="1"
+            />
           </v-col>
           <v-col cols="12" sm="6" class="right">
             <DataBar
-              v-if="matchData"
+              v-if="matchData && !placeholder"
               :color="counterpartDataColor"
               :numerator="matchData.value"
               :denomenator="matchData.maxValue"
@@ -32,6 +44,18 @@
               :valueType="valueType"
               :right="true"
               :key="matchData.value"
+            />
+
+            <DataBar
+              v-if="placeholder"
+              color="#e4e4e4"
+              :numerator="0"
+              :denomenator="100"
+              :marginOfError="null"
+              :label="null"
+              :valueType="null"
+              :right="true"
+              :key="1"
             />
           </v-col>
         </v-row>
@@ -66,7 +90,8 @@ export default {
     title: String,
     tooltip: String,
     label: String,
-    valueType: String
+    valueType: String,
+    placeholder: Boolean
   }
 };
 </script>

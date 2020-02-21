@@ -1,75 +1,96 @@
 <template>
-  <v-container id="community-counterpart">
-    <h1>{{translateText(title)}}</h1>
-    <p>{{translateText(introParagraph)}}</p>
-    <AddressSearch
-      class="address-search"
-      @selected="selectionHandler"
-      :label="translateText(addressSearchLabel)"
-      :messages="[translateText(addressSearchDirections)]"
-      ref="addressInput"
-    ></AddressSearch>
-    <LocationGroups :isClosestLocation="isClosestLocation" />
-    <DataDisplay :title="translateText(commonIndicatorsTitle)">
-      <DataBarGroupingContainer
-        v-for="(dataGroup, index) in commonData"
-        :key="index"
-        :data="dataGroup"
-      />
-    </DataDisplay>
-    <v-row>
-      <v-col cols="12" sm="6">
-        <ImageGallery
-          :photos="tractPhotos"
-          id="neighborhood-gallery"
-          v-if="tractPhotos && tractPhotos.length"
-        />
-        <div
-          id="neighborhood-no-photos"
-          v-if="tractPhotos && !tractPhotos.length"
-          :class="{'fill-height': matchedTractPhotos && matchedTractPhotos.length}"
-        >
-          <p>{{translateText(noNeighborhoodPhotosMessage)}}</p>
-        </div>
-      </v-col>
-      <v-col cols="12" sm="6">
-        <ImageGallery
-          :photos="matchedTractPhotos"
-          id="match-gallery"
-          v-if="matchedTractPhotos && matchedTractPhotos.length"
-        />
-        <div
-          id="match-no-photos"
-          v-if="matchedTractPhotos && !matchedTractPhotos.length"
-          :class="{'fill-height': tractPhotos && tractPhotos.length}"
-        >
-          <p>{{translateText(noMatchPhotosMessage)}}</p>
-        </div>
-      </v-col>
-    </v-row>
-    <a href="https:somosneighbors.com/photoshare" target="_blank" rel="noopener noreferrer">
-      <v-btn
-        id="photo-upload-btn"
-        block
-        :color="darkBlue"
-        class="my-3"
-      >{{translateText(uploadPhotosText)}}</v-btn>
-    </a>
+  <section id="community-counterpart">
+    <v-container>
+      <h1>{{translateText(title)}}</h1>
+      <p>{{translateText(introParagraph)}}</p>
+      <div class="address-search">
+        <AddressSearch
+          @selected="selectionHandler"
+          :label="translateText(addressSearchLabel)"
+          :messages="[translateText(addressSearchDirections)]"
+          ref="addressInput"
+        ></AddressSearch>
+        <p>OR</p>
+        <v-dialog v-model="selectLocationFromMap">
+          <template v-slot:activator="{on}">
+            <v-btn
+              block
+              depressed
+              v-on="on"
+              id="select-from-map-btn"
+            >{{translateText(selectFromMap)}}</v-btn>
+          </template>
+          <LocationFromMap @submit="selectLocationFromMap = false" />
+        </v-dialog>
+      </div>
 
-    <LifeExpectancy
-      v-if="lifeExpectancy"
-      :difference="lifeExpectancy"
-      :indicator="lifeExpectancyIndicator"
-    />
-    <p>{{translateText(differentIndicatorsParagraph)}}</p>
-    <DataDisplay>
-      <DataBarGroupingContainer
-        v-for="(dataGroup, index) in differenceData"
-        :key="index"
-        :data="dataGroup"
+      <LocationGroups :isClosestLocation="isClosestLocation" />
+      <DataDisplay :title="translateText(commonIndicatorsTitle)" v-if="commonData.length">
+        <DataBarGroupingContainer
+          v-for="(dataGroup, index) in commonData"
+          :key="index"
+          :data="dataGroup"
+        />
+      </DataDisplay>
+      <v-row v-if="tract">
+        <v-col cols="12" sm="6">
+          <ImageGallery
+            :photos="tractPhotos"
+            id="neighborhood-gallery"
+            v-if="tractPhotos && tractPhotos.length"
+          />
+          <div
+            id="neighborhood-no-photos"
+            v-if="tractPhotos && !tractPhotos.length"
+            :class="{'fill-height': matchedTractPhotos && matchedTractPhotos.length}"
+          >
+            <p>{{translateText(noNeighborhoodPhotosMessage)}}</p>
+          </div>
+        </v-col>
+        <v-col cols="12" sm="6">
+          <ImageGallery
+            :photos="matchedTractPhotos"
+            id="match-gallery"
+            v-if="matchedTractPhotos && matchedTractPhotos.length"
+          />
+          <div
+            id="match-no-photos"
+            v-if="matchedTractPhotos && !matchedTractPhotos.length"
+            :class="{'fill-height': tractPhotos && tractPhotos.length}"
+          >
+            <p>{{translateText(noMatchPhotosMessage)}}</p>
+          </div>
+        </v-col>
+      </v-row>
+      <a
+        href="https:somosneighbors.com/photoshare"
+        target="_blank"
+        rel="noopener noreferrer"
+        v-if="tract"
+      >
+        <v-btn
+          id="photo-upload-btn"
+          block
+          :color="darkBlue"
+          class="my-3"
+        >{{translateText(uploadPhotosText)}}</v-btn>
+      </a>
+
+      <LifeExpectancy
+        :placeholder="!lifeExpectancy"
+        :difference="lifeExpectancy"
+        :indicator="lifeExpectancyIndicator"
       />
-    </DataDisplay>
-  </v-container>
+      <p v-if="differenceData.length">{{translateText(differentIndicatorsParagraph)}}</p>
+      <DataDisplay>
+        <DataBarGroupingContainer
+          v-for="(dataGroup, index) in differenceData"
+          :key="index"
+          :data="dataGroup"
+        />
+      </DataDisplay>
+    </v-container>
+  </section>
 </template>
 
 <script>
@@ -85,6 +106,7 @@ import globals from "@/globals.js";
 import LifeExpectancy from "./LifeExpectancy";
 import DataBarGroupingContainer from "@/components/public/shared/data-bar/DataBarGroupingContainer";
 import LocationGroups from "./LocationGroups";
+import LocationFromMap from "./LocationFromMap";
 export default {
   name: "CommunityCounterpart",
   components: {
@@ -94,12 +116,14 @@ export default {
     ImageGallery,
     LifeExpectancy,
     DataBarGroupingContainer,
-    LocationGroups
+    LocationGroups,
+    LocationFromMap
   },
   mixins: [translate],
   props: { lifeExpectancyIndicator: Object, isClosestLocation: Boolean },
   data() {
     return {
+      selectLocationFromMap: null,
       storeState: userDataStore.state,
       darkBlue: globals.mainDarkBlue,
       tractPhotos: [],
@@ -116,7 +140,7 @@ export default {
       },
       addressSearchLabel: { en: "Help us find your Neighborhood", es: "" },
       addressSearchDirections: {
-        en: "Enter an address, nearby landmark or select from the map",
+        en: "Enter a nearby address or landmark in your neighborhood",
         es: ""
       },
 
@@ -139,6 +163,10 @@ export default {
       },
       noNeighborhoodPhotosMessage: {
         en: "No approved photos yet",
+        es: ""
+      },
+      selectFromMap: {
+        en: "Select location from map",
         es: ""
       }
     };
@@ -222,6 +250,14 @@ export default {
 </script>
 
 <style lang="scss" >
+#select-from-map-btn {
+  font-family: montserrat;
+  font-size: 14px;
+  font-weight: 700;
+  height: 40px;
+  background-color: #f0f0f0;
+  color: $main-dark-blue;
+}
 #photo-upload-btn {
   color: white;
   font: 700 14px/22px Montserrat;

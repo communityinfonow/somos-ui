@@ -3,7 +3,6 @@
     :boundaries="boundaryGeojson"
     :locations="locations"
     :center="center"
-    @click="mapClickSelectLocation"
     id="map"
     ref="exploremap"
   >
@@ -52,23 +51,6 @@ export default {
     };
   },
   methods: {
-    mapClickSelectLocation(event) {
-      let clickedLatLng = event.latlng;
-      locationSearch.searchByLatLng(
-        clickedLatLng.lat,
-        clickedLatLng.lng,
-        response => {
-          userDataStore.setAddress(
-            new location(
-              response.data.formattedAddress,
-              response.data.addressDetails,
-              null,
-              new coordinates(clickedLatLng.lat, clickedLatLng.lng)
-            )
-          );
-        }
-      );
-    },
     determineShadingByValue(value) {
       // TODO write a test for this
       let color = "transparent";

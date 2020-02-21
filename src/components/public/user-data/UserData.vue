@@ -120,8 +120,13 @@ export default {
           location.coordinates.lat +
           ";lng=" +
           location.coordinates.lng,
-        this.containingTractHandler
+        this.containingTractHandler,
+        this.containingTractErrorHandler
       );
+    },
+    containingTractErrorHandler(error) {
+      this.isClosestLocation = true;
+      this.showClosestTractMessage();
     },
     containingTractHandler(response) {
       if (

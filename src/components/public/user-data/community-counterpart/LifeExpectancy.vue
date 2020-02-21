@@ -1,19 +1,25 @@
 <template>
-  <div id="life-expectancy">
-    <h1>{{translateText(differenceTitle)}}</h1>
+  <div id="life-expectancy" :class="{placeholder: placeholder}">
+    <h1
+      :style="{height: placeholder ? '60px' : unset}"
+    >{{placeholder ? "" : translateText(differenceTitle)}}</h1>
+
     <DataDisplay :title="translateText(lifeExpectancyTitle)">
       <DataBarGrouping
         :matchData="matchData"
         :neighborhoodData="neighborhoodData"
-        :tooltip="indicator.description"
+        :tooltip="indicator ? indicator.description : ''"
+        :placeholder="placeholder"
       />
     </DataDisplay>
+
     <ul id="life-expectancy-difference">
-      <li id="value">{{difference}}</li>
+      <li id="value">{{placeholder ? "?" : difference}}</li>
       <li>{{translateText(yearsDifference)}}</li>
-      <li>{{translateText(bigGap)}}</li>
+      <li v-if="!placeholder">{{translateText(bigGap)}}</li>
     </ul>
     <img :src="require('./circle.svg')" />
+    <p v-if="placeholder" id="no-data-placeholder-text">{{translateText(placeholderText)}}</p>
   </div>
 </template>
 
@@ -43,6 +49,10 @@ export default {
       bigGap: {
         en: "that's a big gap!",
         es: ""
+      },
+      placeholderText: {
+        en: "Don't see a number? Help us find your neighborhood above",
+        es: ""
       }
     };
   },
@@ -53,7 +63,8 @@ export default {
   },
   props: {
     indicator: Object,
-    difference: Number
+    difference: Number,
+    placeholder: Boolean
   },
   computed: {
     neighborhoodData() {
@@ -67,7 +78,20 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@media (max-width: 960px) {
+.placeholder * {
+  color: #8a8a8a;
+}
+#no-data-placeholder-text {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  font-size: 35px;
+  color: white;
+  background: #162d54a6;
+  font-weight: 100;
+  padding: 20px;
+  font-family: Bebas Neue;
+  border-radius: 10px;
 }
 
 @media (max-width: 1264px) {

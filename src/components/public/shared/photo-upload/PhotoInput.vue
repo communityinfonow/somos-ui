@@ -110,7 +110,7 @@ export default {
       storeState: store.state,
       inputLabel: {
         en: "Upload Image",
-        es: ""
+        es: "Cargar imagen"
       },
       progressText: {
         en: "Uploading...",
@@ -118,11 +118,11 @@ export default {
       },
       descriptionLabel: {
         en: "Photo Description",
-        es: ""
+        es: "descripción de la foto"
       },
       descriptionPlaceholder: {
         en: "Please describe the contents of the photo (not required)",
-        es: ""
+        es: "Describa el contenido de la foto (no es obligatorio)"
       }
     };
   }

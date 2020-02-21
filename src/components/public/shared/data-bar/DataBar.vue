@@ -56,7 +56,9 @@ export default {
   },
   computed: {
     formattedValue() {
-      return format.formatData(this.numerator, this.valueType);
+      return this.numerator
+        ? format.formatData(this.numerator, this.valueType)
+        : "";
     },
     valueLabel() {
       return this.label ? " " + this.label : "";
@@ -65,7 +67,9 @@ export default {
       return this.label ? this.label.length > 5 : false;
     },
     valueContainerWidth() {
-      return (this.numerator / this.denomenator) * 100 + "%";
+      return this.numerator
+        ? (this.numerator / this.denomenator) * 100 + "%"
+        : "100%";
     }
   },
   components: {

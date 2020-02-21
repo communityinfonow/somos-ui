@@ -49,9 +49,9 @@ export default {
         v => v.length <= 15 || "Name must be less than 15 characters"
       ],
       emailRules: [v => /.+@.+/.test(v) || "E-mail must be valid"],
-      firstNameLabel: { en: "First name", es: "" },
-      lastNameLabel: { en: "Last name", es: "" },
-      emailLabel: { en: "E-mail", es: "" }
+      firstNameLabel: { en: "First name", es: "Nombre" },
+      lastNameLabel: { en: "Last name", es: "Apellido" },
+      emailLabel: { en: "E-mail", es: "Email" }
     };
   },
   components: {},
