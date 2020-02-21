@@ -24,8 +24,12 @@
           id="neighborhood-gallery"
           v-if="tractPhotos && tractPhotos.length"
         />
-        <div id="neighborhood-no-photos" v-if="tractPhotos && !tractPhotos.length">
-          <p v-html="translateText(noNeighborhoodPhotosMessage)"></p>
+        <div
+          id="neighborhood-no-photos"
+          v-if="tractPhotos && !tractPhotos.length"
+          :class="{'fill-height': matchedTractPhotos && matchedTractPhotos.length}"
+        >
+          <p>{{translateText(noNeighborhoodPhotosMessage)}}</p>
         </div>
       </v-col>
       <v-col cols="12" sm="6">
@@ -34,7 +38,11 @@
           id="match-gallery"
           v-if="matchedTractPhotos && matchedTractPhotos.length"
         />
-        <div id="match-no-photos" v-if="matchedTractPhotos && !matchedTractPhotos.length">
+        <div
+          id="match-no-photos"
+          v-if="matchedTractPhotos && !matchedTractPhotos.length"
+          :class="{'fill-height': tractPhotos && tractPhotos.length}"
+        >
           <p>{{translateText(noMatchPhotosMessage)}}</p>
         </div>
       </v-col>
@@ -42,9 +50,8 @@
     <a href="https:somosneighbors.com/photoshare" target="_blank" rel="noopener noreferrer">
       <v-btn
         id="photo-upload-btn"
-        dense
         block
-        :color="lightBlue"
+        :color="darkBlue"
         class="my-3"
       >{{translateText(uploadPhotosText)}}</v-btn>
     </a>
@@ -94,7 +101,7 @@ export default {
   data() {
     return {
       storeState: userDataStore.state,
-      lightBlue: globals.mainLightBlue,
+      darkBlue: globals.mainDarkBlue,
       tractPhotos: [],
       matchedTractPhotos: [],
       address: { line1: "", line2: "" },
@@ -123,7 +130,7 @@ export default {
         es: ""
       },
       uploadPhotosText: {
-        en: "Upload your own photos here",
+        en: "Upload photos of your neighborhood here",
         es: ""
       },
       noMatchPhotosMessage: {
@@ -131,18 +138,18 @@ export default {
         es: ""
       },
       noNeighborhoodPhotosMessage: {
-        en:
-          "No approved photos yet </br></br>Upload and share photos of your neighborhood below",
+        en: "No approved photos yet",
         es: ""
       }
     };
   },
   watch: {
     tract(newTract) {
+      this.tractPhotos = [];
       this.getPhotos(newTract);
-      this.resetPhotos();
     },
     matchedTract(newTract) {
+      this.matchedTractPhotos = [];
       this.getMatchedTractPhotos(newTract);
     }
   },
@@ -170,10 +177,6 @@ export default {
     }
   },
   methods: {
-    resetPhotos() {
-      this.tractPhotos = [];
-      this.matchedTractPhotos = [];
-    },
     selectionHandler(selection) {
       userDataStore.setAddress(selection);
       this.getMatchedData();
@@ -221,7 +224,8 @@ export default {
 <style lang="scss" >
 #photo-upload-btn {
   color: white;
-  font: 500 14px/22px Montserrat;
+  font: 700 14px/22px Montserrat;
+  height: 50px;
 }
 #community-counterpart {
   p {
@@ -305,22 +309,28 @@ export default {
 
 #match-no-photos,
 #neighborhood-no-photos {
-  height: 200px;
-  border-radius: 10px;
+  &.fill-height {
+    height: 100%;
+    padding: 0px !important;
+
+    p {
+      line-height: 200px !important;
+    }
+  }
+
+  p {
+    padding: 0px;
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  border-radius: 6px;
   font-size: 18px;
   padding: 10px;
   text-align: center;
-
+  line-height: 100%;
   color: white;
   font-family: Montserrat;
   font-weight: 600;
-}
-
-#neighborhood-no-photos p {
-  padding-top: 7%;
-}
-
-#match-no-photos p {
-  padding-top: 15%;
 }
 </style>

@@ -32,7 +32,6 @@
               <v-card height="height" flat>
                 <v-card-text>
                   <PhotoInput :key="rerenderKey" />
-                  <PhotoTerms v-if="!photoLoaded"/>
                 </v-card-text>
                 <v-card-actions>
                   <SomosButton
@@ -41,6 +40,9 @@
                     :disabled="photoLoaded"
                   >{{translateText(submit)}}</SomosButton>
                 </v-card-actions>
+                <v-card-text class="pt-0">
+                  <PhotoTerms v-if="!photoLoaded" />
+                </v-card-text>
               </v-card>
 
               <!-- TODO remove false -->
