@@ -8,6 +8,7 @@
           slider-color="white"
           background-color="transparent"
           id="tabs"
+          :grow="$vuetify.breakpoint.smAndDown"
         >
           <v-tab
             class="tab-title"
@@ -199,5 +200,16 @@ export default {
 
 a {
   text-decoration: none !important;
+}
+
+@media (max-width: 600px) {
+  .tab-title {
+    color: white !important;
+  }
+
+  #tabs,
+  #tab-links {
+    padding-left: 0px;
+  }
 }
 </style>

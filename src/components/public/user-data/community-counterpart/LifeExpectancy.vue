@@ -67,9 +67,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@media (max-width: 600px) {
-}
-
 @media (max-width: 960px) {
 }
 
@@ -135,7 +132,15 @@ img {
   animation-name: spin;
   animation-duration: 40000ms;
   animation-iteration-count: infinite;
-  animation-timing-function: ease-in;
+  animation-timing-function: linear;
+}
+
+@media (max-width: 600px) {
+  img {
+    width: 100%;
+    top: 121px;
+    left: 0%;
+  }
 }
 
 #life-expectancy-difference {

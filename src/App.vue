@@ -41,6 +41,7 @@ h1 {
 @media (max-width: 600px) {
   h1 {
     font-size: 2.143rem;
+    letter-spacing: 6px;
   }
 
   h2 {

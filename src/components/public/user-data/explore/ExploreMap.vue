@@ -90,6 +90,10 @@ export default {
               fillColor: this.determineShadingByValue(dataObj.value)
             });
             layer.feature.properties.hasData = true;
+            layer.bindTooltip(dataObj.value + "", {
+              direction: "top",
+              className: "tooltip"
+            });
           }
         });
       });
@@ -241,12 +245,20 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 #map {
   border-radius: 15px;
   box-shadow: 0px 2px 4px 0px #00000026;
   height: 700px !important;
   padding: 15px;
+}
+
+.tooltip {
+  padding: 10px;
+  font-weight: bold;
+  font-family: Montserrat;
+  font-size: 18px;
+  border-radius: 10px !important;
 }
 
 .icon-data {

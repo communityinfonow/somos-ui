@@ -27,6 +27,17 @@ export default {
 .location-text {
   position: absolute;
 
+  @media (min-width: 961px) and (max-width: 1264px) {
+    h2 {
+      font-size: 18px;
+    }
+  }
+
+  @media (min-width: 600px) and (max-width: 960px) {
+    h2 {
+      font-size: 13px;
+    }
+  }
   width: 60%;
 
   div {

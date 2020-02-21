@@ -1,6 +1,6 @@
 <template>
   <v-container class="external-link">
-    <a :href="link.href">
+    <a :href="link.href" @click="sendAnalytics">
       <v-col cols="12">
         <v-row>
           <div class="linkIcon">
@@ -23,6 +23,16 @@ export default {
     title: String,
     link: Object,
     icon: String
+  },
+  methods: {
+    sendAnalytics() {
+      ga("send", {
+        hitType: "event",
+        eventCategory: "External Link",
+        eventAction: "submit",
+        eventLabel: this.link
+      });
+    }
   }
 };
 </script>
@@ -42,6 +52,34 @@ export default {
     position: absolute;
     left: 16px;
     bottom: 1px;
+  }
+}
+
+@media (max-width: 1264px) {
+  .link-title {
+    font-size: 13px !important;
+  }
+
+  .linkIcon {
+    height: 40px;
+    width: 40px;
+  }
+}
+
+@media (max-width: 473px) {
+  .link-title {
+    font-size: 12px !important;
+  }
+
+  .text {
+    margin-left: 13px !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .link-title {
+    color: white !important;
+    font-weight: 800;
   }
 }
 

@@ -6,6 +6,7 @@
       class="address-search"
       @selected="selectionHandler"
       :label="translateText(addressSearchLabel)"
+      :messages="[translateText(addressSearchDirections)]"
       ref="addressInput"
     ></AddressSearch>
     <LocationGroups :isClosestLocation="isClosestLocation" />
@@ -106,7 +107,11 @@ export default {
         es:
           "Si nuestra rutina diaria es ir de la casa a la escuela o al trabajo y viceversa, nuestra vida cotidiana no ofrece muchas oportunidades de conocer otros vecindarios. Ingrese su información a continuación para ver cómo un vecindario en otro lugar del condado es igual y diferente al suyo."
       },
-      addressSearchLabel: { en: "Input your neighborhood", es: "" },
+      addressSearchLabel: { en: "Help us find your Neighborhood", es: "" },
+      addressSearchDirections: {
+        en: "Enter an address, nearby landmark or select from the map",
+        es: ""
+      },
 
       commonIndicatorsTitle: {
         en: "YOUR NEIGHBORHOODS HAVE A LOT IN COMMON. TAKE A LOOK.",
@@ -249,6 +254,9 @@ export default {
     }
 
     .location-text {
+      h2 {
+        text-align: left;
+      }
       text-align: left;
       padding-left: 30px;
       left: 40%;
@@ -259,7 +267,11 @@ export default {
   .left {
     .location-text {
       padding-right: 30px;
+      h2 {
+        text-align: right;
+      }
       text-align: right;
+
       right: 40%;
       top: 36%;
     }

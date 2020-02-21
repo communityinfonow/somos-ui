@@ -6,10 +6,14 @@
       <v-row align-center justify-center>
         <v-col cols="12" id="photo-upload-content" class="elevation-2">
           <v-stepper v-model="stepper" :vertical="true" id="stepper" class="elevation-0">
-            <div id="stepper-header" class="mb-4" role="heading" aria-level="1">Share Your Photos</div>
-            <p
-              id="stepper-description"
-            >Share your neighborhood photos with the rest of San Antonio. Our shared story begins here.</p>
+            <TranslateBtn />
+            <div
+              id="stepper-header"
+              class="mb-4"
+              role="heading"
+              aria-level="1"
+            >{{translateText(title)}}</div>
+            <p id="stepper-description">{{translateText(stepperDescription)}}</p>
 
             <v-stepper-step
               :step="1"
@@ -22,15 +26,20 @@
                 :class="determineStepperTextActive(1)"
                 role="heading"
                 aria-level="2"
-              >Upload Photo</span>
+              >{{translateText(firstStepTitle)}}</span>
             </v-stepper-step>
             <v-stepper-content :key="`1 - content`" :step="1">
               <v-card height="height" flat>
                 <v-card-text>
                   <PhotoInput :key="rerenderKey" />
+                  <PhotoTerms v-if="!photoLoaded"/>
                 </v-card-text>
                 <v-card-actions>
-                  <SomosButton @click="nextStep(1)" block :disabled="photoLoaded">Submit</SomosButton>
+                  <SomosButton
+                    @click="nextStep(1)"
+                    block
+                    :disabled="photoLoaded"
+                  >{{translateText(submit)}}</SomosButton>
                 </v-card-actions>
               </v-card>
 
@@ -47,16 +56,24 @@
                 :class="determineStepperTextActive(2)"
                 role="heading"
                 aria-level="2"
-              >{{locationTitlePrepend}} Photo Location</span>
+              >{{translateText(locationTitlePrepend) + " " + translateText(secondStepTitle)}}</span>
             </v-stepper-step>
             <v-stepper-content :key="`2 - content`" :step="2">
               <v-card height="height" flat>
                 <v-card-text>
-                  <AddressSearch @selected="selectionHandler" label="Search for location"></AddressSearch>
+                  <AddressSearch
+                    @selected="selectionHandler"
+                    :label="translateText(addressSearchLabel)"
+                    :messages="[translateText(addressSearchDirections)]"
+                  ></AddressSearch>
                   <UploadMap :coordinates="selectedLocation.coordinates" />
                 </v-card-text>
                 <v-card-actions>
-                  <SomosButton @click="nextStep(2)" block :disabled="!isLocationSelected">Submit</SomosButton>
+                  <SomosButton
+                    @click="nextStep(2)"
+                    block
+                    :disabled="!isLocationSelected"
+                  >{{translateText(submit)}}</SomosButton>
                 </v-card-actions>
               </v-card>
             </v-stepper-content>
@@ -71,7 +88,7 @@
                 :class="determineStepperTextActive(3)"
                 role="heading"
                 aria-level="2"
-              >Enter Contact Information (not required)</span>
+              >{{translateText(thirdStepTitle)}}</span>
             </v-stepper-step>
             <v-stepper-content :key="`3 - content`" :step="3">
               <v-card class="mb-12" height="height" flat>
@@ -80,16 +97,19 @@
                 </v-card-text>
                 <v-card-actions>
                   <!-- TODO: message regarding privacy policy and terms of service -->
-                  <SomosButton @click="submitUpload" block>Submit</SomosButton>
+                  <SomosButton @click="submitUpload" block>{{translateText(submit)}}</SomosButton>
                 </v-card-actions>
               </v-card>
             </v-stepper-content>
           </v-stepper>
           <v-alert type="success" :value="showComplete">
-            <p>Upload successful</p>
-            <p>Thank you for being part of Somos Neighbors! To keep this community respectful we check all the photos that are uploaded. Photos will not show up on the website until they have been reviewed and approved. Review takes about three business days once a photo is uploaded.</p>
+            <p>{{translateText(uploadSuccessful)}}</p>
           </v-alert>
-          <SomosButton v-if="showComplete" @click="resetUpload" block>Upload Another Photo</SomosButton>
+          <SomosButton
+            v-if="showComplete"
+            @click="resetUpload"
+            block
+          >{{translateText(uploadAnother)}}</SomosButton>
         </v-col>
       </v-row>
     </v-container>
@@ -107,6 +127,9 @@ import { appLinks } from "@/mixins/app-links";
 import SomosButton from "@/components/shared/SomosButton";
 import globals from "@/globals";
 import UploadMap from "./UploadMap";
+import translate from "@/mixins/translate";
+import TranslateBtn from "@/components/public/TranslateBtn";
+import PhotoTerms from "./PhotoTerms";
 import Vue from "vue";
 
 export default {
@@ -116,7 +139,9 @@ export default {
     ContactForm,
     UploadMap,
     PhotoInput,
-    SomosButton
+    SomosButton,
+    TranslateBtn,
+    PhotoTerms
   },
   data() {
     return {
@@ -125,10 +150,36 @@ export default {
       height: "30%",
       showComplete: false,
       stepperColor: globals.mainLightBlue,
-      rerenderKey: 1
+      rerenderKey: 1,
+      title: { en: "Share Your Photos", es: "" },
+      stepperDescription: {
+        en:
+          "Share your neighborhood photos with the rest of San Antonio. Our shared story begins here.",
+        es: ""
+      },
+      firstStepTitle: {
+        en: "Upload Photo",
+        es: ""
+      },
+      secondStepTitle: {
+        en: "Photo Location",
+        es: ""
+      },
+      thirdStepTitle: {
+        en: "Enter Contact Information (not required)",
+        es: ""
+      },
+      submit: { en: "Submit", es: "" },
+      uploadSuccessful: { en: "Upload successful", es: "" },
+      addressSearchLabel: { en: "Help us find your Neighborhood", es: "" },
+      addressSearchDirections: {
+        en: "Enter an address, nearby landmark or select from the map",
+        es: ""
+      },
+      uploadAnother: { en: "Upload Another Photo", es: "" }
     };
   },
-  mixins: [appLinks],
+  mixins: [appLinks, translate],
   watch: {
     appLinks: function(newLinks) {
       store.setAppLinks(newLinks);
@@ -191,7 +242,9 @@ export default {
       return this.storeState.selectedLocation;
     },
     locationTitlePrepend: function() {
-      return this.isLocationSelected ? "Confirm" : "Select";
+      return this.isLocationSelected
+        ? { en: "Confirm", es: "" }
+        : { en: "Select", es: "" };
     }
   }
 };

@@ -85,6 +85,13 @@ h4 {
   margin-bottom: 26px;
 }
 
+@media (max-width: 600px) {
+  .data-bar-grouping {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+}
+
 .right {
   .value-container {
     text-align: left;

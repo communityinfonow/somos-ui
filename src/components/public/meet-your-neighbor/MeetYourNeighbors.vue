@@ -248,9 +248,8 @@ h2 {
     }
     .profile-info {
       top: unset;
-      padding-left: 64px;
-      padding-right: 64px;
-      text-align: left;
+
+      text-align: center;
     }
 
     .profile-container {

@@ -10,7 +10,9 @@
             @done-typing="doneTypingHandler"
             @selected="selectionHandler"
             :label="label"
+            :messages="messages"
             ref="addressInput"
+            :errorMessage="errorMessage"
           />
         </span>
       </v-col>
@@ -22,20 +24,26 @@
 import AddressInput from "./AddressInput";
 import { location, coordinates } from "../../../Location";
 import locationSearch from "../../../api/locationSearch";
+import translate from "@/mixins/translate";
 
 export default {
   name: "AddressSearch",
   components: {
     AddressInput
   },
-  props: { label: String },
+  props: { label: String, messages: Array },
   data() {
     return {
       searchSuggestions: [],
-      loading: false
+      loading: false,
+      errorMessage: null,
+      errorMessageText: {
+        en: "This location could not be found, please search again",
+        es: ""
+      }
     };
   },
-  computed: {},
+  mixins: [translate],
   methods: {
     searchCallback(response) {
       this.loading = false;
@@ -53,6 +61,7 @@ export default {
       this.$emit("selected", selection);
     },
     doneTypingHandler(addressSearchString) {
+      this.errorMessage = null;
       if (addressSearchString) {
         this.loading = true;
         if (addressSearchString.match(/^\d{5}$/g)) {
@@ -67,7 +76,11 @@ export default {
         } else {
           locationSearch.searchByAddress(
             addressSearchString,
-            this.searchCallback
+            this.searchCallback,
+            error => {
+              this.errorMessage = this.translateText(this.errorMessageText);
+              this.loading = false;
+            }
           );
         }
       }
