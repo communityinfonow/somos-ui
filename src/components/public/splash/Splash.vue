@@ -2,7 +2,7 @@
   <v-container id="splash">
     <v-row class="mb-5">
       <v-col cols="12">
-        <v-img class="somos-logo" :src="require('./somos-logo.svg')"></v-img>
+        <v-img class="somos-logo" :src="require('../somos-logo.svg')"></v-img>
         <!-- TODO component for log? -->
       </v-col>
     </v-row>
@@ -34,7 +34,7 @@
 <script>
 import Title from "./Title";
 import SomosButton from "@/components/shared/SomosButton";
-import OverlappingImages from "./OverlappingImages";
+import OverlappingImages from "@/components/public/shared/OverlappingImages";
 import Angle from "../shared/Angle";
 import globals from "../../../globals";
 import Paragraph from "./Paragraph";
@@ -80,7 +80,6 @@ p {
 #som {
   top: 335px;
   right: 50%;
-  width: 35%;
   position: absolute;
   z-index: 1;
 }

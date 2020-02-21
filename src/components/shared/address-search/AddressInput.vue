@@ -6,6 +6,7 @@
     v-on:keyup="keyupHandler"
     v-on:keydown="keydownHandler"
     :search-input.sync="text"
+    :messages="messages"
     hide-no-data
     item-text="name"
     return-object
@@ -14,20 +15,30 @@
     :loading="loading"
     filled
     dense
+    ref="addressInput"
+    :no-data-text="messages[0]"
+    :error-messages="errorMessage"
   ></v-autocomplete>
 </template>
 
 <script>
 import { keyTracking } from "../../../mixins/key-tracking";
-
+import translate from "@/mixins/translate";
 export default {
   name: "AddressInput",
   data() {
-    return { text: "", selected: null };
+    return {
+      text: "",
+      selected: null,
+      noDataText: {
+        en: "This location could not be found, please search again",
+        es: ""
+      }
+    };
   },
-  props: ["loading", "searchItems", "label"],
+  props: ["loading", "searchItems", "label", "messages", "errorMessage"],
   components: {},
-  mixins: [keyTracking],
+  mixins: [keyTracking, translate],
   watch: {
     isDoneTyping: function(isDone) {
       this.$emit("done-typing", this.text);

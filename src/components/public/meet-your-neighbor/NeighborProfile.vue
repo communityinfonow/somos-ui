@@ -7,18 +7,25 @@
       <div class="profile-info-container">
         <div class="info-text">
           <h2>{{name}}</h2>
-          <p>{{story}}</p>
+          <p>{{translatedStory}}</p>
+          <slot></slot>
         </div>
-        <slot></slot>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import translate from "@/mixins/translate.js";
 export default {
   name: "NeighborProfile",
-  props: ["name", "story", "image", "lazyImage"]
+  props: ["name", "story", "image"],
+  mixins: [translate],
+  computed: {
+    translatedStory() {
+      return this.translateText(this.story);
+    }
+  }
 };
 </script>
 
@@ -31,16 +38,18 @@ export default {
   position: absolute;
   top: 15%;
   width: 100%;
+  padding-left: 25px;
+  padding-right: 25px;
 }
 
 .profile-info {
-  width: 50%;
+  width: 60%;
   position: absolute;
   height: 100%;
 }
 
 .profile-image {
-  width: 50%;
+  width: 40%;
   position: relative;
 }
 
@@ -49,6 +58,18 @@ export default {
   height: 100%;
   width: 100%;
 }
+
+// @media (min-width: 600px) and (max-width: 959px) {
+//   .profile-image {
+//     width: 100%;
+//   }
+
+//   .profile-info {
+//     width: 100%;
+//     height: auto;
+//     position: relative;
+//   }
+// }
 
 @media (max-width: 600px) {
   .profile-image {

@@ -50,11 +50,6 @@ export default {
       if (newCoordinates.lat && newCoordinates.lng) {
         this.findContainingTractByBoundaries(newCoordinates);
       }
-    },
-    appLinks(newLinks) {
-      if (newLinks) {
-        // this.getCensusTracts(newLinks.censusTracts.href);
-      }
     }
   },
   computed: {
@@ -65,7 +60,7 @@ export default {
           icon: {
             url: this.iconUrl,
             size: this.iconSize,
-            anchor: this.calculateIconAnchor(this.iconSize)
+            anchor: this.calculateIconAnchor(this.iconSize[0], this.iconSize[1])
           }
         }
       ];

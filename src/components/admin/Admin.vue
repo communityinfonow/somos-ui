@@ -55,7 +55,7 @@ export default {
       this.$router.push("/admin/users");
     },
     getPhotos(url) {
-      PhotoData.get(url, response => {
+      PhotoData.getAdmin(url, response => {
         this.photos = response;
         //TODO: error handling
       });

@@ -1,14 +1,15 @@
 <template>
   <h1 id="splash-title">
-    <span class="main-text">WE ARE&nbsp;</span>
+    <span class="main-text">{{translateText(mainText)}}&nbsp</span>
     <span id="community">
-      <CyclingText class="secondary-text" :textArray="communities" />
+      <CyclingText class="secondary-text" :textArray="translateText(communities)" />
     </span>
   </h1>
 </template>
 
 <script>
 import CyclingText from "../../shared/CyclingText";
+import translate from "@/mixins/translate";
 export default {
   name: "Title",
   components: {
@@ -16,20 +17,29 @@ export default {
   },
   data() {
     return {
-      communities: [
-        "Neighbors",
-        "San Antonians",
-        "Leaders",
-        "United",
-        "Problem Solvers",
-        "Friends",
-        "Strong",
-        "Compassionate"
-      ],
+      communities: {
+        en: [
+          "Neighbors",
+          "San Antonians",
+          "Leaders",
+          "United",
+          "Problem Solvers",
+          "Friends",
+          "Strong",
+          "Compassionate"
+        ],
+        es: ["vecinos"]
+      },
+      mainText: {
+        en: "we are",
+        es: "somos"
+      },
       currentCommunity: null,
       show: true
     };
-  }
+  },
+
+  mixins: [translate]
 };
 </script>
 

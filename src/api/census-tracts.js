@@ -6,9 +6,14 @@ export default {
             callback(response.data._embedded.censusTractDtoes)
         });
     },
-    getSingle(url, callback) {
+    getSingle(url, callback, errorCallback) {
         axios.get(url).then(response => {
             callback(response.data);
+        }).catch(error => errorCallback(error));
+    },
+    getMatched(url, callback) {
+        axios.get(url).then(response => {
+            callback(response.data._embedded.matchedCensusTractDtoes)
         });
     }
 }

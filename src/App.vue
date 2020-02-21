@@ -9,15 +9,8 @@
 </template>
 
 <script>
-import publicContainer from "./components/public/PublicContainer";
-// import AdminContainer from "./components/admin/AdminContainer";
-
 export default {
-  name: "app",
-  components: {
-    // AdminContainer,
-    publicContainer
-  }
+  name: "app"
 };
 </script>
 
@@ -27,6 +20,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
+  background: #ffffff !important;
   /* margin-top: 60px; */
 }
 
@@ -39,7 +33,7 @@ h1 {
   color: $main-dark-blue;
   text-transform: uppercase;
   font-family: "Bebas Neue";
-  font-weight: 700;
+  font-weight: 500;
   font-size: 2.857rem;
   text-align: center;
 }
@@ -47,6 +41,7 @@ h1 {
 @media (max-width: 600px) {
   h1 {
     font-size: 2.143rem;
+    letter-spacing: 6px;
   }
 
   h2 {

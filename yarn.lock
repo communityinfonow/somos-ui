@@ -8429,7 +8429,14 @@ lcid@^2.0.0:
   dependencies:
     invert-kv "^2.0.0"
 
-leaflet@^1.5.1:
+leaflet-geometryutil@^0.9.3:
+  version "0.9.3"
+  resolved "https://registry.yarnpkg.com/leaflet-geometryutil/-/leaflet-geometryutil-0.9.3.tgz#e10fa302d99d4b1d3c6365a1f39298635a2704cd"
+  integrity sha512-Wi6YvfNx/Xu9q35AEfXpsUXmIFLen/MO+C2qimxHRnjyeyOxBhdcZa6kSiReaOX0cGK7yQInqrzz0dkIqZ8Dpg==
+  dependencies:
+    leaflet ">=0.7.0"
+
+leaflet@>=0.7.0, leaflet@^1.5.1:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.6.0.tgz#aecbb044b949ec29469eeb31c77a88e2f448f308"
   integrity sha512-CPkhyqWUKZKFJ6K8umN5/D2wrJ2+/8UIpXppY7QDnUZW5bZL5+SEI2J7GBpwh4LIupOKqbNSQXgqmrEJopHVNQ==
@@ -10135,6 +10142,13 @@ pn@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/pn/-/pn-1.1.0.tgz#e2f4cef0e219f463c179ab37463e4e1ecdccbafb"
   integrity sha512-2qHaIQr2VLRFoxe2nASzsV6ef4yOOH+Fi9FBOVH6cqeSgUnoyySPZkxzLuzd+RYOQTRpROA0ztTMqxROKSb/nA==
+
+polylabel@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/polylabel/-/polylabel-1.0.2.tgz#90c11602fb217a65b78ac2110ac5fcb00b652560"
+  integrity sha1-kMEWAvshemW3isIRCsX8sAtlJWA=
+  dependencies:
+    tinyqueue "^1.1.0"
 
 portfinder@^1.0.20, portfinder@^1.0.25:
   version "1.0.25"
@@ -12390,6 +12404,11 @@ tiny-emitter@^2.0.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/tiny-emitter/-/tiny-emitter-2.1.0.tgz#1d1a56edfc51c43e863cbb5382a72330e3555423"
   integrity sha512-NB6Dk1A9xgQPMoGqC5CVXn123gWyte215ONT5Pp5a0yt4nlEoO1ZWeCwpncaekPHXO60i47ihFnZPiRPjRMq4Q==
+
+tinyqueue@^1.1.0:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/tinyqueue/-/tinyqueue-1.2.3.tgz#b6a61de23060584da29f82362e45df1ec7353f3d"
+  integrity sha512-Qz9RgWuO9l8lT+Y9xvbzhPT2efIUIFd69N7eF7tJ9lnQl0iLj1M7peK7IoUGZL9DJHw9XftqLreccfxcQgYLxA==
 
 title-case@^2.1.0:
   version "2.1.1"

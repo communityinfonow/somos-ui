@@ -1,14 +1,15 @@
 export const userDataStore = {
-    values: {
-        counterpartRank: 1
-    },
-    methods: {
-
-    },
     state: {
         address: null,
         tract: null,
-        links: null
+        links: null,
+        matchRank: 1,
+        neighborhoodData: null,
+        matchData: null,
+        lifeExpectancyIndicator: null,
+        lifeExpectancyData: null,
+        mapObject: null,
+        geojson: null
 
     },
     setTract(tract) {
@@ -20,19 +21,28 @@ export const userDataStore = {
     setLinks(links) {
         this.state.links = links;
     },
-    nextCounterpart() {
-        if (this.state.tract) {
-            if (this.values.counterpartRank - 1 <= this.state.tract.matchedTracts.length) {
-                this.values.counterpartRank++;
-            } else {
-                this.resetCounterpart();
-            }
-        }
+    setMatchRank(rank) {
+        this.state.matchRank = rank;
     },
-    resetCounterpart() {
-        this.values.counterpartRank = 1;
+    setNeighborhoodData(data) {
+        this.state.neighborhoodData = data;
     },
-    getCounterpart() {
-        return this.state.tract && this.state.tract.matchedTracts ? this.state.tract.matchedTracts.find(matched => matched.rank === this.values.counterpartRank) : null
+    setMatchData(data) {
+        this.state.matchData = data;
+    },
+    setLifeExpectancyIndicator(indicator) {
+        this.state.lifeExpectancyIndicator = indicator;
+    },
+    setLifeExpectancyData(data) {
+        this.state.lifeExpectancyData = data;
+    },
+    setMapObject(map) {
+        this.state.mapObject = map;
+    },
+    setGeojson(geojson) {
+        this.state.geojson = geojson;
+    },
+    getMatchedTract() {
+        return this.state.tract && this.state.tract.matchedTracts ? this.state.tract.matchedTracts.find(tract => tract.rank === this.state.matchRank) : null;
     }
 }

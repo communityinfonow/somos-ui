@@ -2,7 +2,7 @@
   <div>
     <v-file-input
       accept="image/*"
-      label="Upload Image"
+      :label="translateText(inputLabel)"
       v-on:change="fileSelected"
       prepend-inner-icon="mdi-image"
       prepend-icon
@@ -13,16 +13,18 @@
       filled
     ></v-file-input>
     <v-progress-linear :active="loading" :value="progressValue" height="25" striped rounded>
-      <strong>Uploading...</strong>
+      <strong>{{translateText(progressText)}}</strong>
     </v-progress-linear>
     <v-textarea
-      label="Photo Description"
+      :label="translateText(descriptionLabel)"
       name="name"
-      placeholder="Please describe the contents of the photo (not required)"
+      :placeholder="translateText(descriptionPlaceholder)"
       textarea
       v-model="description"
       class="mt-10"
       v-show="!!photo && !loading"
+      dense
+      rows="2"
     ></v-textarea>
   </div>
 </template>
@@ -31,6 +33,7 @@
 import { store } from "../../../../store";
 import PhotoData from "../../../../api/photo-data";
 import { appLinks } from "../../../../mixins/app-links";
+import translate from "@/mixins/translate";
 export default {
   name: "PhotoInput",
   watch: {
@@ -38,7 +41,7 @@ export default {
       store.setPhotoDescription(newDescription);
     }
   },
-  mixins: [appLinks],
+  mixins: [appLinks, translate],
   methods: {
     reset() {
       this.photo = null;
@@ -61,7 +64,7 @@ export default {
       if (!photo.type.includes("image")) {
         this.errorMessage = "Please upload an image file type";
       } else if (photo.size > this.supportedMaxFileSize * 1048576) {
-        // convert MB to bytes
+        // converts MB to bytes
         this.errorMessage =
           "Please limit image size to " + this.supportedMaxFileSize + "MB";
       } else {
@@ -104,7 +107,23 @@ export default {
       errorMessage: null,
       supportedFileTypes: ["jpeg, jpg, png", "tif", "tiff"],
       supportedMaxFileSize: 15,
-      storeState: store.state
+      storeState: store.state,
+      inputLabel: {
+        en: "Upload Image",
+        es: "Cargar imagen"
+      },
+      progressText: {
+        en: "Uploading...",
+        es: ""
+      },
+      descriptionLabel: {
+        en: "Photo Description",
+        es: "descripción de la foto"
+      },
+      descriptionPlaceholder: {
+        en: "Please describe the contents of the photo (not required)",
+        es: "Describa el contenido de la foto (no es obligatorio)"
+      }
     };
   }
 };

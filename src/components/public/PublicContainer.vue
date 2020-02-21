@@ -1,14 +1,19 @@
 <template>
   <v-container>
     <Header />
-
     <splash id="splash" />
-
+    <Angle :empty="true" :colorLeft="yellow" :colorRight="yellow" class="hidden-sm-and-up"></Angle>
     <MeetYourNeighbors />
     <div class="angle-container hidden-xs-only">
       <Angle :empty="false" :colorLeft="yellow" :colorRight="secondaryBlue"></Angle>
     </div>
     <UserData />
+    <Angle :colorLeft="secondaryBlue" :colorRight="darkBlue" empty="false" />
+    <CloseTheGap />
+    <div id="footer-grouping">
+      <Angle :colorLeft="secondaryBlue" :colorRight="darkBlue" />
+      <Footer />
+    </div>
   </v-container>
 </template>
 
@@ -18,6 +23,8 @@ import MeetYourNeighbors from "./meet-your-neighbor/MeetYourNeighbors";
 import Angle from "./shared/Angle";
 import globals from "../../globals";
 import UserData from "./user-data/UserData";
+import CloseTheGap from "./close-the-gap/CloseTheGap";
+import Footer from "./Footer";
 
 import Header from "./Header";
 export default {
@@ -27,16 +34,22 @@ export default {
     MeetYourNeighbors,
     Angle,
     Header,
-    UserData
+    UserData,
+    CloseTheGap,
+    Footer
   },
   data() {
-    return { yellow: globals.yellow, secondaryBlue: globals.mainLightBlue };
+    return {
+      yellow: globals.yellow,
+      darkBlue: globals.mainDarkBlue,
+      secondaryBlue: globals.mainLightBlue
+    };
   },
   methods: {}
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import url("https://fonts.googleapis.com/css?family=Bebas+Neue&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Montserrat:500,600,700,800,900&display=swap");
 
@@ -44,12 +57,20 @@ export default {
   margin-bottom: 190px;
 }
 
+#footer-grouping {
+  position: relative;
+}
+
 #mos {
   // top: -300px;
   left: 50%;
+}
+
+#som,
+#mos {
   width: 35%;
   position: absolute;
-  z-index: 1;
+  z-index: 100;
 }
 
 @media (min-width: 1904px) {

@@ -1,9 +1,9 @@
 <template>
   <div class="location-group">
     <div class="location-text">
-      <h2>{{title}}</h2>
-      <div class="address-1"></div>
-      <div class="address-2"></div>
+      <h2 v-html="title"></h2>
+      <div class="address-1" v-if="address && address.line1">{{address.line1}}</div>
+      <div class="address-2" v-if="address && address.line2">{{address.line2}}</div>
     </div>
     <div class="location-image">
       <img :src="image" />
@@ -14,7 +14,7 @@
 <script>
 export default {
   name: "LocationGroup",
-  props: { title: String, image: String }
+  props: { title: String, image: String, address: Object }
 };
 </script>
 
@@ -27,9 +27,21 @@ export default {
 .location-text {
   position: absolute;
 
+  @media (min-width: 961px) and (max-width: 1264px) {
+    h2 {
+      font-size: 18px;
+    }
+  }
+
+  @media (min-width: 600px) and (max-width: 960px) {
+    h2 {
+      font-size: 13px;
+    }
+  }
   width: 60%;
 
   div {
+    font: 800 14px/28px Montserrat;
     letter-spacing: 1.6px;
     text-transform: uppercase;
   }

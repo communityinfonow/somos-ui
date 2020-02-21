@@ -45,11 +45,18 @@ export default {
         });
     },
 
-    get(url, callback, errorCallback) {
+    getAdmin(url, callback, errorCallback) {
         axios.get(url, {
             withCredentials: true
         }).then(response => {
             callback(response.data._embedded.photoAdminDtoes);
+        }).catch(error => {
+            errorCallback(error.response)
+        });
+    },
+    get(url, callback, errorCallback) {
+        axios.get(url).then(response => {
+            callback(response.data._embedded.photoDtoes);
         }).catch(error => {
             errorCallback(error.response)
         });

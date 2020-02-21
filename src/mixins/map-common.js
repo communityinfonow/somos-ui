@@ -7,7 +7,9 @@ export const mapCommon = {
         return {
             censusTracts: null,
             iconSize: [25, 41],
-            iconUrl: "./assets/map-marker.png"
+            iconUrl: "./assets/map-marker.png",
+            displayTracts: false,
+            boundaryGeojson: null
         }
     },
     methods: {
@@ -19,16 +21,29 @@ export const mapCommon = {
                 this.setCensusTracts(censusTracts);
             });
         },
-        calculateIconAnchor(iconSize) {
-            return [iconSize[0] / 2, this.iconSize[1]];
+        calculateIconAnchor(width, height, justify = "center") {
+            let x = null;
+
+            switch (justify) {
+                case "right":
+                    x = width;
+                    break;
+                case "left":
+                    x = 0;
+                    break;
+                default:
+                    x = width / 2
+                    break;
+            }
+            return [x, height];
         }
     },
-    computed: {
-        boundaryGeojson() {
+    watch: {
+        censusTracts() {
             if (this.censusTracts) {
-                return boundaries(false).generate(this.censusTracts);
+                this.boundaryGeojson = boundaries(this.displayTracts).generate(this.censusTracts);
             }
-            return null;
+
         }
     }
 }

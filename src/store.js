@@ -9,7 +9,7 @@ export const store = {
         isDoneTyping: null,
         addressSearchType: null,
         searchResults: [],
-        selectedLocation: new location(null, null, new coordinates(null, null)),
+        selectedLocation: new location(null, null, null, new coordinates(null, null)),
         contactFirstName: null,
         contactLastName: null,
         contactEmail: null,
@@ -42,7 +42,7 @@ export const store = {
         this.state.photoDescription = photoDescription;
     },
     clearSelectedLocation() {
-        this.state.selectedLocation = new location(null, null, new coordinates(null, null));
+        this.state.selectedLocation = new location(null, null, null, new coordinates(null, null));
     },
     setSelectedLocationTract(tract) {
         this.state.selectedLocation.tract = tract;
@@ -82,3 +82,24 @@ export const authenticationStore = {
     }
 
 };
+
+export const languageStore = {
+    languages: [{
+            lang: 'english',
+            code: 'en',
+            label: 'English'
+        },
+        {
+            lang: 'spanish',
+            code: 'es',
+            label: 'Espa&ntilde;ol'
+        }
+    ],
+    state: {
+        languageCode: 'en'
+    },
+    setLanguageCode(language) {
+        this.state.languageCode = language;
+    }
+
+}
