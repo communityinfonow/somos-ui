@@ -336,11 +336,13 @@ export default {
 #neighborhood-gallery,
 #neighborhood-no-photos {
   background: $dark-pink;
+  border-radius: 6px;
 }
 
 #match-gallery,
 #match-no-photos {
   background: $main-yellow;
+  border-radius: 6px;
 }
 
 #match-no-photos,
@@ -360,7 +362,6 @@ export default {
     font-weight: 500;
   }
 
-  border-radius: 6px;
   font-size: 18px;
   padding: 10px;
   text-align: center;

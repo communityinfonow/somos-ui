@@ -1,8 +1,13 @@
 <template>
   <section id="meet-your-neighbors">
     <v-container class="my-0 py-0">
-      <div class="angle-container"></div>
-
+      <v-img
+        class="hidden-xs-only"
+        id="som"
+        :src="require('../som.svg')"
+        :class="{clickable: $vuetify.breakpoint.smAndDown}"
+        @click="$vuetify.breakpoint.smAndDown ? cycleNeighbors : ()=>{}"
+      ></v-img>
       <h1>{{translateText(title)}}</h1>
 
       <v-row class="content">
@@ -17,7 +22,7 @@
           <NeighborProfilesContainer :neighbors="rightNeighbors" :neighborsIndex="neighborsIndex" />
         </v-col>
       </v-row>
-      <v-img id="mos" :src="require('../Mos.svg')"></v-img>
+      <v-img id="mos" :src="require('../Mos.svg')" class="backup-clickable" @click="cycleNeighbors"></v-img>
     </v-container>
   </section>
 </template>
@@ -140,10 +145,19 @@ export default {
   position: relative;
 }
 #mos {
-  position: absolute;
   bottom: -20px;
   left: 50%;
-  z-index: 1;
+}
+
+#som {
+  top: -149px;
+  right: 50%;
+}
+
+// Backup for IE for pointer-events none. Not exactly the same funtioncality, but gets the job done.
+.backup-clickable {
+  cursor: pointer;
+  pointer-events: none;
 }
 
 p {

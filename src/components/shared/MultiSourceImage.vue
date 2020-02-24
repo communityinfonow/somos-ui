@@ -3,8 +3,9 @@
     :src="photoSource"
     @load="loadSuccessHandler"
     @error="loadFailHandler"
-    height="122"
-    class="tract-image"
+    :height="height"
+    @click="$emit('click')"
+    contain
   >
     <template v-slot:placeholder>
       <v-row class="fill-height ma-0 img-placeholder" align="center" justify="center">
@@ -33,19 +34,12 @@ export default {
       return this.imageLoadFailed ? this.photos[1] : this.photos[0];
     }
   },
-  props: { photos: Array }
+  props: { photos: Array, height: Number }
 };
 </script>
 
 <style lang="scss">
 .img-placeholder {
   background: #e4e4e475;
-}
-
-.tract-image {
-  &:hover {
-    cursor: pointer;
-    transform: scale(1.03);
-  }
 }
 </style>

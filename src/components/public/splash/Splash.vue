@@ -26,7 +26,6 @@
         :colorRight="secondaryBlue"
         class="hidden-xs-only"
       ></Angle>
-      <v-img class="hidden-xs-only" id="som" :src="require('../som.svg')"></v-img>
     </v-row>
   </v-container>
 </template>
@@ -75,13 +74,6 @@ p {
   position: absolute;
   width: 100%;
   z-index: 0;
-}
-
-#som {
-  top: 335px;
-  right: 50%;
-  position: absolute;
-  z-index: 1;
 }
 
 @media (max-width: 600px) {
