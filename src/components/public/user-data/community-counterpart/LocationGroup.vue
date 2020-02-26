@@ -27,15 +27,42 @@ export default {
 .location-text {
   position: absolute;
 
-  @media (min-width: 961px) and (max-width: 1264px) {
+  @media (max-width: 385px) {
     h2 {
-      font-size: 18px;
+      font-size: 13px !important;
+    }
+
+    padding: 10px !important;
+
+    * {
+      line-height: 13px !important;
     }
   }
 
-  @media (min-width: 600px) and (max-width: 960px) {
+  @media (min-width: 386px) and (max-width: 450px) {
     h2 {
-      font-size: 13px;
+      font-size: 16px !important;
+    }
+  }
+
+  @media (min-width: 961px) and (max-width: 1264px) {
+    h2 {
+      font-size: 18px !important;
+    }
+  }
+
+  @media (min-width: 741px) and (max-width: 960px) {
+    h2 {
+      font-size: 16px !important;
+    }
+  }
+
+  @media (min-width: 600px) and (max-width: 740px) {
+    h2 {
+      font-size: 13px !important;
+    }
+    * {
+      line-height: 13px !important;
     }
   }
   width: 60%;

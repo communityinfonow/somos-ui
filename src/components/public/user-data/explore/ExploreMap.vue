@@ -109,6 +109,12 @@ export default {
     },
     resetZoom() {
       this.mapObject.setView(this.center, this.zoom);
+    },
+    fitViewToLocations(...coordinates) {
+      this.mapObject.flyToBounds(L.latLngBounds(coordinates));
+      if (this.mapObject.getZoom() > this.zoom) {
+        this.mapObject.zoomOut();
+      }
     }
   },
   computed: {
@@ -216,6 +222,15 @@ export default {
     locations(newLocations) {
       let mapCenter = this.mapObject.getCenter();
       if (
+        newLocations.length > 1 &&
+        (!this.mapObject.getBounds().contains(newLocations[0].coordinates) ||
+          !this.mapObject.getBounds().contains(newLocations[1].coordinates))
+      ) {
+        this.fitViewToLocations([
+          newLocations[0].coordinates,
+          newLocations[1].coordinates
+        ]);
+      } else if (
         mapCenter.lat != this.center[0] ||
         mapCenter.lng != this.center[1] ||
         this.mapObject.getZoom() != this.zoom

@@ -76,7 +76,7 @@ export default {
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 960px) {
   .link-title {
     color: white !important;
     font-weight: 800;
@@ -85,7 +85,7 @@ export default {
 
 .link-title {
   text-align: left;
-  font: 900 14px/22px Montserrat;
+  font: 800 14px/22px Montserrat;
   letter-spacing: 0.21px;
   color: $main-dark-blue;
 }

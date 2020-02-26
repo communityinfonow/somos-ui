@@ -22,22 +22,25 @@ export default {
     return {
       lightBlue: globals.mainLightBlue,
       darkBlue: globals.mainDarkBlue,
-      title: { en: "Close The Gap", es: "" },
+      title: { en: "Close The Gap", es: "CERRAR LA BRECHA" },
       paragraphs: [
         {
           en:
-            " Media and cultural messages usually tell us that healthy habits and good health care are what’s needed for a long life. Those are important, but it may surprise you that medical care is only 20% of what affects length and quality of life, and our behaviors account for only 30%. ",
-          es: null
+            "Media and cultural messages usually tell us that healthy habits and good health care are what’s needed for a long life. Those are important, but it may surprise you that medical care is only 20% of what affects length and quality of life, and our behaviors account for only 30%. ",
+          es:
+            "Los medios de comunicación y cultura generalmente nos dicen que los hábitos saludables y la buena atención médica son es lo que se necesita para una vida larga. Esos son importantes, pero le sorprenderá saber que la atención médica solo afecta el 20% de la duración y la calidad de vida, y nuestros comportamientos afectan solo el 30%."
         },
         {
           en:
             "What’s the other half of the picture? It’s social, economic, and physical factors like income and employment, education, housing and transit, community safety, social support, and air and water quality. It’s not just about what we do. It’s also about the world we live in and what happens to us.",
-          es: null
+          es:
+            "¿Qué es el restante 50%? Son factores sociales, económicos y físicos como ingresos y empleo, educación, vivienda y tránsito, seguridad comunitaria, apoyo social, calidad del aire y el agua. No se trata solo de lo que hacemos. También se trata del mundo en que vivimos y de lo que nos sucede."
         },
         {
           en:
             "Changing our own habits isn’t the only way to live longer or better. We can also work with each other to change those neighborhood conditions, laws, and systems that make it harder for us to thrive. And together we have so much more power to change harmful conditions than any of us has by ourselves. ",
-          es: null
+          es:
+            "Cambiar nuestros propios hábitos no es la única forma de vivir más o mejor. También podemos trabajar juntos para cambiar las condiciones, las leyes y los sistemas del vecindario que nos dificultan el éxito. Juntos tenemos mucho más poder para cambiar las condiciones dañinas que cualquiera de nosotros solos."
         }
       ]
     };

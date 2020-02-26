@@ -7,8 +7,15 @@
       preserveAspectRatio="xMidYMin"
       v-if="!!empty"
     >
-      <polygon points="50,0 50,13.4 0,13.4" :style="{fill:colorLeft}" />
-      <polygon points="50,0 50,13.4 100,13.4" :style="{fill:colorRight}" />
+      <!-- <defs>
+        <filter id="null">
+          <feBlend mode="normal" in="SourceGraphic" />
+        </filter>
+      </defs>-->
+      <g>
+        <polygon points="50,0 50,13.4 0,13.4" :style="{fill:colorLeft}" />
+        <polygon points="50,0 50,13.4 100,13.4" :style="{fill:colorRight}" />
+      </g>
     </svg>
 
     <svg
@@ -38,7 +45,7 @@ svg {
 }
 
 .filler {
-  height: 300%; //TODO see if there's another way to fill this height between the two
+  height: 389%; //TODO see if there's another way to fill this height between the two
   position: relative;
 
   div {
@@ -53,5 +60,10 @@ svg {
 
 .filler-right {
   float: right;
+}
+
+polygon {
+  stroke: black;
+  stroke-width: 0;
 }
 </style>

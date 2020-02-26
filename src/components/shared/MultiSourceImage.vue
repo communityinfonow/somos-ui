@@ -6,6 +6,8 @@
     :height="height"
     @click="$emit('click')"
     contain
+    max-height="700"
+    eager
   >
     <template v-slot:placeholder>
       <v-row class="fill-height ma-0 img-placeholder" align="center" justify="center">

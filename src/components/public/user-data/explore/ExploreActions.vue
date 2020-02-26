@@ -10,7 +10,7 @@
           >{{translateText(newNeighborhoodText)}}</v-btn>
         </v-col>
         <v-col cols="12" md="4">
-          <v-btn block>{{translateText(exploreDataText)}}</v-btn>
+          <v-btn block disabled v-html="translateText(exploreDataText)"></v-btn>
         </v-col>
         <v-col cols="12" md="4">
           <v-menu offset-y>
@@ -43,14 +43,20 @@ export default {
   data() {
     return {
       storeState: userDataStore.state,
-      newNeighborhoodText: { en: "Change your neighborhood", es: "" },
-      exploreDataText: { en: "explore data", es: "" },
-      changeYourMatchText: { en: "Change your match", es: "" }
+      newNeighborhoodText: {
+        en: "Change your neighborhood",
+        es: "Cambia Tu Vecindario"
+      },
+      exploreDataText: {
+        en: "explore data</br>(coming soon)",
+        es: "Explora la Información </br>(Próximamente)"
+      },
+      changeYourMatchText: { en: "Change your match", es: "Modifica tu par" }
     };
   },
   methods: {
     newNeighborhood() {
-      this.$vuetify.goTo("#community-counterpart");
+      this.$vuetify.goTo("#find-your-match");
       this.$emit("click:new");
     },
     setMatch(match) {
@@ -60,19 +66,30 @@ export default {
       }, 600);
     },
     createTractTitles(tract) {
-      //TODO translations
       switch (tract.rank) {
         case 1:
-          tract.title = "Closest Match";
+          tract.title = this.translateText({
+            en: "Closest Match",
+            es: "Par más similar"
+          });
           break;
         case 2:
-          tract.title = "2nd Closest Match";
+          tract.title = this.translateText({
+            en: "2nd Closest Match",
+            es: "2do par similar"
+          });
           break;
         case 3:
-          tract.title = "3rd Closest Match";
+          tract.title = this.translateText({
+            en: "3rd Closest Match",
+            es: "3er par similar"
+          });
           break;
         default:
-          tract.title = tract.rank + "th Closest Match";
+          tract.title = this.translateText({
+            en: tract.rank + "th Closest Match",
+            es: tract.rank + "to par similar"
+          });
       }
     }
   },
@@ -84,7 +101,8 @@ export default {
           : [];
       tracts.forEach(this.createTractTitles);
       return tracts;
-    }
+    },
+    tractTitles() {}
   }
 };
 </script>

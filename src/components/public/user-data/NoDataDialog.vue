@@ -27,13 +27,17 @@ export default {
   name: "NoDataDialog",
   data() {
     return {
-      no: { en: "No thanks", es: "" },
-      yes: { en: "Yes", es: "" },
-      noDataTitle: { en: "Location does not have data", es: "" },
+      no: { en: "No thanks", es: "No Gracias" },
+      yes: { en: "Yes", es: "Si" },
+      noDataTitle: {
+        en: "Location does not have data",
+        es: "Esta ubicación no dispone de información"
+      },
       noDataParagraph: {
         en:
           "Life expectancy data does not exist for the location you selected.</br>Would you like to view data for the nearest neighborhood?",
-        es: ""
+        es:
+          "Información sobre la expectativa de vida no existe en la ubicación seleccionada. </br>¿Te gustaría ver la información del vecindario más cercano?"
       }
     };
   },

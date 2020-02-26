@@ -114,7 +114,7 @@ export default {
       },
       progressText: {
         en: "Uploading...",
-        es: ""
+        es: "Cargando"
       },
       descriptionLabel: {
         en: "Photo Description",

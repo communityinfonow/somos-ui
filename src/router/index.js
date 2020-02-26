@@ -5,6 +5,8 @@ import Admin from "../components/admin/Admin.vue";
 import Login from "@/components/admin/Login.vue";
 import SuperUser from "@/components/admin/SuperUser/SuperUser.vue"
 import PublicContainer from "../components/public/PublicContainer.vue";
+import TermsOfService from "@/components/public/TermsOfService";
+import PrivacyPolicy from "@/components/public/PrivacyPolicy";
 import {
     authenticationStore
 } from "@/store.js"
@@ -48,6 +50,13 @@ export default new VueRouter({
             component: PhotoUpload
         },
         {
+            path: "/terms-of-service",
+            component: TermsOfService
+        },
+        {
+            path: "/privacy-policy",
+            component: PrivacyPolicy
+        }, {
             path: "/admin/login",
             component: Login,
             beforeEnter: (to, from, next) => {

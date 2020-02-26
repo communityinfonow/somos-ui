@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <section>
     <h1>{{translateText(title)}}</h1>
     <ExploreMap :tract="storeState.tract" />
     <ExploreActions @click:new="$emit('click:new')" />
-  </div>
+  </section>
 </template>
 
 <script>
@@ -20,7 +20,10 @@ export default {
   data() {
     return {
       storeState: userDataStore.state,
-      title: { en: "Life Expectancy in Bexar", es: "" }
+      title: {
+        en: "Life Expectancy in Bexar County",
+        es: "Expectativa de vida del condado de bexar"
+      }
     };
   },
   mixins: [translate]

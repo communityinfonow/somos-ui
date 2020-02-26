@@ -14,7 +14,7 @@
               <MultiSourceImage
                 class="multi-image small-gallery-image"
                 :photos="[photo._links['cropped-photo-file'].href, photo._links['photo-file'].href]"
-                height="122"
+                :height="122"
                 @click="enlargeGallery(photo)"
               ></MultiSourceImage>
             </v-col>
@@ -22,17 +22,17 @@
         </v-container>
       </v-carousel-item>
     </v-carousel>
-    <v-dialog v-model="largeGallery" width="50%">
-      <v-carousel class="carousel" v-model="selectedPhotoIndex" height="auto">
-        <v-carousel-item v-for="(photo, index) in photos" :key="index">
-          <!-- <v-card> -->
-          <MultiSourceImage
-            class="multi-image"
-            :photos="[photo._links['cropped-photo-file'].href, photo._links['photo-file'].href]"
-          ></MultiSourceImage>
-          <!-- </v-card> -->
-        </v-carousel-item>
-      </v-carousel>
+    <v-dialog v-model="largeGallery">
+      <div>
+        <v-carousel class="carousel" v-model="selectedPhotoIndex" min-height="400px" height="auto">
+          <v-carousel-item v-for="(photo, index) in photos" :key="index">
+            <MultiSourceImage
+              class="multi-image"
+              :photos="[photo._links['cropped-photo-file'].href, photo._links['photo-file'].href]"
+            ></MultiSourceImage>
+          </v-carousel-item>
+        </v-carousel>
+      </div>
     </v-dialog>
   </div>
 </template>
@@ -93,7 +93,7 @@ export default {
 
 <style lang="scss">
 .multi-image {
-  border-radius: 10px;
+  border-radius: 10px !important;
 }
 
 .small-gallery-image {

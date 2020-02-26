@@ -1,5 +1,5 @@
 <template>
-  <section id="community-counterpart">
+  <section id="find-your-match">
     <v-container>
       <h1>{{translateText(title)}}</h1>
       <p>{{translateText(introParagraph)}}</p>
@@ -13,12 +13,7 @@
         <p>OR</p>
         <v-dialog v-model="selectLocationFromMap">
           <template v-slot:activator="{on}">
-            <v-btn
-              block
-              depressed
-              v-on="on"
-              id="select-from-map-btn"
-            >{{translateText(selectFromMap)}}</v-btn>
+            <button v-on="on" id="select-from-map-btn">{{translateText(selectFromMap)}}</button>
           </template>
           <LocationFromMap @submit="selectLocationFromMap = false" />
         </v-dialog>
@@ -62,18 +57,8 @@
           </div>
         </v-col>
       </v-row>
-      <a
-        href="https:somosneighbors.com/photoshare"
-        target="_blank"
-        rel="noopener noreferrer"
-        v-if="tract"
-      >
-        <v-btn
-          id="photo-upload-btn"
-          block
-          :color="darkBlue"
-          class="my-3"
-        >{{translateText(uploadPhotosText)}}</v-btn>
+      <a href="/photoshare" target="_blank" rel="noopener noreferrer" v-if="tract">
+        <button id="photo-upload-btn" class="my-3">{{translateText(uploadPhotosText)}}</button>
       </a>
 
       <LifeExpectancy
@@ -138,36 +123,41 @@ export default {
         es:
           "Si nuestra rutina diaria es ir de la casa a la escuela o al trabajo y viceversa, nuestra vida cotidiana no ofrece muchas oportunidades de conocer otros vecindarios. Ingrese su información a continuación para ver cómo un vecindario en otro lugar del condado es igual y diferente al suyo."
       },
-      addressSearchLabel: { en: "Help us find your Neighborhood", es: "" },
+      addressSearchLabel: {
+        en: "Help us find your neighborhood",
+        es: "Ayúdanos a encontrar tu vecindario"
+      },
       addressSearchDirections: {
         en: "Enter a nearby address or landmark in your neighborhood",
-        es: ""
+        es:
+          "Escribe una dirección cercana a tu vecindario o punto de referencia"
       },
 
       commonIndicatorsTitle: {
         en: "YOUR NEIGHBORHOODS HAVE A LOT IN COMMON. TAKE A LOOK.",
-        es: ""
+        es: "SUS VECINDARIOS TIENEN MUCHO EN COMÚN. ECHÉ UN VISTAZO."
       },
       differentIndicatorsParagraph: {
         en:
           "Your neighborhoods have other differences, too. The differences may not directly cause the life expectancy gap you’re seeing. Local data tells us, though, that there’s a relationship between these issues and a neighborhood’s average life expectancy.",
-        es: ""
+        es:
+          "Sus vecindarios también tienen otras diferencias. Las diferencias pueden no causar directamente la diferencia en los años de vida que está viendo. Sin embargo, los datos locales nos dicen que existe una relación entre estos problemas y el promedio de longevidad de un vecindario."
       },
       uploadPhotosText: {
         en: "Upload photos of your neighborhood here",
-        es: ""
+        es: "Sube fotos de tu vecindario aquí"
       },
       noMatchPhotosMessage: {
         en: "No approved photos yet",
-        es: ""
+        es: "No existen fotos aprobadas aun"
       },
       noNeighborhoodPhotosMessage: {
         en: "No approved photos yet",
-        es: ""
+        es: "No existen fotos aprobadas aun"
       },
       selectFromMap: {
         en: "Select location from map",
-        es: ""
+        es: "Selecciona la ubicación en el mapa"
       }
     };
   },
@@ -257,13 +247,32 @@ export default {
   height: 40px;
   background-color: #f0f0f0;
   color: $main-dark-blue;
+  width: 100%;
+  border-radius: 7px;
+  text-transform: uppercase;
+
+  &:hover {
+    box-shadow: #162d5421 0px 5px 5px 1px;
+    transition: box-shadow 100ms ease-in;
+  }
 }
+
 #photo-upload-btn {
   color: white;
   font: 700 14px/22px Montserrat;
-  height: 50px;
+  width: 100%;
+  border-radius: 6px;
+  padding: 6px;
+  text-transform: uppercase;
+  min-height: 50px;
+  background: $main-dark-blue;
+
+  &:hover {
+    box-shadow: #162d5421 0px 5px 5px 1px;
+    transition: box-shadow 100ms ease-in;
+  }
 }
-#community-counterpart {
+#find-your-match {
   p {
     text-align: center;
     width: 80%;
@@ -326,6 +335,16 @@ export default {
     width: 80%;
     margin: auto;
     margin-bottom: 30px;
+  }
+}
+
+@media (max-width: 600px) {
+  #find-your-match .address-search {
+    width: 100%;
+  }
+
+  #find-your-match p {
+    width: 100%;
   }
 }
 

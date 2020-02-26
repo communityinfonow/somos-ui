@@ -1,8 +1,13 @@
 <template>
   <h1 id="splash-title">
     <span class="main-text">{{translateText(mainText)}}&nbsp</span>
-    <span id="community">
+    <span id="community" v-if="$vuetify.breakpoint.mdAndUp">
       <CyclingText class="secondary-text" :textArray="translateText(communities)" />
+    </span>
+    <span id="community-container" v-if="$vuetify.breakpoint.smAndDown">
+      <span id="community">
+        <CyclingText class="secondary-text" :textArray="translateText(communities)" />
+      </span>
     </span>
   </h1>
 </template>
@@ -28,7 +33,16 @@ export default {
           "Strong",
           "Compassionate"
         ],
-        es: ["vecinos"]
+        es: [
+          "vecinos",
+          "San Antonians",
+          "Líderes",
+          "Unidos",
+          "Solidarios",
+          "Amigos",
+          "Fuertes",
+          "Compasivos"
+        ]
       },
       mainText: {
         en: "we are",
@@ -44,16 +58,29 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@media (min-width: 960px) {
+  #splash-title {
+    height: 50px;
+    overflow: hidden;
+    position: relative;
+  }
+}
+
 #splash-title {
   text-align: left;
-  height: 50px;
-  overflow: hidden;
-  position: relative;
+
   span {
     vertical-align: text-bottom;
   }
   text-transform: uppercase;
   margin-bottom: 20px;
+}
+
+#community-container {
+  height: 50px;
+  overflow: hidden;
+  width: 100%;
+  display: block;
 }
 
 #community {

@@ -98,7 +98,6 @@
                   <ContactForm></ContactForm>
                 </v-card-text>
                 <v-card-actions>
-                  <!-- TODO: message regarding privacy policy and terms of service -->
                   <SomosButton @click="submitUpload" block>{{translateText(submit)}}</SomosButton>
                 </v-card-actions>
               </v-card>
@@ -167,7 +166,7 @@ export default {
       },
       secondStepTitle: {
         en: "Photo Location",
-        es: ""
+        es: "ubicación de la foto"
       },
       thirdStepTitle: {
         en: "Enter Contact Information (not required)",
@@ -184,11 +183,16 @@ export default {
         es:
           "¡Gracias por ser parte de Somos Vecinos! Para mantener esta comunidad respetuosa, verificamos todas las fotos que se cargan. Las fotos no aparecerán en el sitio web hasta que hayan sido revisadas y aprobadas. La revisión demora tarda aproximadamente tres días hábiles una vez que se carga una foto."
       },
-      addressSearchLabel: { en: "Help us find your Neighborhood", es: "" },
+      addressSearchLabel: {
+        en: "Help us find your neighborhood or select location from map",
+        es:
+          "Ayúdanos a encontrar tu vecindario o selecciona la ubicación en el mapa"
+      },
       addressSearchDirections: {
         en:
           "Enter a nearby address or landmark in your neighborhood or select from the map",
-        es: ""
+        es:
+          "Escribe una dirección cercana a tu vecindario o punto de referencia o selecciona la ubicación en el mapa"
       },
       uploadAnother: { en: "Upload Another Photo", es: "Subir otra foto" }
     };
@@ -257,8 +261,8 @@ export default {
     },
     locationTitlePrepend: function() {
       return this.isLocationSelected
-        ? { en: "Confirm", es: "" }
-        : { en: "Select", es: "" };
+        ? { en: "Confirm", es: "Confirma" }
+        : { en: "Select", es: "Selecciona" };
     }
   }
 };

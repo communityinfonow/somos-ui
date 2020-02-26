@@ -2,8 +2,8 @@
   <transition-group :name="up ? 'cycle-up' : 'cycle-down'" tag="div">
     <div
       class="profile-container"
-      :key="neighbor.name"
-      v-for="(neighbor,index) in neighbors"
+      :key="index"
+      v-for="(neighbor, index) in neighbors"
       v-show="index === neighborsIndex"
     >
       <NeighborProfile
@@ -32,6 +32,11 @@ export default {
     neighborsIndex: Number,
     down: Boolean,
     up: Boolean
+  },
+  computed: {
+    // neighbor() {
+    //   return this.neighbors[this.neighborsIndex];
+    // }
   }
 };
 </script>
@@ -47,6 +52,11 @@ export default {
   transform: translateY(-100vh);
 }
 
+.cycle-up-leave-active,
+.cycle-down-leave-active {
+  position: absolute !important;
+}
+
 .cycle-up-enter-active,
 .cycle-up-leave-active,
 .cycle-down-enter-active,
@@ -55,7 +65,7 @@ export default {
 }
 
 .profile-container {
-  position: absolute;
+  position: relative;
   width: 100%;
   z-index: 2;
 }

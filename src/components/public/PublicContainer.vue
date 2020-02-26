@@ -1,20 +1,24 @@
 <template>
-  <v-container>
+  <div>
     <Header />
-    <splash id="splash" />
-    <Angle :empty="true" :colorLeft="yellow" :colorRight="yellow" class="hidden-sm-and-up"></Angle>
-    <MeetYourNeighbors />
-    <div class="angle-container hidden-xs-only">
-      <Angle :empty="false" :colorLeft="yellow" :colorRight="secondaryBlue"></Angle>
-    </div>
-    <UserData />
-    <Angle :colorLeft="secondaryBlue" :colorRight="darkBlue" empty="false" />
-    <CloseTheGap />
-    <div id="footer-grouping">
-      <Angle :colorLeft="secondaryBlue" :colorRight="darkBlue" />
-      <Footer />
-    </div>
-  </v-container>
+
+    <v-container>
+      <splash id="splash" />
+      <Angle :empty="true" :colorLeft="yellow" :colorRight="yellow" class="hidden-sm-and-up"></Angle>
+      <MeetYourNeighbors />
+      <Angle class="hidden-sm-and-up" empty :colorLeft="secondaryBlue" :colorRight="secondaryBlue"></Angle>
+      <div class="angle-container hidden-xs-only">
+        <Angle :empty="false" :colorLeft="yellow" :colorRight="secondaryBlue"></Angle>
+      </div>
+      <UserData />
+      <Angle :colorLeft="secondaryBlue" :colorRight="darkBlue" empty="false" />
+      <CloseTheGap />
+      <div id="footer-grouping">
+        <Angle :colorLeft="secondaryBlue" :colorRight="darkBlue" />
+        <Footer />
+      </div>
+    </v-container>
+  </div>
 </template>
 
 <script>
@@ -82,6 +86,11 @@ export default {
 @media (max-width: 1264px) {
   #splash {
     margin-bottom: 71px;
+  }
+
+  #som,
+  #mos {
+    width: 43%;
   }
 }
 </style>

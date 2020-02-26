@@ -36,7 +36,7 @@ export default {
       center: [29.437236, -98.491163],
       submit: {
         en: "submit",
-        es: ""
+        es: "Enviar"
       }
     };
   },

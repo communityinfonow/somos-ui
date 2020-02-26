@@ -1,9 +1,8 @@
 <template>
   <header id="header">
-    
-    <v-container class="mb-0 pb-0">
+    <v-container class="my-0 py-0">
       <v-row>
-        <v-col cols="12">
+        <v-col cols="12" class="pt-0">
           <v-row justify="space-between">
             <div
               class="color-block"

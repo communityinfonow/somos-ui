@@ -102,68 +102,93 @@ export default {
       darkBlue: globals.mainDarkBlue,
       tabItems: [
         {
-          title: { en: "learn", es: "" },
+          title: { en: "learn", es: "APRENDE" },
           links: [
             {
-              label: { en: "Discover policies and programs that work", es: "" },
+              label: {
+                en: "Discover policies and programs that work",
+                es: "Descubre pólizas y programas que funcionan"
+              },
               link: links.policies,
               icon: require("./Group 61.svg")
             },
             {
-              label: { en: "Get inspired by what others are doing", es: "" },
+              label: {
+                en: "Get inspired by what others are doing",
+                es: "Inspírate con lo que otros están haciendo"
+              },
               link: links.othersDoing,
               icon: require("./Group 62.svg")
             },
             {
-              label: { en: "Find out who represents you", es: "" },
+              label: {
+                en: "Find out who represents you",
+                es: "Descubre quién te representa"
+              },
               link: links.represents,
               icon: require("./Group 63.svg")
             }
           ]
         },
         {
-          title: { en: "speak", es: "" },
+          title: { en: "speak", es: "HABLA" },
           links: [
             {
-              label: { en: "Speak up on local issues", es: "" },
+              label: {
+                en: "Speak up on local issues",
+                es: "Habla sobre problemas locales"
+              },
               link: links.speakUp,
               icon: require("./Group 64.svg")
             },
             {
-              label: { en: "Be counted in the 2020 Census", es: "" },
+              label: {
+                en: "Be counted in the 2020 Census",
+                es: "Participa en el Censo 2020"
+              },
               link: links.beCounted,
               icon: require("./Group 88.svg")
             },
             {
-              label: { en: "Paint your vision for our community", es: "" },
+              label: {
+                en: "Paint your vision for our community",
+                es: "Diseña tu visión para nuestra comunidad"
+              },
               link: links.paintYourVision,
               icon: require("./Group 95.svg")
             }
           ]
         },
         {
-          title: { en: "act", es: "" },
+          title: { en: "act", es: "ACTÚA" },
           links: [
             {
               label: {
                 en: "Volunteer or donate to a local nonprofit",
-                es: ""
+                es:
+                  "Se voluntario o dona a una organización local sin fines de lucro"
               },
               link: links.volunteer,
               icon: require("./Group 96.svg")
             },
             {
-              label: { en: "Request city services", es: "" },
+              label: {
+                en: "Request city services",
+                es: "Solicita servicios de la ciudad"
+              },
               link: links.cityServices,
               icon: require("./Group 97.svg")
             },
             {
-              label: { en: "Request county services", es: "" },
+              label: {
+                en: "Request county services",
+                es: "Solicita Servicios del Condado"
+              },
               link: links.countyServices,
               icon: require("./Group 61.svg")
             },
             {
-              label: { en: "Get informed and vote", es: "" },
+              label: { en: "Get informed and vote", es: "Infórmate y vota" },
               link: links.getInformed,
               icon: require("./Group 61.svg")
             }
@@ -202,7 +227,7 @@ a {
   text-decoration: none !important;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 960px) {
   .tab-title {
     color: white !important;
   }
@@ -210,6 +235,12 @@ a {
   #tabs,
   #tab-links {
     padding-left: 0px;
+  }
+}
+
+@media (max-width: 400px) {
+  .tab-title {
+    font-size: 13px !important;
   }
 }
 </style>

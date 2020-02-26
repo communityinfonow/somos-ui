@@ -1,7 +1,7 @@
 <template>
   <div class="profile-grouping">
     <div class="profile-image">
-      <img :src="image" />
+      <img :src="image" :alt="'profile shot of ' +  name" />
     </div>
     <div class="profile-info">
       <div class="profile-info-container">
@@ -35,7 +35,7 @@ export default {
 }
 
 .info-text {
-  position: absolute;
+  position: relative;
   top: 15%;
   width: 100%;
   padding-left: 25px;
@@ -54,22 +54,22 @@ export default {
 }
 
 .profile-info-container {
-  position: absolute;
+  position: relative;
   height: 100%;
   width: 100%;
 }
 
-// @media (min-width: 600px) and (max-width: 959px) {
-//   .profile-image {
-//     width: 100%;
-//   }
+@media (min-width: 600px) and (max-width: 1264px) {
+  .profile-image {
+    width: 60%;
+  }
 
-//   .profile-info {
-//     width: 100%;
-//     height: auto;
-//     position: relative;
-//   }
-// }
+  .profile-info {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+}
 
 @media (max-width: 600px) {
   .profile-image {

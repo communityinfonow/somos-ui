@@ -1,7 +1,7 @@
 <template>
   <div id="life-expectancy" :class="{placeholder: placeholder}">
     <h1
-      :style="{height: placeholder ? '60px' : unset}"
+      :style="{height: placeholder ? '60px' : 'unset'}"
     >{{placeholder ? "" : translateText(differenceTitle)}}</h1>
 
     <DataDisplay :title="translateText(lifeExpectancyTitle)">
@@ -10,6 +10,7 @@
         :neighborhoodData="neighborhoodData"
         :tooltip="indicator ? indicator.description : ''"
         :placeholder="placeholder"
+        :label="indicator ? indicator.dataLabel : ''"
       />
     </DataDisplay>
 
@@ -36,23 +37,24 @@ export default {
       storeState: userDataStore.state,
       differenceTitle: {
         en: "you are also very different.",
-        es: ""
+        es: "TAMBIÉN ERES MUY DIFERENTE."
       },
       lifeExpectancyTitle: {
+        //TODO: get this from indicators labels
         en: "average life expectancy",
-        es: ""
+        es: "promedio de expectativa de vida"
       },
       yearsDifference: {
         en: "year difference.",
-        es: ""
+        es: "AÑOS DE DIFERENCIA."
       },
       bigGap: {
         en: "that's a big gap!",
-        es: ""
+        es: "¡Esa es una gran diferencia!"
       },
       placeholderText: {
         en: "Don't see a number? Help us find your neighborhood above",
-        es: ""
+        es: "¿No ves un número? Ayúdanos a encontrar tu vecindario arriba"
       }
     };
   },
@@ -81,6 +83,11 @@ export default {
 .placeholder * {
   color: #8a8a8a;
 }
+
+#life-expectancy.placeholder {
+  margin-bottom: 173px;
+}
+
 #no-data-placeholder-text {
   position: absolute;
   top: 50%;
@@ -148,6 +155,7 @@ h2 {
 
 img {
   width: 50%;
+  height: 559px;
   position: absolute;
   top: -55px;
   z-index: 0;
@@ -162,7 +170,22 @@ img {
 @media (max-width: 600px) {
   img {
     width: 100%;
-    top: 121px;
+    top: -54px;
+    left: 0%;
+  }
+}
+
+@media (max-width: 512px) {
+  img {
+    width: 126%;
+    top: -59px;
+    left: -13%;
+  }
+}
+
+@media (max-width: 960px) {
+  img {
+    width: 100%;
     left: 0%;
   }
 }

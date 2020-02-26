@@ -5,7 +5,7 @@
       :lifeExpectancyIndicator="lifeExpectancyIndicator"
       :isClosestLocation="isClosestLocation"
     />
-    <Explore @click:new="newNeighborhood" />
+    <Explore @click:new="newNeighborhood" id="life-expectancy-in-bexar" />
     <NoDataDialog :model="closestTractDialog" @close="closeModal" @proceed="selectClosestTract" />
   </div>
 </template>
@@ -139,13 +139,11 @@ export default {
       } else {
         this.isClosestLocation = false;
 
-        userDataStore.setTract(response);
+        let tract = response;
         userDataStore.setMatchRank(1);
         censusTracts.getMatched(
           response._links["matched-tracts"].href,
           response => {
-            let tract = {};
-            Object.assign(tract, this.storeState.tract);
             tract.matchedTracts = response;
             userDataStore.setTract(tract);
           }

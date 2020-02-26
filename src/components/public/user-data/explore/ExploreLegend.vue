@@ -34,9 +34,9 @@ export default {
   data() {
     return {
       storeState: userDataStore.state,
-      keyText: { en: "Key", es: "" },
-      yourNeighborhood: { en: "Your neighborhood", es: "" },
-      yourMatch: { en: "Your match", es: "" }
+      keyText: { en: "Key", es: "Clave" },
+      yourNeighborhood: { en: "Your neighborhood", es: "Tu vecindario" },
+      yourMatch: { en: "Your match neighborhood", es: "Tu vecindario similar" }
     };
   },
   computed: {
@@ -51,7 +51,14 @@ export default {
       return this.mapBreaks.map((mapBreak, index, array) => {
         if (index < array.length - 1) {
           let modifier = index ? 0.1 : 0.0;
-          return mapBreak + modifier + " - " + array[index + 1] + " years";
+          return (
+            mapBreak +
+            modifier +
+            " - " +
+            array[index + 1] +
+            " " +
+            this.translateText({ en: "years", es: "años" })
+          );
         }
       });
     }

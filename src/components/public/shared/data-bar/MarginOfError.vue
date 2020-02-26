@@ -10,16 +10,30 @@ export default {
   name: "MarginOfError",
   props: { marginOfError: Object, denomenator: Number, right: Boolean },
   computed: {
+    valueHigh() {
+      let high = this.marginOfError.moeValueHigh;
+      if (high > this.denomenator) {
+        return this.denomenator;
+      } else if (high < 0) {
+        return 0;
+      }
+      return high;
+    },
+    valueLow() {
+      let low = this.marginOfError.moeValueLow;
+
+      if (low > this.denomenator) {
+        return this.denomenator;
+      } else if (low < 0) {
+        return 0;
+      }
+      return low;
+    },
     marginOfErrorWidth() {
-      return (
-        ((this.marginOfError.moeValueHigh - this.marginOfError.moeValueLow) /
-          this.denomenator) *
-          100 +
-        "%"
-      );
+      return ((this.valueHigh - this.valueLow) / this.denomenator) * 100 + "%";
     },
     shift() {
-      return (this.marginOfError.moeValueLow / this.denomenator) * 100;
+      return (this.valueLow / this.denomenator) * 100;
     },
     marginOfErrorShiftLeft() {
       return this.right ? this.shift + "%" : "unset";

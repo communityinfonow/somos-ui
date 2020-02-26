@@ -56,7 +56,7 @@ export default {
   },
   computed: {
     formattedValue() {
-      return this.numerator
+      return this.numerator != null
         ? format.formatData(this.numerator, this.valueType)
         : "";
     },
@@ -69,7 +69,7 @@ export default {
     valueContainerWidth() {
       return this.numerator
         ? (this.numerator / this.denomenator) * 100 + "%"
-        : "100%";
+        : "0%";
     }
   },
   components: {

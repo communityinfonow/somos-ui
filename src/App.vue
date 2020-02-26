@@ -24,8 +24,42 @@ export default {
   /* margin-top: 60px; */
 }
 
+#privacy-policy,
+#terms-of-service {
+  .container {
+    border: 2px solid #162d54;
+    border-radius: 7px;
+    padding: 40px;
+  }
+
+  p {
+    font-family: sans-serif;
+  }
+
+  h1 {
+    margin-bottom: 30px;
+  }
+
+  h2 {
+    border-bottom: 1px solid;
+    font-size: 20px;
+  }
+
+  h3 {
+    text-align: left !important;
+  }
+
+  h4 {
+    text-align: left !important;
+  }
+}
+
 html {
   font-size: 14px !important;
+}
+
+body {
+  overflow: hidden;
 }
 
 h1 {
