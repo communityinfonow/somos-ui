@@ -7,6 +7,7 @@ import SuperUser from "@/components/admin/SuperUser/SuperUser.vue"
 import PublicContainer from "../components/public/PublicContainer.vue";
 import TermsOfService from "@/components/public/TermsOfService";
 import PrivacyPolicy from "@/components/public/PrivacyPolicy";
+import ExploreData from "@/components/public/explore-data/ExploreData";
 import {
     authenticationStore
 } from "@/store.js"
@@ -56,6 +57,9 @@ export default new VueRouter({
         {
             path: "/privacy-policy",
             component: PrivacyPolicy
+        }, {
+            path: "/explore-data",
+            component: ExploreData
         }, {
             path: "/admin/login",
             component: Login,

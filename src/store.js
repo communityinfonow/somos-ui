@@ -103,3 +103,9 @@ export const languageStore = {
     }
 
 }
+
+export const exploreDataStore = {
+    state: {
+
+    }
+}
