@@ -26,11 +26,10 @@ export default {
   },
   methods: {
     sendAnalytics() {
-      ga("send", {
-        hitType: "event",
-        eventCategory: "External Link",
-        eventAction: "submit",
-        eventLabel: this.link
+      gtag("event", {
+        event_category: "External Link",
+        event_action: "submit",
+        event_label: this.link
       });
     }
   }

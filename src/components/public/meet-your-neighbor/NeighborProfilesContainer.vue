@@ -2,7 +2,7 @@
   <transition-group :name="up ? 'cycle-up' : 'cycle-down'" tag="div">
     <div
       class="profile-container"
-      :key="index"
+      :key="neighbor.name"
       v-for="(neighbor, index) in neighbors"
       v-show="index === neighborsIndex"
     >

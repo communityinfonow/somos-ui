@@ -227,14 +227,12 @@ export default {
       }
     },
     sendGoogleAnalytics() {
-      ga("send", {
-        hitType: "event",
-        eventCategory: "Address Search",
-        eventAction: "select",
-        eventLabel: "address"
+      gtag("event", {
+        event_category: "Address Search",
+        event_action: "select",
+        event_label: "address"
       });
-    },
-    getMatchedData() {}
+    }
   }
 };
 </script>
