@@ -3,8 +3,10 @@
     :tractData="tractData"
     :xAxisLabel="xAxisLabel"
     :yAxisLabel="yAxisLabel"
-    width="300"
-    height="300"
+    :width="500"
+    :height="400"
+    :xMinMax="xMinMax"
+    :yMinMax="yMinMax"
   />
 </template>
 
@@ -19,26 +21,43 @@ export default {
   data() {
     return {
       storeState: exploreDataStore.state,
-      yAxisLabel: "Average Life Expectancy",
-      xAxisIndicator: null,
-      yData: null
+      yAxisLabel: "Average Life Expectancy"
     };
   },
+  props: { yData: Object, xData: Object, xAxisIndicator: Object },
   computed: {
     xAxisLabel() {
       return this.xAxisIndicator ? this.xAxisIndicator.name : "";
     },
+    xMinMax() {
+      if (this.xData) {
+        return { min: this.xData.minValue, max: this.xData.maxValue };
+      }
+      return null;
+    },
+    yMinMax() {
+      if (this.yData) {
+        return { min: this.yData.minValue, max: this.yData.maxValue };
+      }
+      return null;
+    },
     tractData() {
       let combinedData = this.yData
-        ? this.yData.map(entry => {
-            return { tract: entry.tract, y: entry.dataValue };
+        ? this.yData.indicatorData.map(entry => {
+            return { tract: entry.censusTractId, y: entry.value };
           })
         : null;
-      combinedData.forEach(entry => {
-        this.xData.forEach(xEntry => {
-          entry.x = xEntry.dataValue;
+
+      if (combinedData && this.xData && this.xData.indicatorData) {
+        combinedData.forEach(entry => {
+          this.xData.indicatorData.forEach(xEntry => {
+            if (entry.tract === xEntry.censusTractId) {
+              entry.x = xEntry.value;
+            }
+          });
         });
-      });
+      }
+
       return combinedData;
     }
   }
