@@ -197,7 +197,6 @@ export default {
   methods: {
     selectionHandler(selection) {
       userDataStore.setAddress(selection);
-      this.getMatchedData();
       this.sendGoogleAnalytics();
     },
     getPhotos(tract) {

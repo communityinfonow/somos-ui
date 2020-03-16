@@ -7,7 +7,7 @@ export const userDataStore = {
         neighborhoodData: null,
         matchData: null,
         lifeExpectancyIndicator: null,
-        lifeExpectancyData: null,
+        indicatorData: null,
         mapObject: null,
         geojson: null
 
@@ -33,8 +33,8 @@ export const userDataStore = {
     setLifeExpectancyIndicator(indicator) {
         this.state.lifeExpectancyIndicator = indicator;
     },
-    setLifeExpectancyData(data) {
-        this.state.lifeExpectancyData = data;
+    setIndicatorData(data) {
+        this.state.indicatorData = data;
     },
     setMapObject(map) {
         this.state.mapObject = map;

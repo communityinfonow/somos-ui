@@ -1,9 +1,10 @@
 <template>
   <Map
-    :boundaries="boundaryGeojson"
+    :boundaries="geojson"
     :locations="locations"
     :center="center"
     id="map"
+    @click="clickHandler"
     ref="exploremap"
   >
     <ExploreLegend :mapBreaks="orderedBreaks" :mapBreakColors="orderedBreakColors"></ExploreLegend>
@@ -12,10 +13,10 @@
 
 <script>
 import Map from "@/components/public/shared/map/Map";
+
 import ExploreLegend from "./ExploreLegend";
 import * as leafletPip from "@mapbox/leaflet-pip";
 import axios from "axios";
-import { userDataStore } from "../userDataStore";
 import { mapCommon } from "@/mixins/map-common";
 import { LGeoJson } from "vue2-leaflet";
 import globals from "@/globals.js";
@@ -29,15 +30,23 @@ export default {
     Map,
     ExploreLegend
   },
-  props: { tract: Object },
+  props: {
+    tract: Object,
+    address: Object,
+    matchedTract: Object,
+    matchTractRank: Number,
+    geojson: Object,
+    data: Object,
+    clickable: Boolean,
+    displayMatches: Boolean
+  },
   mixins: [mapCommon],
   data() {
     return {
-      storeState: userDataStore.state,
       userIconUrl: require("./map-left-flag.svg"),
       matchIconUrl: require("./map-right-flag.svg"),
       iconSize: [55, 64],
-      data: null,
+      mapObject: null,
       displayTracts: true,
       orderedBreaks: [75, 78, 81],
       orderedBreakColors: [
@@ -51,6 +60,9 @@ export default {
     };
   },
   methods: {
+    clickHandler(event) {
+      this.$emit("click", event.latlng);
+    },
     determineShadingByValue(value) {
       // TODO write a test for this
       let color = "transparent";
@@ -64,7 +76,7 @@ export default {
       return color;
     },
     renderShading() {
-      this.storeState.geojson.getLayers().forEach(layer => {
+      this.geojson.getLayers().forEach(layer => {
         layer.feature.properties.hasData = false;
         this.data.indicatorData.forEach(dataObj => {
           if (dataObj.censusTractId === layer.feature.properties.id) {
@@ -81,14 +93,11 @@ export default {
       });
     },
     determineMatchFlagLocation() {
-      let matchedLayer = this.storeState.geojson
+      let matchedLayer = this.geojson
         .getLayers()
         .find(layer => layer.feature.properties.id === this.matchedTract.id);
       let latLng = matchedLayer.getBounds().getCenter();
-      var containingGeographies = leafletPip.pointInLayer(
-        latLng,
-        this.storeState.geojson
-      );
+      var containingGeographies = leafletPip.pointInLayer(latLng, this.geojson);
       if (
         containingGeographies.length > 0 &&
         containingGeographies.find(
@@ -115,31 +124,31 @@ export default {
       if (this.mapObject.getZoom() > this.zoom) {
         this.mapObject.zoomOut();
       }
+    },
+    findTractValue(tractId) {
+      let val = null;
+      this.data.indicatorData.forEach(dataObj => {
+        if (dataObj.censusTractId === tractId) {
+          val = dataObj.value;
+        }
+      });
+      return val;
     }
   },
   computed: {
-    mapObject() {
-      return this.storeState.mapObject;
-    },
-    matchedTract() {
-      return userDataStore.getMatchedTract();
-    },
-    matchTractRank() {
-      return this.storeState.matchRank;
-    },
     neighborhoodLifeExpectancy() {
-      return this.storeState.neighborhoodData
-        ? this.storeState.neighborhoodData.value
-        : "";
+      return this.tract ? this.findTractValue(this.tract.id) : null;
     },
     matchLifeExpectancy() {
-      return this.storeState.matchData ? this.storeState.matchData.value : "";
+      return this.matchedTract
+        ? this.findTractValue(this.matchedTract.id)
+        : null;
     },
     locations() {
       let locations = [];
-      if (this.storeState.address) {
+      if (this.address) {
         locations.push({
-          coordinates: this.storeState.address.coordinates,
+          coordinates: this.address.coordinates,
           icon: {
             url: this.userIconUrl,
             size: this.iconSize,
@@ -160,7 +169,7 @@ export default {
         });
       }
 
-      if (this.storeState.geojson && this.matchedTract) {
+      if (this.geojson && this.matchedTract) {
         locations.push({
           coordinates: this.determineMatchFlagLocation(),
           icon: {
@@ -183,38 +192,19 @@ export default {
         });
       }
       return locations;
-    },
-    appLinks() {
-      return this.storeState.links;
     }
   },
-  mounted() {
-    axios
-      .get(
-        process.env.VUE_APP_API_DOMAIN + "/census-tracts/indicators/50001/data"
-      ) // TODO obviously do this through hateoas
-      .then(response => {
-        this.data = response.data;
-        userDataStore.setLifeExpectancyData(response.data.indicatorData);
-        this.orderedBreaks.push(this.data.maxValue);
-        this.orderedBreaks.unshift(this.data.minValue);
-        if (this.storeState.geojson) {
-          this.renderShading();
-        }
-      });
 
-    this.$nextTick(() => {
-      userDataStore.setMapObject(this.$refs.exploremap.$refs.map.mapObject);
-    });
-  },
   watch: {
-    appLinks() {
-      if (this.storeState.links) {
-        this.getCensusTracts(this.storeState.links.censusTracts.href);
+    data(newData) {
+      this.orderedBreaks.push(newData.maxValue);
+      this.orderedBreaks.unshift(newData.minValue);
+      if (this.geojson) {
+        this.renderShading();
       }
     },
-    boundaryGeojson(newGeojson) {
-      userDataStore.setGeojson(newGeojson);
+
+    geojson(newGeojson) {
       if (this.data) {
         this.renderShading();
       }
@@ -238,6 +228,11 @@ export default {
         this.resetZoom();
       }
     }
+  },
+  mounted() {
+    this.$nextTick(() => {
+      this.mapObject = this.$refs.exploremap.$refs.map.mapObject;
+    });
   }
 };
 </script>
