@@ -1,6 +1,6 @@
 <template>
   <v-container class="external-link">
-    <a :href="link.href" @click="sendAnalytics">
+    <a :href="link.href" @click="sendAnalytics" target="_blank" rel="noopener noreferrer">
       <v-col cols="12">
         <v-row>
           <div class="linkIcon">
