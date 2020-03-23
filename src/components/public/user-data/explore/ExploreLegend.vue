@@ -47,7 +47,6 @@ export default {
       return userDataStore.getMatchedTract();
     },
     mapBreaksLabels() {
-      // TODO translate
       return this.mapBreaks.map((mapBreak, index, array) => {
         if (index < array.length - 1) {
           let modifier = index ? 0.1 : 0.0;

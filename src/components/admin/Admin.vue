@@ -1,5 +1,4 @@
 
-// TODO: change name of component since there's not a *single* admin view
 <template>
   <v-container>
     <v-row justify="end">
@@ -57,7 +56,6 @@ export default {
     getPhotos(url) {
       PhotoData.getAdmin(url, response => {
         this.photos = response;
-        //TODO: error handling
       });
     }
   },

@@ -64,7 +64,6 @@ export default {
       this.$emit("click", event.latlng);
     },
     determineShadingByValue(value) {
-      // TODO write a test for this
       let color = "transparent";
       this.orderedBreaks.forEach((breakNum, index, array) => {
         if (index < array.length - 1) {

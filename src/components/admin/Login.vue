@@ -69,7 +69,7 @@ export default {
             response.data.authorities.map(item => item.authority)
           );
 
-          this.$router.replace("/admin"); //TODO forward to whichever admin page we came from if redirected here
+          this.$router.replace("/admin");
         },
         response => {
           this.errorMessage = response.data.message;

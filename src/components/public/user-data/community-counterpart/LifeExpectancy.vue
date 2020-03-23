@@ -40,7 +40,7 @@ export default {
         es: "TAMBIÉN ERES MUY DIFERENTE."
       },
       lifeExpectancyTitle: {
-        //TODO: get this from indicators labels
+        //TODO: get this from indicators labels once translation comes through
         en: "average life expectancy",
         es: "promedio de expectativa de vida"
       },

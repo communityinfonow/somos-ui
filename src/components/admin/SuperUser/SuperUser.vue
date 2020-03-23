@@ -29,7 +29,6 @@
           />
         </v-toolbar>
       </template>
-      <!-- TODO: 400 error handling for email already exists -->
       <template v-slot:item.roles="{item}">
         <ul v-for="role in item.roles" :key="role.id">
           <li>{{role.name}}</li>

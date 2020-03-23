@@ -32,11 +32,6 @@ export default {
     neighborsIndex: Number,
     down: Boolean,
     up: Boolean
-  },
-  computed: {
-    // neighbor() {
-    //   return this.neighbors[this.neighborsIndex];
-    // }
   }
 };
 </script>

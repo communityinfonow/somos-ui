@@ -3,7 +3,6 @@
     <v-row class="mb-5">
       <v-col cols="12">
         <v-img class="somos-logo" :src="require('../somos-logo.svg')"></v-img>
-        <!-- TODO component for log? -->
       </v-col>
     </v-row>
     <v-row class="angle-container">

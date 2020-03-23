@@ -71,7 +71,6 @@ describe("PhotoThumbnail", () => {
         descriptionInput.trigger('input');
         wrapper.find('.v-textarea').trigger('blur');
         expect(descriptionInput.value).toBe("new description");
-        // expect(wrapper.vm.photo.description).toBe("new description");
         expect(wrapper.vm.descriptionBlurHandler).toBeCalled();
         expect(photoData.savePhoto).toBeCalledWith(wrapper.vm.selfPath, wrapper.vm.photo, expect.anything());
 

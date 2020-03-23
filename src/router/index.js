@@ -21,7 +21,7 @@ function checkAuthenticated(to, from, next) {
     // TODO definitely get this from HATEOAS
     axios.get(process.env.VUE_APP_API_DOMAIN + "/authenticated").then(response => {
         if (response.data) {
-            authenticationStore.setUserRoles(response.data); //TODO probably move this into an api component/funciton
+            authenticationStore.setUserRoles(response.data);
             next();
         }
     }).catch(error => {

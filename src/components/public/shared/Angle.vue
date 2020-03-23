@@ -45,7 +45,7 @@ svg {
 }
 
 .filler {
-  height: 389%; //TODO see if there's another way to fill this height between the two
+  height: 389%;
   position: relative;
 
   div {

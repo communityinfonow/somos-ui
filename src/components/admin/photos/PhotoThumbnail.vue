@@ -2,7 +2,6 @@
   <div>
     <v-card hover>
       <v-skeleton-loader class="mx-auto" height="100%" type="image" v-if="!loaded"></v-skeleton-loader>
-      <!-- TODO: lazy load images with a lesser quality version of the photo. Might be a way to do this server-side? -->
       <v-img
         :src="photoSource"
         @load="imageLoaded"
@@ -150,7 +149,7 @@ export default {
     },
     fileType: function() {
       var type = this.photoObj.fileName.split(".")[1];
-      return type === "jpeg" || type === "jpg" ? "jpeg" : "png"; //TODO need to accept all kinds of images. use MIME type
+      return type === "jpeg" || type === "jpg" ? "jpeg" : "png";
     },
     photoSource: function() {
       return this.imageLoadFailed
@@ -173,7 +172,6 @@ export default {
   methods: {
     enableCrop() {
       if (this.cropEnabled) {
-        // this.$refs.crop.disable();
         this.$refs.crop.setCropBoxData({
           top: 0,
           left: 0,
@@ -241,12 +239,11 @@ export default {
       this.photoEnlargeDialog = false;
     },
     acceptPhoto: function() {
-      this.photo._links.delete; // TODO: needs a temporary delete or custom object creation from the photo object
+      this.photo._links.delete;
       this.photo.approved = true;
       PhotoData.savePhoto(this.selfPath, this.photo, this.saveHandler);
     },
     focusHandler: function() {
-      // TODO: validation
       this.photo._links.delete;
       this.photo.fileName = this.fileName + "." + this.fileExtension;
       PhotoData.savePhoto(this.selfPath, this.photo, this.saveHandler);

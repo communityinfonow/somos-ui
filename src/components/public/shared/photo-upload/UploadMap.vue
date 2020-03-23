@@ -28,7 +28,6 @@ export default {
   methods: {
     clickHandler(event) {
       store.setSelectedLocation({
-        //TODO: unit test to make sure object always has same structure of {lat,lng}
         coordinates: event.latlng
       });
     },

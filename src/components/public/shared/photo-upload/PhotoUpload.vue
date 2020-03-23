@@ -1,5 +1,3 @@
-/**Big ol' component encompassing all that is photo upload */
-// TODO add timeout for upload process. Match that timeout on the server and delete the file if it hasn't been approved yet.
 <template>
   <div id="photo-upload-container">
     <v-container>
@@ -44,8 +42,6 @@
                   <PhotoTerms v-if="!photoLoaded" />
                 </v-card-text>
               </v-card>
-
-              <!-- TODO remove false -->
             </v-stepper-content>
             <v-stepper-step
               :step="2"
@@ -227,7 +223,7 @@ export default {
       photo.ownerLastName = this.storeState.contactLastName;
       photo.gid = this.storeState.selectedLocation.tract.id;
       photo.description = this.storeState.photoDescription;
-      delete photo._links; // TODO photo object shouldn't have links sent with it
+      delete photo._links;
       PhotoData.savePhoto(
         this.storeState.selectedLocation.tract._links.photos.href +
           "/" +

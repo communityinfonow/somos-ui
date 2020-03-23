@@ -4,7 +4,6 @@ import * as axios from "axios";
  * Generates form from selected files
  * 
  */
-//  TODO: wanted to take out these simples uses of axios but it might be good to keep a namespace for specific error handling.
 
 function createForm(file) {
     var formData = new FormData();
@@ -67,4 +66,3 @@ export default {
         });
     }
 }
-//  TODO: error handling
