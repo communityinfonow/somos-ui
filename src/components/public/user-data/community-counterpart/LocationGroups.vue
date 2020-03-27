@@ -6,9 +6,28 @@
         :title="translateText(neighborhoodGroupTitle)"
         :address="address"
       />
+      <span class="location-popup">
+        {{translateText(neighborhoodTip)}}
+        <br />
+        {{translateText(moreInfo)}}
+        <a
+          href="https://cinow.info/somos-neighbors/"
+          target="_blank"
+        >{{translateText(here)}}</a>
+      </span>
     </v-col>
+
     <v-col cols="12" sm="6" class="right pl-0 ml-0">
       <LocationGroup :image="require('../right-flag.svg')" :title="translateText(matchGroupTitle)" />
+      <span class="location-popup">
+        {{translateText(matchTip)}}
+        <br />
+        {{translateText(moreInfo)}}
+        <a
+          href="https://cinow.info/somos-neighbors/"
+          target="_blank"
+        >{{translateText(here)}}</a>
+      </span>
     </v-col>
   </v-row>
 </template>
@@ -34,7 +53,25 @@ export default {
         es: "Tu vecindario Similar"
       },
       address: null,
-      storeState: userDataStore.state
+      storeState: userDataStore.state,
+      neighborhoodTip: {
+        en:
+          "Somos defines your neighborhood based on the area (Census Tract) surrounding the location you entered.",
+        es: ""
+      },
+      matchTip: {
+        en:
+          "Somos matches your neighborhood (Census Tract) with a neighborhood that is similar to yours in some ways but different in others.",
+        es: ""
+      },
+      moreInfo: {
+        en: "Learn more ",
+        es: ""
+      },
+      here: {
+        en: "here",
+        es: ""
+      }
     };
   },
   computed: {
@@ -73,5 +110,54 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
+.v-tooltip__content {
+  a {
+    color: white !important;
+    text-decoration: underline !important;
+    font-weight: bold !important;
+  }
+}
+
+.location-popup {
+  width: 47%;
+  position: absolute;
+  background: black;
+  color: white;
+  padding: 17px;
+  border-radius: 15px;
+  opacity: 0;
+  transition: opacity 200ms ease-in-out;
+  z-index: 200;
+}
+
+.right:hover .location-popup,
+.left:hover .location-popup,
+.location-popup:hover {
+  opacity: 0.6;
+}
+
+.right .location-popup {
+  left: 51%;
+}
+
+.left .location-popup {
+  right: 51%;
+}
+
+@media (max-width: 960px) {
+  .location-popup {
+    width: 80%;
+  }
+
+  .left .location-popup {
+    left: 10px;
+    right: unset;
+  }
+
+  .right .location-popup {
+    right: 10px;
+    left: unset;
+  }
+}
 </style>
