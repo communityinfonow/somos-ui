@@ -111,16 +111,13 @@ export default {
 </script>
 
 <style lang="scss">
-.v-tooltip__content {
-  a {
-    color: white !important;
-    text-decoration: underline !important;
-    font-weight: bold !important;
-  }
+.left,
+.right {
+  position: relative;
 }
 
 .location-popup {
-  width: 47%;
+  width: 80%;
   position: absolute;
   background: black;
   color: white;
@@ -129,6 +126,7 @@ export default {
   opacity: 0;
   transition: opacity 200ms ease-in-out;
   z-index: 200;
+  top: -30px;
 }
 
 .right:hover .location-popup,
@@ -138,26 +136,16 @@ export default {
 }
 
 .right .location-popup {
-  left: 51%;
+  left: 0;
 }
 
 .left .location-popup {
-  right: 51%;
+  right: 0;
 }
 
 @media (max-width: 960px) {
   .location-popup {
-    width: 80%;
-  }
-
-  .left .location-popup {
-    left: 10px;
-    right: unset;
-  }
-
-  .right .location-popup {
-    right: 10px;
-    left: unset;
+    width: 100%;
   }
 }
 </style>
