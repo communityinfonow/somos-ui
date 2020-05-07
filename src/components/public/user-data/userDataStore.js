@@ -3,7 +3,7 @@ export const userDataStore = {
         address: null,
         tract: null,
         links: null,
-        matchRank: 1,
+        matchRank: 1, // used to determine which match to select
         neighborhoodData: null,
         matchData: null,
         lifeExpectancyIndicator: null,

@@ -15,64 +15,70 @@
         </v-row>
       </v-img>
 
-      <v-list-item>
-        <v-list-item-content>
-          <v-text-field
-            class="mt-3"
-            :hide-details="hideFilenameValidation"
-            v-model="fileName"
-            v-on:blur="focusHandler"
-            clearable
-            outlined
-            dense
-            label="Name"
-          ></v-text-field>
-        </v-list-item-content>
-      </v-list-item>
+      <div v-show="showInfo">
+        <v-list-item>
+          <v-list-item-content>
+            <v-text-field
+              class="mt-3"
+              :hide-details="hideFilenameValidation"
+              v-model="fileName"
+              v-on:blur="focusHandler"
+              clearable
+              outlined
+              dense
+              label="Name"
+            ></v-text-field>
+          </v-list-item-content>
+        </v-list-item>
 
-      <v-list-item>
-        <v-list-item-content>
-          <v-textarea
-            outlined
-            label="Description"
-            v-model="photo.description"
-            @blur="descriptionBlurHandler"
-            auto-grow
-            :rows="photoDescriptionLength"
-            id="description"
-            :rules="descriptionRule"
-          ></v-textarea>
-        </v-list-item-content>
-      </v-list-item>
-      <v-list-item v-if="photo.ownerFirstName || photo.ownerLastName || photo.ownerEmailAddress">
-        <v-list-item-content>
-          <v-list-tile-sub-title>Contact:</v-list-tile-sub-title>
-          {{photo.ownerFirstName}} {{photo.ownerLastName}}
-          {{photo.ownerEmailAddress}}
-        </v-list-item-content>
-      </v-list-item>
-      <v-card-actions>
-        <v-container>
-          <v-row v-if="!photo.approved">
-            <v-col cols="12" class="pt-0">
-              <v-btn primary block :disabled="!photo.description" @click="acceptPhoto">Approve</v-btn>
-            </v-col>
-          </v-row>
-          <v-row v-if="photo.approved">
-            <v-col cols="12" class="pt-0">
-              <v-btn block color="orange" @click="rejectPhoto">Reject</v-btn>
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col cols="12" class="pt-0">
-              <v-btn block color="red" @click.stop="deleteConfirmationDialog = true">Delete</v-btn>
-            </v-col>
-          </v-row>
-        </v-container>
-      </v-card-actions>
-      <v-card-text class="pt-0">
-        <v-container class="overline pt-0">last edited on {{photo.lastEdited}} by {{lastEditedBy}}</v-container>
-      </v-card-text>
+        <v-list-item>
+          <v-list-item-content>
+            <v-textarea
+              outlined
+              label="Description"
+              v-model="photo.description"
+              @blur="descriptionBlurHandler"
+              auto-grow
+              :rows="photoDescriptionLength"
+              id="description"
+              :rules="descriptionRule"
+            ></v-textarea>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item v-if="photo.ownerFirstName || photo.ownerLastName || photo.ownerEmailAddress">
+          <v-list-item-content>
+            <v-list-tile-sub-title>Contact:</v-list-tile-sub-title>
+            {{photo.ownerFirstName}} {{photo.ownerLastName}}
+            {{photo.ownerEmailAddress}}
+          </v-list-item-content>
+        </v-list-item>
+        <v-card-actions>
+          <v-container>
+            <v-row v-if="!photo.approved">
+              <v-col cols="12" class="pt-0">
+                <v-btn primary block :disabled="!photo.description" @click="acceptPhoto">Approve</v-btn>
+              </v-col>
+            </v-row>
+            <v-row v-if="photo.approved">
+              <v-col cols="12" class="pt-0">
+                <v-btn block color="orange" @click="rejectPhoto">Reject</v-btn>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="12" class="pt-0">
+                <v-btn block color="red" @click.stop="deleteConfirmationDialog = true">Delete</v-btn>
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-card-actions>
+        <v-card-text class="pt-0">
+          <v-container class="overline pt-0">last edited on {{photo.lastEdited}} by {{lastEditedBy}}</v-container>
+        </v-card-text>
+      </div>
+
+      <div class="thumbnail-open">
+        <v-icon @click="showInfo = !showInfo" large>{{showInfoIcon}}</v-icon>
+      </div>
     </v-card>
     <v-dialog v-model="deleteConfirmationDialog" width="400">
       <v-card>
@@ -138,7 +144,8 @@ export default {
       imageLoadFailed: false,
       descriptionRule: [v => !!v || "Description is required"],
       cropEnabled: true,
-      rotateTracker: 0
+      rotateTracker: 0,
+      showInfo: false
     };
   },
   props: ["photoObj", "deleteHandler"],
@@ -167,6 +174,9 @@ export default {
     },
     hideFilenameValidation: function() {
       return true;
+    },
+    showInfoIcon() {
+      return this.showInfo ? "mdi-chevron-up" : "mdi-chevron-down";
     }
   },
   methods: {
@@ -193,12 +203,6 @@ export default {
       } else {
         this.rotateTracker += 90;
       }
-
-      // if ([90, 270].includes(this.rotateTracker)) {
-      //   this.$refs.crop.scale(0.5, 0.5);
-      // } else {
-      //   this.$refs.crop.scale(1, 1);
-      // }
     },
     imageLoaded() {
       this.loaded = true;
@@ -217,6 +221,7 @@ export default {
             }),
             response => {
               this.photo = response;
+              this.$forceUpdate();
             }
           );
         },
@@ -228,7 +233,7 @@ export default {
     deletePhoto() {
       this.closeModal();
       let self = this;
-      PhotoData.delete(this.selfPath, response => {
+      PhotoData.delete(this.selfPath, () => {
         self.$emit("delete", self.photo);
       });
     },
@@ -253,7 +258,7 @@ export default {
       this.photo.approved = false;
       PhotoData.savePhoto(this.selfPath, this.photo, this.saveHandler);
     },
-    saveHandler: function(response) {},
+    saveHandler: function() {},
     loadFailHandler: function() {
       this.imageLoadFailed = true;
     },
@@ -285,5 +290,9 @@ export default {
 
     transition: opacity 0.4s;
   }
+}
+
+.thumbnail-open {
+  text-align: center;
 }
 </style>

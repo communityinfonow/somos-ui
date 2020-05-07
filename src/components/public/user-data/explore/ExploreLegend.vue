@@ -9,6 +9,9 @@
         <li>
           <span id="match-key">{{translateText(yourMatch)}}</span>
         </li>
+        <li v-if="showMatchKey">
+          <span id="matches-key">{{translateText(matchedTracts)}}</span>
+        </li>
       </ul>
       <ul>
         <li v-for="(label, index) in mapBreaksLabels" :key="index">
@@ -29,14 +32,19 @@ export default {
   components: {
     LControl
   },
-  props: { mapBreaks: Array, mapBreakColors: Array },
+  props: {
+    mapBreaks: Array,
+    mapBreakColors: Array,
+    showMatchKey: Boolean
+  },
   mixins: [translate],
   data() {
     return {
       storeState: userDataStore.state,
       keyText: { en: "Key", es: "Clave" },
       yourNeighborhood: { en: "Your neighborhood", es: "Tu vecindario" },
-      yourMatch: { en: "Your match neighborhood", es: "Tu vecindario similar" }
+      yourMatch: { en: "Your match neighborhood", es: "Tu vecindario similar" },
+      matchedTracts: { en: "Other match neighborhoods", es: "" }
     };
   },
   computed: {
@@ -122,5 +130,12 @@ span#match-key::before {
   content: " ";
   @extend .circle-key;
   background: $main-yellow;
+}
+
+span#matches-key::before {
+  content: " ";
+  @extend .circle-key;
+  background: white;
+  border: 1px solid black;
 }
 </style>

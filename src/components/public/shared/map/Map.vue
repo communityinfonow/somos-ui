@@ -1,5 +1,12 @@
 <template>
-  <l-map id="map" ref="map" :center="mapCenter" :zoom="mapZoom" @click="clickHandler">
+  <l-map
+    id="map"
+    ref="map"
+    :center="mapCenter"
+    :zoom="mapZoom"
+    :options="options"
+    @click="clickHandler"
+  >
     <l-tile-layer :url="baseTileLayer.url" :attribution="baseTileLayer.attribution"></l-tile-layer>
     <l-tile-layer
       :url="streetTileLayer.url"
@@ -10,7 +17,7 @@
     ></l-tile-layer>
 
     <span v-for="(location, index) in locations" :key="index">
-      <l-marker :lat-lng="location.coordinates">
+      <l-marker :lat-lng="location.coordinates" @click="location.click">
         <l-icon :icon-size="location.icon.size" :icon-anchor="location.icon.anchor">
           <img :src="location.icon.url" />
           <span
@@ -67,9 +74,15 @@ export default {
       }
     };
   },
-  props: { locations: Array, zoom: Number, center: Array, boundaries: Object },
+  props: {
+    locations: Array,
+    zoom: Number,
+    center: Array,
+    boundaries: Object,
+    options: Object
+  },
   methods: {
-    loadListener: function(e) {
+    loadListener(e) {
       if (!e.hasLayer(this.boundaries)) {
         this.boundaries.addTo(e);
       }
@@ -101,7 +114,12 @@ export default {
   width: 100%;
   flex: 1;
   z-index: 0;
+  border-radius: 15px;
+  box-shadow: 0px 2px 4px 0px #00000026;
+  height: 700px;
+  padding: 15px;
 }
+
 ul {
   list-style: none;
 }
@@ -120,6 +138,12 @@ li {
     display: inline-block;
     vertical-align: middle;
     margin-right: 10px;
+  }
+}
+
+@media (max-width: 600px) {
+  #map {
+    height: 400px !important;
   }
 }
 </style>

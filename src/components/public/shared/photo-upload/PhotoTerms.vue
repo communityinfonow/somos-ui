@@ -5,7 +5,37 @@
       <a href="#" @click="open = true">{{translateText(privacyPolicy)}}</a>
     </p>
     <v-dialog v-model="open">
-      <div id="privacy-dialog">
+      <div id="privacy-dialog" v-if="language=== 'es'">
+        <div id="cancel" @click="open = false">X</div>
+        <div>
+          <p>¡Gracias por ser parte de Somos Neighbors!</p>
+          <p>Somos Neighbors es un projecto de Community Information Now (CI:Now), una asociación sin fines de lucro en el condado de Bexar. Queremos decirte un poco mas sobre lo que está por pasar.</p>
+          <p>
+            <b>Al subir una foto, tu accedes a que CI:NOW muestre tu foto.</b>
+            Accedes a no recibir pago por la foto o recibir crédito como la persona que tomo la foto.
+          </p>
+          <p>
+            Algunos lugares en los que tu foto puede ser mostrada incluyen el sitio
+            <a
+              href="http://somosneighbors.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >somosneighbors.com</a> , el sitio
+            <a
+              href="http://cinow.info/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >CINow.info</a>, volantes, boletines informativos, reportes y artículos de noticias sobre el proyecto.
+          </p>
+          <p>La foto puede decir en que vecindario fue tomada, mas no puede decir quien la tomo o cuando se tomó. Nosotros nunca venderemos tu foto, tu nombre o cualquier otra información sobre ti.</p>
+          <p>
+            Debido a que queremos mantener el respeto en esta comunidad, nosotros veremos las fotos que han sido cargadas.
+            <b>Las fotos no serán publicadas en el sitio hasta que hayan sido revisadas y aprobadas.</b>Esto durara alrededor de tres días hábiles.
+          </p>
+          <p>¡Gracias de nuevo por compartir lo que más amas de tu vecindario!</p>
+        </div>
+      </div>
+      <div id="privacy-dialog" v-if="language=== 'en'">
         <div id="cancel" @click="open = false">X</div>
         <div>
           <p>Thank you for being part of Somos Neighbors!</p>

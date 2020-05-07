@@ -39,7 +39,7 @@ export default {
       errorMessage: null,
       errorMessageText: {
         en: "This location could not be found, please search again",
-        es: ""
+        es: "Esta ubicación no ha sido encontrada, por favor busca de nuevo"
       }
     };
   },
@@ -58,6 +58,7 @@ export default {
       );
     },
     selectionHandler(selection) {
+      this.errorMessage = null;
       this.$emit("selected", selection);
     },
     doneTypingHandler(addressSearchString) {
@@ -68,7 +69,7 @@ export default {
           locationSearch.searchByZipCode(
             addressSearchString,
             this.searchCallback,
-            error => {
+            () => {
               this.loading = false;
               this.searchSuggestions = [];
             }
@@ -77,7 +78,7 @@ export default {
           locationSearch.searchByAddress(
             addressSearchString,
             this.searchCallback,
-            error => {
+            () => {
               this.errorMessage = this.translateText(this.errorMessageText);
               this.loading = false;
             }

@@ -85,7 +85,7 @@ export default {
 }
 
 #life-expectancy.placeholder {
-  margin-bottom: 173px;
+  margin-bottom: 220px;
 }
 
 #no-data-placeholder-text {

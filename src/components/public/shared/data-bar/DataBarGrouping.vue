@@ -20,12 +20,12 @@
         />
 
         <DataBar
-          v-if="placeholder"
+          v-if="placeholder || !neighborhoodData"
           color="#e4e4e4"
           :numerator="null"
           :denomenator="null"
           :marginOfError="null"
-          :label="null"
+          label="No data"
           :valueType="null"
           :right="true"
           :key="1"
@@ -45,12 +45,12 @@
         />
 
         <DataBar
-          v-if="placeholder"
+          v-if="placeholder || !matchData"
           color="#e4e4e4"
-          :numerator="0"
-          :denomenator="100"
+          :numerator="null"
+          :denomenator="null"
           :marginOfError="null"
-          :label="null"
+          label="No Data"
           :valueType="null"
           :right="true"
           :key="1"
@@ -59,9 +59,8 @@
     </v-row>
     <div class="group-popup">
       <span>
-        {{tooltip}}
-        <div class="moe-link">{{translateText(moeLink)}}</div>
-        <button @click="dialog= true">{{translateText(findOut)}}</button>
+        <div>{{tooltip}}</div>
+        <a class="moe-link" @click="dialog= true">{{translateText(moeLink)}}</a>
       </span>
     </div>
     <v-dialog v-model="dialog" max-width="900px" transition="dialog-transition">
@@ -78,10 +77,7 @@
 <script>
 import DataBar from "./DataBar";
 import globals from "../../../../globals";
-import { userDataStore } from "@/components/public/user-data/userDataStore";
-import { store } from "../../../../store";
 import translate from "@/mixins/translate";
-import * as axios from "axios";
 export default {
   name: "DataBarGrouping",
   components: {
@@ -92,21 +88,16 @@ export default {
     return {
       counterpartDataColor: globals.yellow,
       userDataColor: globals.darkPink,
-      dataStoreState: userDataStore.state,
-      storeState: store.state,
       dialog: false,
       moeLink: {
-        en: "What's that gray bar? Click below to find out more",
-        es: ""
+        en: "What's that gray bar? Click here to find out more",
+        es: "¿Qué es la barra gris? Haz click aquí para aprender mas"
       },
       moeDescription: {
         en:
           "There’s always some degree of uncertainty about numbers that come from samples rather than actual counts. In the bar charts on this site uncertainty is represented with an error bar, a gray line that overlaps the end of the bar. In general, the wider the error bar for an estimate, the more we need to take that estimate with a grain of salt.",
-        es: ""
-      },
-      findOut: {
-        en: "Find Out",
-        es: ""
+        es:
+          "Siempre hay un grado de incertidumbre en los números que provienen de muestras en lugar de recuentos reales. En las graficas de barras de este sitio, la incertidumbre es representada con una barra de error, una línea gris superpuesta al final de la barra. En general, entre mas ancha la barra de error, mas tenemos que tomar el número estimado con cautela."
       }
     };
   },
@@ -128,16 +119,21 @@ export default {
   position: absolute;
   text-align: center;
   left: 0;
-  top: -20px;
+  top: -45px;
   opacity: 0;
   transition: opacity 200ms ease-in-out;
   z-index: 500;
   span {
-    background: black;
+    background: white;
     display: inline-block;
-    padding: 10px;
-    color: white;
+    padding: 15px;
     border-radius: 10px;
+    color: black;
+    box-shadow: 0px 4px 6px #00000063;
+
+    div {
+      font-weight: bold;
+    }
   }
 }
 

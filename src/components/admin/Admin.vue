@@ -33,7 +33,6 @@ import { store } from "../../store";
 import { authenticationStore } from "@/store";
 import PhotoData from "../../api/photo-data";
 import { adminAppLinks } from "../../mixins/admin-app-links";
-import authApi from "@/api/authentication.js";
 import LogoutButton from "./shared/LogoutButton";
 export default {
   name: "Admin",

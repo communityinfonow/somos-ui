@@ -57,20 +57,22 @@ export default {
       neighborhoodTip: {
         en:
           "Somos defines your neighborhood based on the area (Census Tract) surrounding the location you entered.",
-        es: ""
+        es:
+          "Somos define tu vecindario basado en el área (tramo censal) que rodea la ubicación que insertaste."
       },
       matchTip: {
         en:
           "Somos matches your neighborhood (Census Tract) with a neighborhood that is similar to yours in some ways but different in others.",
-        es: ""
+        es:
+          "Somos establece tu vecindario par (tramo censal) con un vecindario similar al tuyo de algunas maneras, pero diferente en otras."
       },
       moreInfo: {
         en: "Learn more ",
-        es: ""
+        es: "Aprende mas "
       },
       here: {
         en: "here",
-        es: ""
+        es: "aquí"
       }
     };
   },

@@ -3,11 +3,16 @@
     :boundaries="geojson"
     :locations="locations"
     :center="center"
-    id="map"
+    :options="mapOptions"
+    id="explore-map"
     @click="clickHandler"
     ref="exploremap"
   >
-    <ExploreLegend :mapBreaks="orderedBreaks" :mapBreakColors="orderedBreakColors"></ExploreLegend>
+    <ExploreLegend
+      :mapBreaks="orderedBreaks"
+      :mapBreakColors="orderedBreakColors"
+      :showMatchKey="displayMatches"
+    ></ExploreLegend>
   </Map>
 </template>
 
@@ -16,14 +21,9 @@ import Map from "@/components/public/shared/map/Map";
 
 import ExploreLegend from "./ExploreLegend";
 import * as leafletPip from "@mapbox/leaflet-pip";
-import axios from "axios";
 import { mapCommon } from "@/mixins/map-common";
-import { LGeoJson } from "vue2-leaflet";
 import globals from "@/globals.js";
-import { location, coordinates } from "@/Location.js";
-import GeometryUtil from "leaflet-geometryutil";
 import polylabel from "polylabel";
-import locationSearch from "@/api/locationSearch.js";
 export default {
   name: "ExploreMap",
   components: {
@@ -45,6 +45,7 @@ export default {
     return {
       userIconUrl: require("./map-left-flag.svg"),
       matchIconUrl: require("./map-right-flag.svg"),
+      notSelectedMatchesIconUrl: require("../map-circle.svg"),
       iconSize: [55, 64],
       mapObject: null,
       displayTracts: true,
@@ -56,7 +57,11 @@ export default {
         globals.mapColor4
       ],
       zoom: 11,
-      center: [29.437236, -98.491163]
+      center: [29.437236, -98.491163],
+      mapOptions: {
+        dragging: !L.Browser.mobile,
+        tap: !L.Browser.mobile
+      }
     };
   },
   methods: {
@@ -95,20 +100,22 @@ export default {
       let matchedLayer = this.geojson
         .getLayers()
         .find(layer => layer.feature.properties.id === this.matchedTract.id);
-      let latLng = matchedLayer.getBounds().getCenter();
+
+      return this.determinePointLocation(this.matchedTract.id, matchedLayer);
+    },
+    determinePointLocation(tractId, layer) {
+      let latLng = layer.getBounds().getCenter();
       var containingGeographies = leafletPip.pointInLayer(latLng, this.geojson);
+
       if (
         containingGeographies.length > 0 &&
         containingGeographies.find(
-          geography => geography.feature.properties.id === this.matchedTract.id
+          geography => geography.feature.properties.id === tractId
         )
       ) {
         return latLng;
       } else {
-        let point = polylabel(
-          matchedLayer.feature.geometry.coordinates[0],
-          1.0
-        );
+        let point = polylabel(layer.feature.geometry.coordinates[0], 1.0);
         return {
           lat: point[1],
           lng: point[0]
@@ -164,7 +171,8 @@ export default {
                 transform: "rotate(-13deg)"
               }
             }
-          }
+          },
+          click: () => {}
         });
       }
 
@@ -187,6 +195,30 @@ export default {
                 transform: "rotate(13deg)"
               }
             }
+          },
+          click: () => {}
+        });
+      }
+
+      if (this.displayMatches && this.tract && this.tract.matchedTracts) {
+        this.tract.matchedTracts.forEach(tract => {
+          if (tract.id !== this.matchedTract.id) {
+            locations.push({
+              coordinates: this.determinePointLocation(
+                tract.id,
+                this.geojson
+                  .getLayers()
+                  .find(layer => layer.feature.properties.id === tract.id)
+              ),
+              icon: {
+                size: [32, 32],
+                url: this.notSelectedMatchesIconUrl,
+                anchor: [16, 16]
+              },
+              click: () => {
+                this.$emit("click:match", tract);
+              }
+            });
           }
         });
       }
@@ -237,7 +269,7 @@ export default {
 </script>
 
 <style lang="scss">
-#map {
+#explore-map {
   border-radius: 15px;
   box-shadow: 0px 2px 4px 0px #00000026;
   height: 700px !important;

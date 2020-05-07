@@ -29,18 +29,14 @@ export default {
   data() {
     return {
       text: "",
-      selected: null,
-      noDataText: {
-        en: "This location could not be found, please search again",
-        es: ""
-      }
+      selected: null
     };
   },
   props: ["loading", "searchItems", "label", "messages", "errorMessage"],
   components: {},
   mixins: [keyTracking, translate],
   watch: {
-    isDoneTyping: function(isDone) {
+    isDoneTyping: function() {
       this.$emit("done-typing", this.text);
     },
     selected: function(selectedLocation) {
