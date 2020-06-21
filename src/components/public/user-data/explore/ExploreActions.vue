@@ -10,7 +10,11 @@
           >{{translateText(newNeighborhoodText)}}</v-btn>
         </v-col>
         <v-col cols="12" md="4">
-          <v-btn block disabled v-html="translateText(exploreDataText)"></v-btn>
+          <v-btn
+            block
+            v-html="translateText(exploreDataText)"
+            @click="$router.push('/explore-data')"
+          ></v-btn>
         </v-col>
         <v-col cols="12" md="4">
           <v-menu offset-y>
@@ -34,7 +38,6 @@
 </template>
 
 <script>
-import globals from "@/globals.js";
 import { userDataStore } from "../userDataStore.js";
 import translate from "@/mixins/translate";
 export default {
@@ -48,8 +51,8 @@ export default {
         es: "Cambia Tu Vecindario"
       },
       exploreDataText: {
-        en: "explore data</br>(coming soon)",
-        es: "Explora la Información </br>(Próximamente)"
+        en: "explore data",
+        es: "Explora la Información"
       },
       changeYourMatchText: { en: "Change your match", es: "Modifica tu par" }
     };

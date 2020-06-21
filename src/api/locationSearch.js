@@ -1,5 +1,5 @@
 import * as axios from "axios";
-const URL = process.env.VUE_APP_API_DOMAIN + "/location-search"; //TODO move to appLinks
+const URL = process.env.VUE_APP_API_DOMAIN + "/location-search";
 
 export default {
     searchByAddress(address, callback, errorCallback) {

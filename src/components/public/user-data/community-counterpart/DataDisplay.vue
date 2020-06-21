@@ -6,19 +6,15 @@
 </template>
 
 <script>
-import DataBarGroupingContainer from "@/components/public/shared/data-bar/DataBarGroupingContainer";
 export default {
   name: "DataDisplay",
-  props: { title: String },
-  components: {
-    DataBarGroupingContainer
-  }
+  props: { title: String }
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
 h3 {
-  text-align: center;
+  text-align: center !important;
   letter-spacing: 1.6px;
   text-transform: uppercase;
   margin-bottom: 20px;

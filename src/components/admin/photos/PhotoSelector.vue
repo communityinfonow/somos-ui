@@ -7,7 +7,12 @@
       <v-divider></v-divider>
       <v-row>
         <v-col v-for="photo in photos" :key="photo.id" lg="2" md="3" sm="6" xs="12">
-          <PhotoThumbnail :photoObj="photo" @delete="deleteHandler">></PhotoThumbnail>
+          <PhotoThumbnail
+            :photoObj="photo"
+            @delete="deleteHandler"
+            @crop="cropHandler"
+            :key="imageKey"
+          ></PhotoThumbnail>
         </v-col>
       </v-row>
     </v-col>
@@ -19,7 +24,7 @@ import PhotoThumbnail from "./PhotoThumbnail";
 export default {
   name: "PhotoSelector",
   data() {
-    return { censusTract: this.tract, columns: 6 };
+    return { censusTract: this.tract, columns: 6, imageKey: 0 };
   },
   components: {
     PhotoThumbnail
@@ -31,6 +36,11 @@ export default {
       if (!this.photos.length) {
         this.$emit("delete", this.censusTract);
       }
+    },
+    cropHandler: function() {
+      this.imageKey++;
+
+      this.$emit("crop", true);
     }
   }
 };

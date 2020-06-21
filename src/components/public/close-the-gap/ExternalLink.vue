@@ -1,6 +1,6 @@
 <template>
   <v-container class="external-link">
-    <a :href="link.href" @click="sendAnalytics">
+    <a :href="link.href" @click="sendAnalytics" target="_blank" rel="noopener noreferrer">
       <v-col cols="12">
         <v-row>
           <div class="linkIcon">
@@ -26,11 +26,10 @@ export default {
   },
   methods: {
     sendAnalytics() {
-      ga("send", {
-        hitType: "event",
-        eventCategory: "External Link",
-        eventAction: "submit",
-        eventLabel: this.link
+      gtag("event", {
+        event_category: "External Link",
+        event_action: "submit",
+        event_label: this.link
       });
     }
   }

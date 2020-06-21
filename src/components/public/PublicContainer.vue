@@ -66,7 +66,6 @@ export default {
 }
 
 #mos {
-  // top: -300px;
   left: 50%;
 }
 

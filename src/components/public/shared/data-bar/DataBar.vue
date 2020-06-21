@@ -25,10 +25,8 @@
 </template>
 
 <script>
-import { ValueType } from "@/components/public/shared/ValueType";
 import MarginOfError from "./MarginOfError";
 import format from "@/components/format.js";
-const labelMargins = 20;
 export default {
   name: "DataBar",
   data() {

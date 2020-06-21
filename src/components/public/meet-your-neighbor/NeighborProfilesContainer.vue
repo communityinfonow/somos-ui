@@ -2,7 +2,7 @@
   <transition-group :name="up ? 'cycle-up' : 'cycle-down'" tag="div">
     <div
       class="profile-container"
-      :key="index"
+      :key="neighbor.name"
       v-for="(neighbor, index) in neighbors"
       v-show="index === neighborsIndex"
     >
@@ -32,11 +32,6 @@ export default {
     neighborsIndex: Number,
     down: Boolean,
     up: Boolean
-  },
-  computed: {
-    // neighbor() {
-    //   return this.neighbors[this.neighborsIndex];
-    // }
   }
 };
 </script>

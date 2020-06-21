@@ -3,7 +3,6 @@
     <div id="left-background" class="background"></div>
     <div id="right-background" class="background"></div>
 
-    <!-- TODO: change all sections to section tag -->
     <h1>{{translateText(title)}}</h1>
     <p v-for="(paragraph, index) in translatedParagraphs" :key="index">{{paragraph}}</p>
 

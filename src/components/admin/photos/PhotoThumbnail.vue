@@ -2,7 +2,6 @@
   <div>
     <v-card hover>
       <v-skeleton-loader class="mx-auto" height="100%" type="image" v-if="!loaded"></v-skeleton-loader>
-      <!-- TODO: lazy load images with a lesser quality version of the photo. Might be a way to do this server-side? -->
       <v-img
         :src="photoSource"
         @load="imageLoaded"
@@ -16,64 +15,70 @@
         </v-row>
       </v-img>
 
-      <v-list-item>
-        <v-list-item-content>
-          <v-text-field
-            class="mt-3"
-            :hide-details="hideFilenameValidation"
-            v-model="fileName"
-            v-on:blur="focusHandler"
-            clearable
-            outlined
-            dense
-            label="Name"
-          ></v-text-field>
-        </v-list-item-content>
-      </v-list-item>
+      <div v-show="showInfo">
+        <v-list-item>
+          <v-list-item-content>
+            <v-text-field
+              class="mt-3"
+              :hide-details="hideFilenameValidation"
+              v-model="fileName"
+              v-on:blur="focusHandler"
+              clearable
+              outlined
+              dense
+              label="Name"
+            ></v-text-field>
+          </v-list-item-content>
+        </v-list-item>
 
-      <v-list-item>
-        <v-list-item-content>
-          <v-textarea
-            outlined
-            label="Description"
-            v-model="photo.description"
-            @blur="descriptionBlurHandler"
-            auto-grow
-            :rows="photoDescriptionLength"
-            id="description"
-            :rules="descriptionRule"
-          ></v-textarea>
-        </v-list-item-content>
-      </v-list-item>
-      <v-list-item v-if="photo.ownerFirstName || photo.ownerLastName || photo.ownerEmailAddress">
-        <v-list-item-content>
-          <v-list-tile-sub-title>Contact:</v-list-tile-sub-title>
-          {{photo.ownerFirstName}} {{photo.ownerLastName}}
-          {{photo.ownerEmailAddress}}
-        </v-list-item-content>
-      </v-list-item>
-      <v-card-actions>
-        <v-container>
-          <v-row v-if="!photo.approved">
-            <v-col cols="12" class="pt-0">
-              <v-btn primary block :disabled="!photo.description" @click="acceptPhoto">Approve</v-btn>
-            </v-col>
-          </v-row>
-          <v-row v-if="photo.approved">
-            <v-col cols="12" class="pt-0">
-              <v-btn block color="orange" @click="rejectPhoto">Reject</v-btn>
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col cols="12" class="pt-0">
-              <v-btn block color="red" @click.stop="deleteConfirmationDialog = true">Delete</v-btn>
-            </v-col>
-          </v-row>
-        </v-container>
-      </v-card-actions>
-      <v-card-text class="pt-0">
-        <v-container class="overline pt-0">last edited on {{photo.lastEdited}} by {{lastEditedBy}}</v-container>
-      </v-card-text>
+        <v-list-item>
+          <v-list-item-content>
+            <v-textarea
+              outlined
+              label="Description"
+              v-model="photo.description"
+              @blur="descriptionBlurHandler"
+              auto-grow
+              :rows="photoDescriptionLength"
+              id="description"
+              :rules="descriptionRule"
+            ></v-textarea>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item v-if="photo.ownerFirstName || photo.ownerLastName || photo.ownerEmailAddress">
+          <v-list-item-content>
+            <v-list-tile-sub-title>Contact:</v-list-tile-sub-title>
+            {{photo.ownerFirstName}} {{photo.ownerLastName}}
+            {{photo.ownerEmailAddress}}
+          </v-list-item-content>
+        </v-list-item>
+        <v-card-actions>
+          <v-container>
+            <v-row v-if="!photo.approved">
+              <v-col cols="12" class="pt-0">
+                <v-btn primary block :disabled="!photo.description" @click="acceptPhoto">Approve</v-btn>
+              </v-col>
+            </v-row>
+            <v-row v-if="photo.approved">
+              <v-col cols="12" class="pt-0">
+                <v-btn block color="orange" @click="rejectPhoto">Reject</v-btn>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="12" class="pt-0">
+                <v-btn block color="red" @click.stop="deleteConfirmationDialog = true">Delete</v-btn>
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-card-actions>
+        <v-card-text class="pt-0">
+          <v-container class="overline pt-0">last edited on {{photo.lastEdited}} by {{lastEditedBy}}</v-container>
+        </v-card-text>
+      </div>
+
+      <div class="thumbnail-open">
+        <v-icon @click="showInfo = !showInfo" large>{{showInfoIcon}}</v-icon>
+      </div>
     </v-card>
     <v-dialog v-model="deleteConfirmationDialog" width="400">
       <v-card>
@@ -91,6 +96,9 @@
       </v-card>
     </v-dialog>
     <v-dialog v-model="photoEnlargeDialog" width="50%" content-class="crop-modal">
+      <v-progress-linear :active="isLoading" :value="progressValue" height="25" striped rounded>
+        <strong>{{translateText(progressText)}}</strong>
+      </v-progress-linear>
       <vue-cropper
         ref="crop"
         alt="photo.description"
@@ -99,19 +107,19 @@
         :zoomable="false"
         :viewMode="2"
       ></vue-cropper>
+      <!-- <v-progress-circular v-if="isLoading" indeterminate color="primary"></v-progress-circular> -->
+
       <v-content>
         <v-row>
-          <v-col cols="6">
-            <v-btn @click.stop="rotate" id="rotate">Rotate</v-btn>
-            <v-btn @click.stop="enableCrop">Crop</v-btn>
+          <v-col cols="3">
+            <v-btn @click.stop="rotate" id="rotate" block color="orange">Rotate</v-btn>
           </v-col>
-          <v-col cols="6">
-            <v-col cols="2">
-              <v-btn primary @click.stop="cropImage">Accept</v-btn>
-            </v-col>
-            <v-col cols="2">
-              <v-btn secondary @click.stop="closePhotoEnlarge">Cancel</v-btn>
-            </v-col>
+
+          <v-col cols="3" offset="3">
+            <v-btn color="secondary" @click.stop="closePhotoEnlarge" block>Cancel</v-btn>
+          </v-col>
+          <v-col cols="3">
+            <v-btn color="primary" @click.stop="cropImage" block>Accept</v-btn>
           </v-col>
         </v-row>
       </v-content>
@@ -124,6 +132,7 @@
 <script>
 import PhotoData from "../../../api/photo-data";
 import VueCropper from "vue-cropperjs";
+import translate from "@/mixins/translate";
 
 export default {
   name: "PhotoThumbnail",
@@ -138,19 +147,27 @@ export default {
       loaded: false,
       imageLoadFailed: false,
       descriptionRule: [v => !!v || "Description is required"],
-      cropEnabled: true,
-      rotateTracker: 0
+      rotateTracker: 0,
+      showInfo: false,
+      isLoading: false,
+      progressText: {
+        en: "Uploading...",
+        es: "Cargando"
+      },
+      progressValue: 0
     };
   },
   props: ["photoObj", "deleteHandler"],
+  mixins: [translate],
   components: { VueCropper },
+
   computed: {
     lastEditedBy: function() {
       return this.photo.lastEditedBy ? this.photo.lastEditedBy : "uploader";
     },
     fileType: function() {
       var type = this.photoObj.fileName.split(".")[1];
-      return type === "jpeg" || type === "jpg" ? "jpeg" : "png"; //TODO need to accept all kinds of images. use MIME type
+      return type === "jpeg" || type === "jpg" ? "jpeg" : "png";
     },
     photoSource: function() {
       return this.imageLoadFailed
@@ -168,22 +185,14 @@ export default {
     },
     hideFilenameValidation: function() {
       return true;
+    },
+    showInfoIcon() {
+      return this.showInfo ? "mdi-chevron-up" : "mdi-chevron-down";
     }
   },
   methods: {
-    enableCrop() {
-      if (this.cropEnabled) {
-        // this.$refs.crop.disable();
-        this.$refs.crop.setCropBoxData({
-          top: 0,
-          left: 0,
-          width: this.$refs.crop.getImageData().width,
-          height: this.$refs.crop.getImageData().height
-        });
-      } else {
-        this.$refs.crop.enable();
-      }
-      this.cropEnabled = !this.cropEnabled;
+    progressMethod(event) {
+      this.progressValue = Math.round((event.loaded / event.total) * 100);
     },
     rotate() {
       this.$refs.crop.rotate(90);
@@ -195,12 +204,6 @@ export default {
       } else {
         this.rotateTracker += 90;
       }
-
-      // if ([90, 270].includes(this.rotateTracker)) {
-      //   this.$refs.crop.scale(0.5, 0.5);
-      // } else {
-      //   this.$refs.crop.scale(1, 1);
-      // }
     },
     imageLoaded() {
       this.loaded = true;
@@ -209,6 +212,8 @@ export default {
       this.photoEnlargeDialog = true;
     },
     cropImage() {
+      this.isLoading = true;
+
       this.$refs.crop.getCroppedCanvas().toBlob(
         blob => {
           this.cropImg = URL.createObjectURL(blob);
@@ -218,19 +223,22 @@ export default {
               type: "image/" + this.fileType.toLowerCase()
             }),
             response => {
+              this.closePhotoEnlarge();
               this.photo = response;
-            }
+              this.isLoading = false;
+              this.$emit("crop");
+            },
+            this.progressMethod
           );
         },
         "image/" + this.fileType.toLowerCase(),
         1.0
       );
-      this.closePhotoEnlarge();
     },
     deletePhoto() {
       this.closeModal();
       let self = this;
-      PhotoData.delete(this.selfPath, response => {
+      PhotoData.delete(this.selfPath, () => {
         self.$emit("delete", self.photo);
       });
     },
@@ -241,12 +249,11 @@ export default {
       this.photoEnlargeDialog = false;
     },
     acceptPhoto: function() {
-      this.photo._links.delete; // TODO: needs a temporary delete or custom object creation from the photo object
+      this.photo._links.delete;
       this.photo.approved = true;
       PhotoData.savePhoto(this.selfPath, this.photo, this.saveHandler);
     },
     focusHandler: function() {
-      // TODO: validation
       this.photo._links.delete;
       this.photo.fileName = this.fileName + "." + this.fileExtension;
       PhotoData.savePhoto(this.selfPath, this.photo, this.saveHandler);
@@ -256,7 +263,6 @@ export default {
       this.photo.approved = false;
       PhotoData.savePhoto(this.selfPath, this.photo, this.saveHandler);
     },
-    saveHandler: function(response) {},
     loadFailHandler: function() {
       this.imageLoadFailed = true;
     },
@@ -269,6 +275,20 @@ export default {
 </script>
 
 <style lang="scss">
+.v-progress-linear {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  width: 50%;
+}
+
+.v-dialog {
+  position: relative;
+  max-height: 60%;
+}
+
 .v-dialog.crop-modal {
   overflow-x: hidden;
 
@@ -288,5 +308,9 @@ export default {
 
     transition: opacity 0.4s;
   }
+}
+
+.thumbnail-open {
+  text-align: center;
 }
 </style>

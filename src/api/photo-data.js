@@ -4,7 +4,6 @@ import * as axios from "axios";
  * Generates form from selected files
  * 
  */
-//  TODO: wanted to take out these simples uses of axios but it might be good to keep a namespace for specific error handling.
 
 function createForm(file) {
     var formData = new FormData();
@@ -30,10 +29,13 @@ export default {
             }
         );
     },
-    replacePhoto(url, file, callback) {
+    replacePhoto(url, file, callback, progressCallback) {
         axios.post(url, createForm(file), {
             headers: {
                 'Content-Type': 'multipart/form-data'
+            },
+            onUploadProgress: (progressEvent) => {
+                progressCallback(progressEvent);
             }
         }).then(response => {
             callback(response.data);
@@ -67,4 +69,3 @@ export default {
         });
     }
 }
-//  TODO: error handling

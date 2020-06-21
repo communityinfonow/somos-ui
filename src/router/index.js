@@ -7,6 +7,7 @@ import SuperUser from "@/components/admin/SuperUser/SuperUser.vue"
 import PublicContainer from "../components/public/PublicContainer.vue";
 import TermsOfService from "@/components/public/TermsOfService";
 import PrivacyPolicy from "@/components/public/PrivacyPolicy";
+import ExploreData from "@/components/public/explore-data/ExploreData";
 import {
     authenticationStore
 } from "@/store.js"
@@ -20,7 +21,7 @@ function checkAuthenticated(to, from, next) {
     // TODO definitely get this from HATEOAS
     axios.get(process.env.VUE_APP_API_DOMAIN + "/authenticated").then(response => {
         if (response.data) {
-            authenticationStore.setUserRoles(response.data); //TODO probably move this into an api component/funciton
+            authenticationStore.setUserRoles(response.data);
             next();
         }
     }).catch(error => {
@@ -57,6 +58,9 @@ export default new VueRouter({
             path: "/privacy-policy",
             component: PrivacyPolicy
         }, {
+            path: "/explore-data",
+            component: ExploreData
+        }, {
             path: "/admin/login",
             component: Login,
             beforeEnter: (to, from, next) => {
@@ -77,5 +81,11 @@ export default new VueRouter({
             component: SuperUser,
             beforeEnter: checkAuthenticated
         }
-    ]
+    ],
+    scrollBehavior(to, from, savedPosition) {
+        return {
+            x: 0,
+            y: 0
+        }
+    }
 });

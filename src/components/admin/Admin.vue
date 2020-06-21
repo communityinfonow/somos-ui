@@ -1,5 +1,4 @@
 
-// TODO: change name of component since there's not a *single* admin view
 <template>
   <v-container>
     <v-row justify="end">
@@ -24,6 +23,7 @@
       :tract="tract[0]"
       :photos="tract[1]"
       @delete="deleteTract"
+      @crop="reloadPhotos"
     ></PhotoSelector>
   </v-container>
 </template>
@@ -34,7 +34,6 @@ import { store } from "../../store";
 import { authenticationStore } from "@/store";
 import PhotoData from "../../api/photo-data";
 import { adminAppLinks } from "../../mixins/admin-app-links";
-import authApi from "@/api/authentication.js";
 import LogoutButton from "./shared/LogoutButton";
 export default {
   name: "Admin",
@@ -49,7 +48,6 @@ export default {
   methods: {
     deleteTract(tract) {
       this.filteredPhotos.delete(tract);
-      //TODO delete the tract if it no longer has photos left
     },
     usersClick() {
       this.$router.push("/admin/users");
@@ -57,8 +55,10 @@ export default {
     getPhotos(url) {
       PhotoData.getAdmin(url, response => {
         this.photos = response;
-        //TODO: error handling
       });
+    },
+    reloadPhotos() {
+      this.getPhotos(this.appLinks.photos.href);
     }
   },
   components: {

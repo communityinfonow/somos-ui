@@ -40,7 +40,7 @@ export default {
         es: "TAMBIÉN ERES MUY DIFERENTE."
       },
       lifeExpectancyTitle: {
-        //TODO: get this from indicators labels
+        //TODO: get this from indicators labels once translation comes through
         en: "average life expectancy",
         es: "promedio de expectativa de vida"
       },
@@ -85,7 +85,7 @@ export default {
 }
 
 #life-expectancy.placeholder {
-  margin-bottom: 173px;
+  margin-bottom: 220px;
 }
 
 #no-data-placeholder-text {
@@ -99,6 +99,7 @@ export default {
   padding: 20px;
   font-family: Bebas Neue;
   border-radius: 10px;
+  text-align: center;
 }
 
 @media (max-width: 1264px) {

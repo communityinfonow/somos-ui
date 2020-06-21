@@ -27,39 +27,11 @@
           :data="dataGroup"
         />
       </DataDisplay>
-      <v-row v-if="tract">
-        <v-col cols="12" sm="6">
-          <ImageGallery
-            :photos="tractPhotos"
-            id="neighborhood-gallery"
-            v-if="tractPhotos && tractPhotos.length"
-          />
-          <div
-            id="neighborhood-no-photos"
-            v-if="tractPhotos && !tractPhotos.length"
-            :class="{'fill-height': matchedTractPhotos && matchedTractPhotos.length}"
-          >
-            <p>{{translateText(noNeighborhoodPhotosMessage)}}</p>
-          </div>
-        </v-col>
-        <v-col cols="12" sm="6">
-          <ImageGallery
-            :photos="matchedTractPhotos"
-            id="match-gallery"
-            v-if="matchedTractPhotos && matchedTractPhotos.length"
-          />
-          <div
-            id="match-no-photos"
-            v-if="matchedTractPhotos && !matchedTractPhotos.length"
-            :class="{'fill-height': tractPhotos && tractPhotos.length}"
-          >
-            <p>{{translateText(noMatchPhotosMessage)}}</p>
-          </div>
-        </v-col>
-      </v-row>
-      <a href="/photoshare" target="_blank" rel="noopener noreferrer" v-if="tract">
-        <button id="photo-upload-btn" class="my-3">{{translateText(uploadPhotosText)}}</button>
-      </a>
+      <ImageGalleryContainer
+        :tract="tract"
+        :tractPhotos="tractPhotos"
+        :matchedTractPhotos="matchedTractPhotos"
+      />
 
       <LifeExpectancy
         :placeholder="!lifeExpectancy"
@@ -86,12 +58,13 @@ import * as axios from "axios";
 import LocationGroup from "./LocationGroup";
 import ImageGallery from "./ImageGallery";
 import { userDataStore } from "../userDataStore";
-import photoData from "@/api/photo-data.js";
 import globals from "@/globals.js";
 import LifeExpectancy from "./LifeExpectancy";
 import DataBarGroupingContainer from "@/components/public/shared/data-bar/DataBarGroupingContainer";
 import LocationGroups from "./LocationGroups";
 import LocationFromMap from "./LocationFromMap";
+import displayData from "@/mixins/display-data";
+import ImageGalleryContainer from "./ImageGalleryContainer";
 export default {
   name: "CommunityCounterpart",
   components: {
@@ -102,20 +75,16 @@ export default {
     LifeExpectancy,
     DataBarGroupingContainer,
     LocationGroups,
+    ImageGalleryContainer,
     LocationFromMap
   },
-  mixins: [translate],
+  mixins: [translate, displayData],
   props: { lifeExpectancyIndicator: Object, isClosestLocation: Boolean },
   data() {
     return {
       selectLocationFromMap: null,
       storeState: userDataStore.state,
       darkBlue: globals.mainDarkBlue,
-      tractPhotos: [],
-      matchedTractPhotos: [],
-      address: { line1: "", line2: "" },
-      neighborhoodLifeExpectancy: null,
-      matchLifeExpectancy: null,
       title: { en: "find your match", es: "ENCUENTRE A SU PAR" },
       introParagraph: {
         en:
@@ -133,108 +102,26 @@ export default {
           "Escribe una dirección cercana a tu vecindario o punto de referencia"
       },
 
-      commonIndicatorsTitle: {
-        en: "YOUR NEIGHBORHOODS HAVE A LOT IN COMMON. TAKE A LOOK.",
-        es: "SUS VECINDARIOS TIENEN MUCHO EN COMÚN. ECHÉ UN VISTAZO."
-      },
-      differentIndicatorsParagraph: {
-        en:
-          "Your neighborhoods have other differences, too. The differences may not directly cause the life expectancy gap you’re seeing. Local data tells us, though, that there’s a relationship between these issues and a neighborhood’s average life expectancy.",
-        es:
-          "Sus vecindarios también tienen otras diferencias. Las diferencias pueden no causar directamente la diferencia en los años de vida que está viendo. Sin embargo, los datos locales nos dicen que existe una relación entre estos problemas y el promedio de longevidad de un vecindario."
-      },
-      uploadPhotosText: {
-        en: "Upload photos of your neighborhood here",
-        es: "Sube fotos de tu vecindario aquí"
-      },
-      noMatchPhotosMessage: {
-        en: "No approved photos yet",
-        es: "No existen fotos aprobadas aun"
-      },
-      noNeighborhoodPhotosMessage: {
-        en: "No approved photos yet",
-        es: "No existen fotos aprobadas aun"
-      },
       selectFromMap: {
         en: "Select location from map",
         es: "Selecciona la ubicación en el mapa"
       }
     };
   },
-  watch: {
-    tract(newTract) {
-      this.tractPhotos = [];
-      this.getPhotos(newTract);
-    },
-    matchedTract(newTract) {
-      this.matchedTractPhotos = [];
-      this.getMatchedTractPhotos(newTract);
-    }
-  },
-  computed: {
-    tract() {
-      return userDataStore.state.tract;
-    },
-    matchedTract() {
-      return userDataStore.getMatchedTract();
-    },
-    commonData() {
-      return this.matchedTract
-        ? this.matchedTract.similarIndicators.sort((a, b) => a.rank - b.rank)
-        : [];
-    },
-    differenceData() {
-      return this.matchedTract
-        ? this.matchedTract.dissimilarIndicators.sort((a, b) => a.rank - b.rank)
-        : [];
-    },
-    lifeExpectancy() {
-      return this.matchedTract
-        ? parseFloat(this.matchedTract.lifeExpectancyDifference.toFixed(1))
-        : null;
-    }
-  },
+
   methods: {
     selectionHandler(selection) {
       userDataStore.setAddress(selection);
-      this.getMatchedData();
       this.sendGoogleAnalytics();
     },
-    getPhotos(tract) {
-      if (tract) {
-        photoData.get(
-          tract._links.photos.href,
-          response => {
-            this.tractPhotos = response;
-          },
-          error => {
-            return [];
-          }
-        );
-      }
-    },
-    getMatchedTractPhotos(tract) {
-      if (tract) {
-        photoData.get(
-          tract._links.photos.href,
-          response => {
-            this.matchedTractPhotos = response;
-          },
-          error => {
-            return [];
-          }
-        );
-      }
-    },
+
     sendGoogleAnalytics() {
-      ga("send", {
-        hitType: "event",
-        eventCategory: "Address Search",
-        eventAction: "select",
-        eventLabel: "address"
+      gtag("event", {
+        event_category: "Address Search",
+        event_action: "select",
+        event_label: "address"
       });
-    },
-    getMatchedData() {}
+    }
   }
 };
 </script>
@@ -350,43 +237,5 @@ export default {
 
 #location-groups {
   padding-bottom: 60px;
-}
-
-#neighborhood-gallery,
-#neighborhood-no-photos {
-  background: $dark-pink;
-  border-radius: 6px;
-}
-
-#match-gallery,
-#match-no-photos {
-  background: $main-yellow;
-  border-radius: 6px;
-}
-
-#match-no-photos,
-#neighborhood-no-photos {
-  &.fill-height {
-    height: 100%;
-    padding: 0px !important;
-
-    p {
-      line-height: 200px !important;
-    }
-  }
-
-  p {
-    padding: 0px;
-    font-size: 16px;
-    font-weight: 500;
-  }
-
-  font-size: 18px;
-  padding: 10px;
-  text-align: center;
-  line-height: 100%;
-  color: white;
-  font-family: Montserrat;
-  font-weight: 600;
 }
 </style>

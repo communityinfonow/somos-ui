@@ -44,5 +44,6 @@ export default {
 
 .v-btn--active {
   background: $main-dark-blue !important;
+  color: white !important;
 }
 </style>

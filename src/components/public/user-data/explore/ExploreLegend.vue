@@ -1,7 +1,6 @@
 <template>
   <l-control position="bottomright" id="legend-control">
     <div id="legend" class="elevation-2">
-      <h2>{{translateText(keyText)}}</h2>
       <ul id="tract-key" v-if="neighborhoodTract && matchingTract">
         <li>
           <span id="neighborhood-key">{{translateText(yourNeighborhood)}}</span>
@@ -9,7 +8,12 @@
         <li>
           <span id="match-key">{{translateText(yourMatch)}}</span>
         </li>
+        <li v-if="showMatchKey">
+          <span id="matches-key">{{translateText(matchedTracts)}}</span>
+        </li>
       </ul>
+
+      <h2>{{translateText(keyText)}}</h2>
       <ul>
         <li v-for="(label, index) in mapBreaksLabels" :key="index">
           <span class="circle-key" :style="{background: mapBreakColors[index]}"></span>
@@ -29,14 +33,22 @@ export default {
   components: {
     LControl
   },
-  props: { mapBreaks: Array, mapBreakColors: Array },
+  props: {
+    mapBreaks: Array,
+    mapBreakColors: Array,
+    showMatchKey: Boolean
+  },
   mixins: [translate],
   data() {
     return {
       storeState: userDataStore.state,
-      keyText: { en: "Key", es: "Clave" },
+      keyText: { en: "Life Expectancy", es: "Expectativa de Vida" },
       yourNeighborhood: { en: "Your neighborhood", es: "Tu vecindario" },
-      yourMatch: { en: "Your match neighborhood", es: "Tu vecindario similar" }
+      yourMatch: { en: "Your match neighborhood", es: "Tu vecindario similar" },
+      matchedTracts: {
+        en: "Other match neighborhoods",
+        es: "Otro Vecindario Par"
+      }
     };
   },
   computed: {
@@ -47,7 +59,6 @@ export default {
       return userDataStore.getMatchedTract();
     },
     mapBreaksLabels() {
-      // TODO translate
       return this.mapBreaks.map((mapBreak, index, array) => {
         if (index < array.length - 1) {
           let modifier = index ? 0.1 : 0.0;
@@ -123,5 +134,12 @@ span#match-key::before {
   content: " ";
   @extend .circle-key;
   background: $main-yellow;
+}
+
+span#matches-key::before {
+  content: " ";
+  @extend .circle-key;
+  background: white;
+  border: 1px solid black;
 }
 </style>

@@ -1,26 +1,13 @@
-import boundaries from "@/components/public/shared/map/Boundaries";
-import censusTractApi from "@/api/census-tracts";
-
-
 export const mapCommon = {
     data() {
         return {
-            censusTracts: null,
             iconSize: [25, 41],
-            iconUrl: "./assets/map-marker.png",
-            displayTracts: false,
-            boundaryGeojson: null
+            iconUrl: "./assets/map-marker.png"
+
         }
     },
     methods: {
-        setCensusTracts(tracts) {
-            this.censusTracts = tracts;
-        },
-        getCensusTracts(url) {
-            censusTractApi.getMulti(url, censusTracts => {
-                this.setCensusTracts(censusTracts);
-            });
-        },
+
         calculateIconAnchor(width, height, justify = "center") {
             let x = null;
 
@@ -37,13 +24,6 @@ export const mapCommon = {
             }
             return [x, height];
         }
-    },
-    watch: {
-        censusTracts() {
-            if (this.censusTracts) {
-                this.boundaryGeojson = boundaries(this.displayTracts).generate(this.censusTracts);
-            }
-
-        }
     }
+
 }

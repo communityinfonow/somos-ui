@@ -30,8 +30,6 @@
         </v-col>
       </v-row>
     </v-container>
-
-    <!-- TODO: note about collection on data w/ link to terms of service -->
   </div>
 </template>
 

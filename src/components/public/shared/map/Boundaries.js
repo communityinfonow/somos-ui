@@ -23,12 +23,18 @@ function highlightFeature(e) {
 
   if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
     layer.bringToFront();
-    layer.setStyle({weight: 3, color: "white"})
+    layer.setStyle({
+      weight: 3,
+      color: "white"
+    })
   }
 }
 
 function resetHighlight(e) {
-  e.target.setStyle({weight: 1, color: "grey"});
+  e.target.setStyle({
+    weight: 1,
+    color: "grey"
+  });
 }
 
 function onEachFeature(feature, layer) {
@@ -78,4 +84,4 @@ export default function (display) {
     }
   }
 
-};
+}

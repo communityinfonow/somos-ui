@@ -1,4 +1,5 @@
 export const ValueType = {
     PERCENT: 'percent',
-    COUNT: 'count'
+    COUNT: 'count',
+    AVERAGE: 'average'
 }

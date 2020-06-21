@@ -77,7 +77,8 @@ export default {
                 this.iconSize[0],
                 this.iconSize[1]
               )
-            }
+            },
+            click: () => {}
           }
         ];
       } else {
