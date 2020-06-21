@@ -23,6 +23,7 @@
       :tract="tract[0]"
       :photos="tract[1]"
       @delete="deleteTract"
+      @crop="reloadPhotos"
     ></PhotoSelector>
   </v-container>
 </template>
@@ -47,7 +48,6 @@ export default {
   methods: {
     deleteTract(tract) {
       this.filteredPhotos.delete(tract);
-      //TODO delete the tract if it no longer has photos left
     },
     usersClick() {
       this.$router.push("/admin/users");
@@ -56,6 +56,9 @@ export default {
       PhotoData.getAdmin(url, response => {
         this.photos = response;
       });
+    },
+    reloadPhotos() {
+      this.getPhotos(this.appLinks.photos.href);
     }
   },
   components: {

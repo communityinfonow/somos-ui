@@ -1,7 +1,6 @@
 <template>
   <l-control position="bottomright" id="legend-control">
     <div id="legend" class="elevation-2">
-      <h2>{{translateText(keyText)}}</h2>
       <ul id="tract-key" v-if="neighborhoodTract && matchingTract">
         <li>
           <span id="neighborhood-key">{{translateText(yourNeighborhood)}}</span>
@@ -13,6 +12,8 @@
           <span id="matches-key">{{translateText(matchedTracts)}}</span>
         </li>
       </ul>
+
+      <h2>{{translateText(keyText)}}</h2>
       <ul>
         <li v-for="(label, index) in mapBreaksLabels" :key="index">
           <span class="circle-key" :style="{background: mapBreakColors[index]}"></span>
@@ -41,10 +42,13 @@ export default {
   data() {
     return {
       storeState: userDataStore.state,
-      keyText: { en: "Key", es: "Clave" },
+      keyText: { en: "Life Expectancy", es: "Expectativa de Vida" },
       yourNeighborhood: { en: "Your neighborhood", es: "Tu vecindario" },
       yourMatch: { en: "Your match neighborhood", es: "Tu vecindario similar" },
-      matchedTracts: { en: "Other match neighborhoods", es: "" }
+      matchedTracts: {
+        en: "Other match neighborhoods",
+        es: "Otro Vecindario Par"
+      }
     };
   },
   computed: {

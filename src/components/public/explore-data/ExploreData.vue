@@ -45,6 +45,7 @@
             :geojson="boundaryGeojson"
             :data="lifeExpectancyData"
             displayMatches
+            showGeographyTitleOnHover
             @click="clickHandler"
             @click:match="matchClickHandler"
             class="explore-data-map"
@@ -79,14 +80,18 @@
           </DataDisplay>
 
           <div v-if="commonData.length">
-            <h2>{{translateText(allIndicatorsTitle)}}</h2>
+            <h2 class="border-bottom">{{translateText(allIndicatorsTitle)}}</h2>
             <DataDisplay
               :title="category.name"
               v-for="category in indicatorCategories"
               :key="category.id"
             >
               <v-row>
-                <v-col v-for="(dataGroup, index) in category.indicators" :key="index" cols="6">
+                <v-col
+                  v-for="(dataGroup, index) in category.indicators._embedded.indicators"
+                  :key="index"
+                  cols="6"
+                >
                   <DataBarGroupingContainer :data="formatIndicator(dataGroup)" />
                 </v-col>
               </v-row>
@@ -94,7 +99,7 @@
           </div>
         </div>
         <div v-if="relationships" :key="2">
-          <ExploreDataIndicatorSelector :indicators="indicators" @select="setIndicator" />
+          <ExploreDataIndicatorSelector :indicators="indicatorCategories" @select="setIndicator" />
 
           <ExploreDataScatterPlot
             :yData="lifeExpectancyData"
@@ -102,6 +107,11 @@
             :xAxisIndicator="selectedIndicator"
             :yAxisIndicator="lifeExpectancyIndicator"
           />
+          <p id="correlation">{{translateText(correlation)}}</p>
+        </div>
+        <div id="download" v-if="dataDownload" :key="3">
+          <h2>{{translateText(downloadMessage)}}</h2>
+          <SomosButton @click="download">{{translateText(downloadData)}}</SomosButton>
         </div>
       </transition-group>
       <Footer />
@@ -130,6 +140,10 @@ import ImageGalleryContainer from "@/components/public/user-data/community-count
 import LifeExpectancy from "@/components/public/user-data/community-counterpart/LifeExpectancy";
 import Header from "@/components/public/Header";
 import Footer from "@/components/public/Footer";
+import SomosButton from "@/components/shared/SomosButton";
+
+const FILE_NAME = "VHLdetail_indicatorData_v2.csv";
+
 export default {
   name: "ExploreData",
   components: {
@@ -143,7 +157,8 @@ export default {
     ImageGalleryContainer,
     LifeExpectancy,
     Header,
-    Footer
+    Footer,
+    SomosButton
   },
   mixins: [translate, mapDataCommon, userData, displayData],
   data() {
@@ -164,13 +179,27 @@ export default {
         es:
           "Escribe una dirección cercana a tu vecindario o punto de referencia"
       },
-      exploreNeighborhoods: { en: "Explore Neighborhoods", es: "" },
+      exploreNeighborhoods: {
+        en: "Explore Neighborhoods",
+        es: "Explora Vecindarios"
+      },
       exploreIndicatorRelationships: {
         en: "Explore Indicator Relationships",
-        es: ""
+        es: "Explora Relaciones Entre Indicadores"
       },
-      downloadData: { en: "Download Data", es: "" },
-      allIndicatorsTitle: { en: "All Indicators", es: "" },
+      downloadData: { en: "Download Data", es: "Descargar Información" },
+      downloadMessage: {
+        en: "Download all Somos Neighbors Census Tract Data for Bexar County",
+        es:
+          "DESCARGA TODA LA INFORMACION DE SOMOS NEIGHBORS POR TRACTO CENSAL EN EL CONDADO DE BEXAR"
+      },
+      allIndicatorsTitle: { en: "All Indicators", es: "Todos los Indicadores" },
+      correlation: {
+        en:
+          "The scatterplot above looks at how strongly or weakly an issue/indicator is associated (correlated) with average life expectancy at the census tract level. A strong relationship may or may not mean the indicator directly drives longer or shorter life expectancy. It might be that some other underlying issue drives both life expectancy and the related indicator. Also, this scatterplot shows correlations at the level of census tract, not person. In many cases, a correlation that appears strong when we look at people looks less strong when we look at neighborhoods.",
+        es:
+          "La grafica de dispersión de arriba, muestra que tan fuerte o débil es la asociación (correlación) entre el indicador/problema y el promedio de expectativa de vida, en cada tracto censal. Una relación fuerte puede o no significar que el indicador tenga directamente influencia en que tan corta o larga sea la expectativa de vida. Es posible que otros problemas subyacentes sean responsables de influenciar la expectativa de vida y del indicador asociado.  Además, la gráfica de dispersión muestra correlaciones a nivel de tracto censal y no del individuo. En muchos casos, una correlación que aparenta ser fuerte puede ser menor a nivel individual que cuando se muestra como vecindarios. "
+      },
       dataDownload: false,
       relationships: false,
       neighborhoods: true,
@@ -196,11 +225,14 @@ export default {
     },
     indicators() {
       return this.indicatorCategories
-        .map(category => category.indicators)
+        .map(category => category.indicators._embedded.indicators)
         .reduce((accum, indicators) => accum.concat(indicators));
     }
   },
   methods: {
+    download() {
+      window.open("/" + FILE_NAME);
+    },
     showNeighborhoods() {
       this.dataDownload = false;
       this.relationships = false;
@@ -262,6 +294,12 @@ export default {
               ? 1
               : a.name.localeCompare(b.name)
         );
+
+        this.indicatorCategories.forEach(category => {
+          category.indicators._embedded.indicators.sort(
+            (a, b) => a.order - b.order
+          );
+        });
       });
     },
     setIndicator(indicator) {
@@ -341,6 +379,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+#correlation {
+  margin-top: 50px;
+  width: 100%;
+  padding: 20px;
+  border-radius: 15px;
+  background: $main-dark-blue;
+  color: rgb(250, 236, 236);
+}
 button {
   background: transparent;
   font-family: "Bebas Neue";
@@ -368,8 +414,11 @@ h1 {
 h2 {
   text-align: center;
   margin-bottom: 50px;
-  border-bottom: 3px solid;
   padding-bottom: 12px;
+
+  &.border-bottom {
+    border-bottom: 3px solid;
+  }
 }
 p {
   text-align: center;
@@ -386,10 +435,9 @@ p {
     margin-bottom: 82px;
   }
 }
-@media (max-width: 600px) {
-  p {
-    width: 100%;
-  }
+
+#download {
+  margin: 82px 0px 82px 0px;
 }
 
 #address-search {
@@ -403,9 +451,19 @@ p {
 
 .somos-logo {
   margin: auto;
-  width: 30%;
+  width: 20%;
   &:hover {
     cursor: pointer;
+  }
+}
+
+@media (max-width: 600px) {
+  p {
+    width: 100%;
+  }
+
+  .somos-logo {
+    width: 30%;
   }
 }
 </style>

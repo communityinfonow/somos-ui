@@ -10,21 +10,23 @@
         <g class="x-axis" ref="xAxis" :transform="'translate(0,' + chartHeight + ')'">
           <text
             class="label"
+            text-anchor="middle"
             x="50%"
-            :y="margin.top"
+            :y="margin.top + 10"
             fill="black"
-            @mouseover="axisMouseover(chartWidth / 2, height , xAxisDescription)"
+            @mouseover="axisMouseover(0, margin.bottom + margin.top + 40 , xAxisDescription)"
             @mouseout="axisMouseout"
           >{{xAxisLabel}}</text>
         </g>
         <g class="y-axis" ref="yAxis" :transform="'translate(0,0)'">
           <text
             class="label"
+            text-anchor="middle"
             :y="0 - margin.left + 10"
-            :x="0- (height/4)"
+            :x="0- height/2"
             transform="rotate(-90)"
             fill="black"
-            @mouseover="axisMouseover( 0 - margin.left + 10, 0 - (height/4), yAxisDescription)"
+            @mouseover="axisMouseover(margin.left - 10 ,  height/2 , yAxisDescription)"
             @mouseout="axisMouseout"
           >{{yAxisLabel}}</text>
         </g>
@@ -51,7 +53,7 @@
     <div
       class="tooltip axis-tooltip"
       v-show="showAxisTooltip"
-      :style="{top: axisTooltipY, left: axisTooltipX}"
+      :style="{bottom: axisTooltipY, left: axisTooltipX, right: axisTooltipX == '0.00px' ? '0px' : 'unset'}"
     >{{axisTooltipText}}</div>
   </div>
 </template>
@@ -157,10 +159,8 @@ export default {
     },
     axisMouseover(x, y, description) {
       this.showAxisTooltip = true;
-      this.axisTooltipX =
-        isNaN(x) && x.indexOf("%") ? x : x.toFixed(2) - 60 + "px";
-      this.axisTooltipY =
-        isNaN(y) && y.indexOf("%") ? y : y.toFixed(2) - 60 + "px";
+      this.axisTooltipX = isNaN(x) && x.indexOf("%") ? x : x.toFixed(2) + "px";
+      this.axisTooltipY = isNaN(y) && y.indexOf("%") ? y : y.toFixed(2) + "px";
       this.axisTooltipText = description;
     },
     mouseout() {
@@ -196,5 +196,6 @@ export default {
 
 .axis-tooltip {
   font-size: 14px;
+  text-align: center;
 }
 </style>

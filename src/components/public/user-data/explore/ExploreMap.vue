@@ -38,7 +38,8 @@ export default {
     geojson: Object,
     data: Object,
     clickable: Boolean,
-    displayMatches: Boolean
+    displayMatches: Boolean,
+    showGeographyTitleOnHover: { type: Boolean, default: false }
   },
   mixins: [mapCommon],
   data() {
@@ -88,7 +89,15 @@ export default {
               fillColor: this.determineShadingByValue(dataObj.value)
             });
             layer.feature.properties.hasData = true;
-            layer.bindTooltip(dataObj.value + "", {
+            let tooltipText = this.showGeographyTitleOnHover
+              ? "<div class='tooltip-geography-name'>Tract: " +
+                dataObj.censusTractId +
+                "</div>"
+              : "";
+            tooltipText += this.showGeographyTitleOnHover
+              ? "Value: " + dataObj.value
+              : dataObj.value;
+            layer.bindTooltip(tooltipText + "", {
               direction: "top",
               className: "tooltip"
             });
@@ -282,6 +291,11 @@ export default {
   font-family: Montserrat;
   font-size: 18px;
   border-radius: 10px !important;
+}
+
+.tooltip-geography-name {
+  font-size: 12pt;
+  color: black;
 }
 
 .icon-data {

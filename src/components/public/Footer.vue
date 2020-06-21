@@ -96,7 +96,7 @@ footer {
   }
   position: relative;
   width: 100%;
-  top: -42px;
+  padding-top: 20px;
 }
 
 @media (max-width: 400px) {

@@ -99,6 +99,7 @@ export default {
   padding: 20px;
   font-family: Bebas Neue;
   border-radius: 10px;
+  text-align: center;
 }
 
 @media (max-width: 1264px) {

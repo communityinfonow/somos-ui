@@ -96,6 +96,9 @@
       </v-card>
     </v-dialog>
     <v-dialog v-model="photoEnlargeDialog" width="50%" content-class="crop-modal">
+      <v-progress-linear :active="isLoading" :value="progressValue" height="25" striped rounded>
+        <strong>{{translateText(progressText)}}</strong>
+      </v-progress-linear>
       <vue-cropper
         ref="crop"
         alt="photo.description"
@@ -104,19 +107,19 @@
         :zoomable="false"
         :viewMode="2"
       ></vue-cropper>
+      <!-- <v-progress-circular v-if="isLoading" indeterminate color="primary"></v-progress-circular> -->
+
       <v-content>
         <v-row>
-          <v-col cols="6">
-            <v-btn @click.stop="rotate" id="rotate">Rotate</v-btn>
-            <v-btn @click.stop="enableCrop">Crop</v-btn>
+          <v-col cols="3">
+            <v-btn @click.stop="rotate" id="rotate" block color="orange">Rotate</v-btn>
           </v-col>
-          <v-col cols="6">
-            <v-col cols="2">
-              <v-btn primary @click.stop="cropImage">Accept</v-btn>
-            </v-col>
-            <v-col cols="2">
-              <v-btn secondary @click.stop="closePhotoEnlarge">Cancel</v-btn>
-            </v-col>
+
+          <v-col cols="3" offset="3">
+            <v-btn color="secondary" @click.stop="closePhotoEnlarge" block>Cancel</v-btn>
+          </v-col>
+          <v-col cols="3">
+            <v-btn color="primary" @click.stop="cropImage" block>Accept</v-btn>
           </v-col>
         </v-row>
       </v-content>
@@ -129,6 +132,7 @@
 <script>
 import PhotoData from "../../../api/photo-data";
 import VueCropper from "vue-cropperjs";
+import translate from "@/mixins/translate";
 
 export default {
   name: "PhotoThumbnail",
@@ -143,13 +147,20 @@ export default {
       loaded: false,
       imageLoadFailed: false,
       descriptionRule: [v => !!v || "Description is required"],
-      cropEnabled: true,
       rotateTracker: 0,
-      showInfo: false
+      showInfo: false,
+      isLoading: false,
+      progressText: {
+        en: "Uploading...",
+        es: "Cargando"
+      },
+      progressValue: 0
     };
   },
   props: ["photoObj", "deleteHandler"],
+  mixins: [translate],
   components: { VueCropper },
+
   computed: {
     lastEditedBy: function() {
       return this.photo.lastEditedBy ? this.photo.lastEditedBy : "uploader";
@@ -180,18 +191,8 @@ export default {
     }
   },
   methods: {
-    enableCrop() {
-      if (this.cropEnabled) {
-        this.$refs.crop.setCropBoxData({
-          top: 0,
-          left: 0,
-          width: this.$refs.crop.getImageData().width,
-          height: this.$refs.crop.getImageData().height
-        });
-      } else {
-        this.$refs.crop.enable();
-      }
-      this.cropEnabled = !this.cropEnabled;
+    progressMethod(event) {
+      this.progressValue = Math.round((event.loaded / event.total) * 100);
     },
     rotate() {
       this.$refs.crop.rotate(90);
@@ -211,6 +212,8 @@ export default {
       this.photoEnlargeDialog = true;
     },
     cropImage() {
+      this.isLoading = true;
+
       this.$refs.crop.getCroppedCanvas().toBlob(
         blob => {
           this.cropImg = URL.createObjectURL(blob);
@@ -220,15 +223,17 @@ export default {
               type: "image/" + this.fileType.toLowerCase()
             }),
             response => {
+              this.closePhotoEnlarge();
               this.photo = response;
-              this.$forceUpdate();
-            }
+              this.isLoading = false;
+              this.$emit("crop");
+            },
+            this.progressMethod
           );
         },
         "image/" + this.fileType.toLowerCase(),
         1.0
       );
-      this.closePhotoEnlarge();
     },
     deletePhoto() {
       this.closeModal();
@@ -258,7 +263,6 @@ export default {
       this.photo.approved = false;
       PhotoData.savePhoto(this.selfPath, this.photo, this.saveHandler);
     },
-    saveHandler: function() {},
     loadFailHandler: function() {
       this.imageLoadFailed = true;
     },
@@ -271,6 +275,20 @@ export default {
 </script>
 
 <style lang="scss">
+.v-progress-linear {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  width: 50%;
+}
+
+.v-dialog {
+  position: relative;
+  max-height: 60%;
+}
+
 .v-dialog.crop-modal {
   overflow-x: hidden;
 

@@ -5,27 +5,31 @@
       :xAxisLabel="xAxisLabel"
       :xAxisDescription="xAxisDescription"
       :yAxisLabel="yAxisLabel"
+      :yAxisDescription="yAxisDescription"
       width="100%"
       :height="600"
       :xMinMax="xMinMax"
       :yMinMax="yMinMax"
     />
-    <div id="plot-legend" class="container-border">
-      <ul>
-        <li>
-          <div class="circle" id="census-tract"></div>
-          {{translateText(censusTract)}}
-        </li>
-        <li v-show="showNeighborhoodsOnLegend">
-          <div class="circle" :style="{background: yourNeighborhoodColor}"></div>
-          {{translateText(yourNeighborhood)}}
-        </li>
+    <div id="info-container">
+      <div id="plot-legend" class="container-border">
+        <ul>
+          <li>
+            <div class="circle" id="census-tract"></div>
+            {{translateText(censusTract)}}
+          </li>
+          <li v-show="showNeighborhoodsOnLegend">
+            <div class="circle" :style="{background: yourNeighborhoodColor}"></div>
+            {{translateText(yourNeighborhood)}}
+          </li>
 
-        <li v-show="showNeighborhoodsOnLegend">
-          <div class="circle" :style="{background: yourMatchColor}"></div>
-          {{translateText(yourMatch)}}
-        </li>
-      </ul>
+          <li v-show="showNeighborhoodsOnLegend">
+            <div class="circle" :style="{background: yourMatchColor}"></div>
+            {{translateText(yourMatch)}}
+          </li>
+        </ul>
+      </div>
+      <div class="container-border" id="notation" v-if="xAxisIndicator">{{xAxisIndicator.notation}}</div>
     </div>
   </div>
 </template>
@@ -34,6 +38,8 @@
 import ScatterPlot from "./ScatterPlot";
 import { exploreDataStore } from "@/store.js";
 import { userDataStore } from "@/components/public/user-data/userDataStore";
+import { ValueType } from "@/components/public/shared/ValueType";
+
 import globals from "@/globals.js";
 import translate from "@/mixins/translate";
 const r = 3;
@@ -48,7 +54,7 @@ export default {
       storeState: exploreDataStore.state,
       yourNeighborhood: { en: "Your neighborhood", es: "Tu vecindario" },
       yourMatch: { en: "Your match neighborhood", es: "Tu vecindario similar" },
-      censusTract: { en: "Census tract", es: "" },
+      censusTract: { en: "Census tract", es: "Tracto Censal" },
       yourNeighborhoodColor: globals.darkPink,
       yourMatchColor: globals.yellow
     };
@@ -65,10 +71,12 @@ export default {
     },
     xAxisLabel() {
       return this.xAxisIndicator
-        ? this.xAxisIndicator.name +
+        ? this.xAxisIndicator.valueType.type.toLowerCase() != ValueType.AVERAGE
+          ? this.xAxisIndicator.name +
             " (" +
             this.xAxisIndicator.valueType.type +
             ")"
+          : this.xAxisIndicator.name
         : "";
     },
     xAxisDescription() {
@@ -76,10 +84,12 @@ export default {
     },
     yAxisLabel() {
       return this.yAxisIndicator
-        ? this.yAxisIndicator.description +
+        ? this.yAxisIndicator.valueType.type.toLowerCase() != ValueType.AVERAGE
+          ? this.yAxisIndicator.description +
             " (" +
             this.yAxisIndicator.valueType.type +
             ")"
+          : this.yAxisIndicator.description
         : "";
     },
     yAxisDescription() {
@@ -139,6 +149,17 @@ export default {
 </script>
 
 <style>
+#notation {
+  padding: 15px;
+  margin-left: 20px;
+  font-weight: bold;
+}
+
+#info-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
 .container-border {
   background: white;
   border-radius: 15px;
@@ -175,6 +196,18 @@ li {
   width: 30%;
   padding: 15px;
   margin-left: 20px;
-  margin-top: -42px;
+}
+
+@media (max-width: 760px) {
+  #plot-legend {
+    width: 100%;
+    order: 2;
+    margin-top: 15px;
+  }
+
+  #notation {
+    width: 100%;
+    order: 1;
+  }
 }
 </style>

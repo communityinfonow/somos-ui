@@ -33,19 +33,14 @@
 </template>
 
 <script>
-import { LMap, LTileLayer, LControl, LMarker, LIcon } from "vue2-leaflet";
-
-import Legend from "./Legend";
-import MarkerTooltip from "./MarkerTooltip";
+import { LMap, LTileLayer, LMarker, LIcon } from "vue2-leaflet";
 
 export default {
   name: "GeoMap",
   components: {
     LMap,
     LTileLayer,
-    LControl,
-    MarkerTooltip,
-    Legend,
+
     LMarker,
     LIcon
   },

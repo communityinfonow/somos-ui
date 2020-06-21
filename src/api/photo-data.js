@@ -29,10 +29,13 @@ export default {
             }
         );
     },
-    replacePhoto(url, file, callback) {
+    replacePhoto(url, file, callback, progressCallback) {
         axios.post(url, createForm(file), {
             headers: {
                 'Content-Type': 'multipart/form-data'
+            },
+            onUploadProgress: (progressEvent) => {
+                progressCallback(progressEvent);
             }
         }).then(response => {
             callback(response.data);
