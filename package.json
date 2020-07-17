@@ -8,7 +8,7 @@
     "test": "jest",
     "lint": "vue-cli-service lint",
     "deploy-test": "aws s3 sync ./dist s3://test-visualizing-healthy-lives",
-    "deploy-production": "aws s3 sync ./dist s3://somosneighbors",
+    "deploy-production": "aws s3 sync ./dist s3://somosneighbors.com",
     "debug": "node --debug-brk --inspect ./node_modules/.bin/jest -i"
   },
   "dependencies": {

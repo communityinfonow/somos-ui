@@ -14,6 +14,9 @@ import "cropperjs/dist/cropper.css";
 import vuetify from './plugins/vuetify';
 import * as axios from "axios";
 
+import VueCookies from 'vue-cookies'
+
+
 
 
 axios.defaults.withCredentials = true;
@@ -27,7 +30,7 @@ Icon.Default.mergeOptions({
 });
 
 Vue.config.productionTip = false
-
+Vue.use(VueCookies);
 
 
 new Vue({

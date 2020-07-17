@@ -3,14 +3,28 @@
     <transition name="fade">
       <router-view></router-view>
     </transition>
-
-    <!-- <AdminContainer /> -->
   </v-app>
 </template>
 
 <script>
+import axios from "axios";
 export default {
-  name: "app"
+  name: "app",
+  mounted() {
+    axios.interceptors.request.use(
+      config => {
+        config.headers["X-XSRF-TOKEN"] = this.$cookies.get("XSRF-TOKEN");
+        config.headers = {
+          ...config.headers
+        };
+
+        config.withCredentials = true;
+
+        return config;
+      },
+      error => Promise.reject(error)
+    );
+  }
 };
 </script>
 
