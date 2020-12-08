@@ -7,24 +7,31 @@
     :options="options"
     @click="clickHandler"
   >
-    <l-tile-layer :url="baseTileLayer.url" :attribution="baseTileLayer.attribution"></l-tile-layer>
+    <l-tile-layer
+      :url="baseTileLayer.url"
+      :attribution="baseTileLayer.attribution"
+    ></l-tile-layer>
     <l-tile-layer
       :url="streetTileLayer.url"
       :attribution="streetTileLayer.attribution"
       pane="overlayPane"
       :zIndex="500"
-      :opacity="0.6 "
+      :opacity="0.6"
     ></l-tile-layer>
 
     <span v-for="(location, index) in locations" :key="index">
       <l-marker :lat-lng="location.coordinates" @click="location.click">
-        <l-icon :icon-size="location.icon.size" :icon-anchor="location.icon.anchor">
+        <l-icon
+          :icon-size="location.icon.size"
+          :icon-anchor="location.icon.anchor"
+        >
           <img :src="location.icon.url" />
           <span
             class="icon-data"
             :style="location.icon.data.style"
             v-if="location.icon.data && location.icon.data.value"
-          >{{location.icon.data.value}}</span>
+            >{{ location.icon.data.value }}</span
+          >
         </l-icon>
       </l-marker>
     </span>
@@ -42,12 +49,13 @@ export default {
     LTileLayer,
 
     LMarker,
-    LIcon
+    LIcon,
   },
   mounted() {
     this.$nextTick(() => {
       this.map = this.$refs.map.mapObject;
       this.map.scrollWheelZoom.disable();
+      this.map.invalidateSize();
     });
   },
   data() {
@@ -59,14 +67,14 @@ export default {
       baseTileLayer: {
         url: "https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png",
         attribution:
-          "&copy; <a href='https://cartodb.com/attributions'>CartoDB</a>"
+          "&copy; <a href='https://cartodb.com/attributions'>CartoDB</a>",
       },
       streetTileLayer: {
         url:
           "https://stamen-tiles-{s}.a.ssl.fastly.net/toner-hybrid/{z}/{x}/{y}.png",
         attribution:
-          "Map tiles by <a href='http://stamen.com'>Stamen Design</a>, under <a href='http://creativecommons.org/licenses/by/3.0'>CC BY 3.0</a>. Data by <a href='http://openstreetmap.org'>OpenStreetMap</a>, under <a href='http://www.openstreetmap.org/copyright'>ODbL</a>."
-      }
+          "Map tiles by <a href='http://stamen.com'>Stamen Design</a>, under <a href='http://creativecommons.org/licenses/by/3.0'>CC BY 3.0</a>. Data by <a href='http://openstreetmap.org'>OpenStreetMap</a>, under <a href='http://www.openstreetmap.org/copyright'>ODbL</a>.",
+      },
     };
   },
   props: {
@@ -74,7 +82,7 @@ export default {
     zoom: Number,
     center: Array,
     boundaries: Object,
-    options: Object
+    options: Object,
   },
   methods: {
     loadListener(e) {
@@ -84,12 +92,12 @@ export default {
     },
     clickHandler(event) {
       this.$emit("click", event);
-    }
+    },
   },
   watch: {
-    boundaries: function(newBoundaries) {
+    boundaries: function (newBoundaries) {
       newBoundaries.addTo(this.map);
-    }
+    },
   },
   computed: {
     mapZoom() {
@@ -99,8 +107,8 @@ export default {
       return this.center && this.center.lat && this.center.lng
         ? this.center
         : this.defaultCenter;
-    }
-  }
+    },
+  },
 };
 </script>
 
