@@ -6,7 +6,9 @@
       @click="mapClickSelectLocation"
       class="location-map"
     />
-    <SomosButton id="submit-location" @click="submitLocation">{{translateText(submit)}}</SomosButton>
+    <SomosButton id="submit-location" @click="submitLocation">{{
+      translateText(submit)
+    }}</SomosButton>
   </div>
 </template>
 
@@ -27,7 +29,7 @@ export default {
 
   components: {
     Map,
-    SomosButton
+    SomosButton,
   },
   data() {
     return {
@@ -36,8 +38,8 @@ export default {
       center: [29.437236, -98.491163],
       submit: {
         en: "submit",
-        es: "Enviar"
-      }
+        es: "Enviar",
+      },
     };
   },
 
@@ -49,7 +51,7 @@ export default {
       locationSearch.searchByLatLng(
         this.coordinates.lat,
         this.coordinates.lng,
-        response => {
+        (response) => {
           this.$emit("submit");
           userDataStore.setAddress(
             new location(
@@ -62,7 +64,7 @@ export default {
           this.coordinates = null;
         }
       );
-    }
+    },
   },
   computed: {
     selectedLocation() {
@@ -76,16 +78,16 @@ export default {
               anchor: this.calculateIconAnchor(
                 this.iconSize[0],
                 this.iconSize[1]
-              )
+              ),
             },
-            click: () => {}
-          }
+            click: () => {},
+          },
         ];
       } else {
         return [];
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -64,6 +64,7 @@ export default {
                 this.iconSize[1]
               ),
             },
+            click: () => {},
           },
         ];
       } else {
