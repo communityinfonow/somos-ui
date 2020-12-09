@@ -19,7 +19,7 @@ export default {
   mixins: [mapCommon],
   props: { coordinates: Object },
   components: {
-    Map
+    Map,
   },
   data() {
     return { storeState: store.state };
@@ -28,7 +28,7 @@ export default {
   methods: {
     clickHandler(event) {
       store.setSelectedLocation({
-        coordinates: event.latlng
+        coordinates: event.latlng,
       });
     },
     findContainingTractByBoundaries(latLng) {
@@ -38,39 +38,44 @@ export default {
           latLng.lat +
           ";lng=" +
           latLng.lng,
-        response => {
+        (response) => {
           store.setSelectedLocationTract(response);
         }
       );
-    }
+    },
   },
   watch: {
     coordinates(newCoordinates) {
       if (newCoordinates.lat && newCoordinates.lng) {
         this.findContainingTractByBoundaries(newCoordinates);
       }
-    }
+    },
   },
   computed: {
     location() {
-      return [
-        {
-          coordinates: this.coordinates,
-          icon: {
-            url: this.iconUrl,
-            size: this.iconSize,
-            anchor: this.calculateIconAnchor(this.iconSize[0], this.iconSize[1])
-          }
-        }
-      ];
+      if (this.coordinates && this.coordinates.lat && this.coordinates.lng) {
+        return [
+          {
+            coordinates: this.coordinates,
+            icon: {
+              url: this.iconUrl,
+              size: this.iconSize,
+              anchor: this.calculateIconAnchor(
+                this.iconSize[0],
+                this.iconSize[1]
+              ),
+            },
+          },
+        ];
+      }
     },
     appLinks() {
       return this.storeState.appLinks;
     },
     mapZoom() {
       return this.coordinates && this.coordinates.length > 0 ? 14 : null;
-    }
-  }
+    },
+  },
 };
 </script>
 
