@@ -8,7 +8,6 @@
 </template>
 
 <script>
-import * as leafletPip from "@mapbox/leaflet-pip";
 import Map from "@/components/public/shared/map/Map";
 import { mapCommon } from "@/mixins/map-common";
 import censusTractApi from "@/api/census-tracts";
@@ -67,6 +66,8 @@ export default {
             },
           },
         ];
+      } else {
+        return [];
       }
     },
     appLinks() {
