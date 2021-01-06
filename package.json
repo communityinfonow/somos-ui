@@ -15,7 +15,7 @@
     "@mapbox/leaflet-pip": "^1.1.0",
     "@mapbox/maki": "^6.1.1",
     "@vue/cli": "^4.0.5",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "core-js": "^2.6.5",
     "d3": "^5.15.0",
     "exif-js": "^2.3.0",
